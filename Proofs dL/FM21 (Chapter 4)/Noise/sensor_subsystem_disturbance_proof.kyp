@@ -1,0 +1,235 @@
+﻿Lemma "Sensor Subsystem Disturbance: Proof".
+"  ==>  (((simTime) = ((0.0)))&(((SMALLSTEPSIZE()) = ((0.01)))&(((XOpp) <= (XOppUPPERLIMIT()))&(((XOpp) >= (XOppLOWERLIMIT()))&(((YOpp) <= (YOppUPPERLIMIT()))&(((YOpp) >= (YOppLOWERLIMIT()))&(((YRL) <= (YRLUPPERLIMIT()))&(((YRL) >= (YRLLOWERLIMIT()))&(((XRL) <= (XRLUPPERLIMIT()))&(((XRL) >= (XRLLOWERLIMIT()))&(((((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) > (DMAX()))->((DirXOpp) = ((0.0))))&(((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) <= (DMAX()))->((DirXOpp) = (DirXOppSub))))&(((((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) > (DMAX()))->((DirYOpp) = ((0.0))))&(((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) <= (DMAX()))->((DirYOpp) = (DirYOppSub))))&(((((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) > (DMAX()))->((DiffYOpp) = (DMAX())))&(((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) <= (DMAX()))->((DiffYOpp) = ((noise)*(DiffYOppSub)))))&(((((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) > (DMAX()))->((DiffXOpp) = ((0.0))))&(((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) <= (DMAX()))->((DiffXOpp) = ((noise)*(DiffXOppSub)))))&(((smallStep) = ((0.0)))&((((noiseMAX()) >= (noiseMIN()))->(((noise) >= (noiseMIN()))&((noise) <= (noiseMAX()))))&(((true)->(((DiffXOppSub) = ((XOpp)-(XRL)))&((DiffYOppSub) = ((YOpp)-(YRL)))))&(((noiseMIN()) >= ((0)))&(((noiseMAX()) >= (noiseMIN()))&((DMAX()) >= ((0))))))))))))))))))))))->([{{smallStep:=(0.0);};{{XRL:=*;};{{?(((XRL) <= (XRLUPPERLIMIT()))&((XRL) >= (XRLLOWERLIMIT())));};{{YRL:=*;};{{?(((YRL) <= (YRLUPPERLIMIT()))&((YRL) >= (YRLLOWERLIMIT())));};{{YOpp:=*;};{{?(((YOpp) <= (YOppUPPERLIMIT()))&((YOpp) >= (YOppLOWERLIMIT())));};{{XOpp:=*;};{{?(((XOpp) <= (XOppUPPERLIMIT()))&((XOpp) >= (XOppLOWERLIMIT())));};{{{noise:=*;};{?(((noiseMAX()) >= (noiseMIN()))->(((noise) >= (noiseMIN()))&((noise) <= (noiseMAX()))));}};{{{DiffXOppSub:=*;};{{DiffYOppSub:=*;};{{DirXOppSub:=*;};{{DirYOppSub:=*;};{?((true)->(((DiffXOppSub) = ((XOpp)-(XRL)))&((DiffYOppSub) = ((YOpp)-(YRL)))));}}}}};{{{{?((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) > (DMAX()));};{DirXOpp:=(0.0);}}++{{?((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) <= (DMAX()));};{DirXOpp:=DirXOppSub;}}};{{{{?((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) > (DMAX()));};{DirYOpp:=(0.0);}}++{{?((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) <= (DMAX()));};{DirYOpp:=DirYOppSub;}}};{{{{?((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) > (DMAX()));};{DiffYOpp:=DMAX();}}++{{?((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) <= (DMAX()));};{DiffYOpp:=(noise)*(DiffYOppSub);}}};{{{{?((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) > (DMAX()));};{DiffXOpp:=(0.0);}}++{{?((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) <= (DMAX()));};{DiffXOpp:=(noise)*(DiffXOppSub);}}};{{{?((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) > (DMAX()));};{{simTime'=(1.0),smallStep'=(1.0)&((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) > (DMAX()))|((smallStep) <= (SMALLSTEPSIZE()))}}}++{{?((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) <= (DMAX()));};{{simTime'=(1.0),smallStep'=(1.0)&((((((noise)*(DiffXOppSub))^((2.0)))+(((noise)*(DiffYOppSub))^((2.0))))^((0.5))) <= (DMAX()))|((smallStep) <= (SMALLSTEPSIZE()))}}}}}}}}}}}}}}}}}}}*](((((((((XOpp)-(XRL))^((2.0)))+(((YOpp)-(YRL))^((2.0))))^((0.5)))*(noise)) > (DMAX()))->(((((DiffXOpp)^((2.0)))+((DiffYOpp)^((2.0))))^((0.5))) = (DMAX())))&(((((((((XOpp)-(XRL))^((2.0)))+(((YOpp)-(YRL))^((2.0))))^((0.5)))*(noise)) <= (DMAX()))->(((((DiffXOpp)^((2.0)))+((DiffYOpp)^((2.0))))^((0.5))) = ((((((XOpp)-(XRL))^((2.0)))+(((YOpp)-(YRL))^((2.0))))^((0.5)))*(noise))))&(((noise) >= (noiseMIN()))&((noiseMAX()) >= (noise))))))
+\qed::f2a6d694f0f3aae33cc9637ab078b34c"
+End.
+Tool.
+  tool """"KeYmaera X""""
+  model """"ArchiveEntry "Sensor Subsystem Disturbance"
+
+Functions.
+  R SMALLSTEPSIZE.
+  R DMAX.
+  R noiseMIN.
+  R noiseMAX.
+  R XOppUPPERLIMIT.
+  R XOppLOWERLIMIT.
+  R YOppUPPERLIMIT.
+  R YOppLOWERLIMIT.
+  R YRLUPPERLIMIT.
+  R YRLLOWERLIMIT.
+  R XRLUPPERLIMIT.
+  R XRLLOWERLIMIT.
+End.
+
+ProgramVariables.
+  R simTime.
+  R noise.
+  R XOpp.
+  R YOpp.
+  R YRL.
+  R XRL.
+  R DiffXOppSub.
+  R DiffYOppSub.
+  R DirXOppSub.
+  R DirYOppSub.
+  R DirXOpp.
+  R DirYOpp.
+  R Switch3.
+  R DiffYOpp.
+  R DiffXOpp.
+  R smallStep.
+End.
+
+Problem.
+(  simTime = 0.0) &
+  (SMALLSTEPSIZE = 0.01) &
+  (XOpp <= XOppUPPERLIMIT) &
+  (XOpp >= XOppLOWERLIMIT) &
+  (YOpp <= YOppUPPERLIMIT) &
+  (YOpp >= YOppLOWERLIMIT) &
+  (YRL <= YRLUPPERLIMIT) &
+  (YRL >= YRLLOWERLIMIT) &
+  (XRL <= XRLUPPERLIMIT) &
+  (XRL >= XRLLOWERLIMIT) &
+  ((((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) > DMAX
+      ->(DirXOpp = 0.0)) &
+    (((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) <= DMAX
+      ->(DirXOpp = DirXOppSub))) &
+  ((((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) > DMAX
+      ->(DirYOpp = 0.0)) &
+    (((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) <= DMAX
+      ->(DirYOpp = DirYOppSub))) &
+  ((((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) > DMAX
+      ->(DiffYOpp = DMAX)) &
+    (((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) <= DMAX
+      ->(DiffYOpp = (noise*DiffYOppSub)))) &
+  ((((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) > DMAX
+      ->(DiffXOpp = 0.0)) &
+    (((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) <= DMAX
+      ->(DiffXOpp = (noise*DiffXOppSub)))) &
+  (smallStep = 0.0) &
+  ((noiseMAX>=noiseMIN)
+      ->((noise >= noiseMIN) & (noise <= noiseMAX)))&
+  ((true)
+      ->((DiffXOppSub = (XOpp-XRL)) & 
+       (DiffYOppSub = (YOpp-YRL)))) &
+    /* Assumptions */
+    noiseMIN>=0 &
+    noiseMAX >= noiseMIN &
+    DMAX>=0
+->(
+  [
+    {
+      smallStep:=0.0;
+      XRL:= *;
+      ?((XRL <= XRLUPPERLIMIT) &
+        (XRL >= XRLLOWERLIMIT));
+      YRL:= *;
+      ?((YRL <= YRLUPPERLIMIT) &
+        (YRL >= YRLLOWERLIMIT));
+      YOpp:= *;
+      ?((YOpp <= YOppUPPERLIMIT) &
+        (YOpp >= YOppLOWERLIMIT));
+      XOpp:= *;
+      ?((XOpp <= XOppUPPERLIMIT) &
+        (XOpp >= XOppLOWERLIMIT));
+      {
+        /* Contract of the noise Service */
+        noise:= *;
+        ?((noiseMAX>=noiseMIN)
+          ->((noise >= noiseMIN) & (noise <= noiseMAX)));
+      }
+      {
+        DiffXOppSub:= *;
+        DiffYOppSub:= *;
+        DirXOppSub:= *;
+        DirYOppSub:= *;
+        ?(
+          (true)
+          ->((DiffXOppSub = (XOpp-XRL)) &
+            (DiffYOppSub = (YOpp-YRL))));
+      }
+      /* Large Case Distinction resulting from multiple Switches for the cut-off value */
+      {
+        ?(((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) > DMAX);
+        DirXOpp:=0.0;
+      ++
+        ?(((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) <= DMAX);
+        DirXOpp:=DirXOppSub;
+      }
+      {
+        ?(((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) > DMAX);
+        DirYOpp:=0.0;
+      ++
+        ?(((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) <= DMAX);
+        DirYOpp:=DirYOppSub;
+      }
+      {
+        ?(((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) > DMAX);
+        DiffYOpp:=DMAX;
+      ++
+        ?(((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) <= DMAX);
+        DiffYOpp:=(noise*DiffYOppSub);
+      }
+      {
+        ?(((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) > DMAX);
+        DiffXOpp:=0.0;
+      ++
+        ?(((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) <= DMAX);
+        DiffXOpp:=(noise*DiffXOppSub);
+      }
+      {
+        ?((((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) > DMAX));
+        {
+          simTime' = 1.0,
+          smallStep' = 1.0
+        &((((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) > DMAX)) |
+          (smallStep <= SMALLSTEPSIZE)
+        }
+      ++
+        ?((((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) <= DMAX));
+        {
+          simTime' = 1.0,
+          smallStep' = 1.0
+        &((((((noise*DiffXOppSub)^2.0)+((noise*DiffYOppSub)^2.0))^0.5) <= DMAX)) |
+          (smallStep <= SMALLSTEPSIZE)
+        }
+      }
+    }*
+  ] /* Output distance including noise greater than cut-off are reduced to cut-off. Otherwise the interfered distance is returned */
+  (((((((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5)*noise > DMAX -> ((DiffXOpp^2.0+DiffYOpp^2.0)^0.5) = DMAX) & 
+    (((((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5)*noise <= DMAX -> (((DiffXOpp)^2.0+(DiffYOpp)^2.0)^0.5)=(((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5)*noise))&
+    (noise>=noiseMIN&noiseMAX>=noise)))))
+End.
+
+End.""""
+  tactic """"unfold ; loop("(((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5*noise>DMAX()->(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=DMAX())&(((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5*noise<=DMAX()->(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5*noise)&noise>=noiseMIN()&noiseMAX()>=noise", 1) ; <(
+hideL(-21=="((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX()->DirYOpp=0.0") ; hideL(-21=="((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX()->DirYOpp=DirYOppSub") ; hideL(-21=="((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX()->DirXOpp=0.0") ; hideL(-21=="((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX()->DirXOpp=DirXOppSub") ; edit("(((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5*noise>DMAX()->(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=DMAX())&(((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5*noise<=DMAX()->(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5*noise)&noise>=noiseMIN()&noiseMAX()>=noise", 1) ; trueImply(-13) ; pending("edit(\"((DiffXOppSub^2.0+DiffYOppSub^2.0)^0.5*noise>DMAX()->(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=DMAX())&((DiffXOppSub^2.0+DiffYOppSub^2.0)^0.5*noise<=DMAX()->(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=(DiffXOppSub^2.0+DiffYOppSub^2.0)^0.5*noise)&noise>=noiseMIN()&noiseMAX()>=noise\", 1) ; implyL(-12) ; <(
+hideR(1==\"((DiffXOppSub^2.0+DiffYOppSub^2.0)^0.5*noise>DMAX()->(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=DMAX())&((DiffXOppSub^2.0+DiffYOppSub^2.0)^0.5*noise<=DMAX()->(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=(DiffXOppSub^2.0+DiffYOppSub^2.0)^0.5*noise)&noise>=noiseMIN()&noiseMAX()>=noise\") ; master, 
+andL(-12) ; hideL(-12==\"DiffXOppSub=XOpp-XRL&DiffYOppSub=YOpp-YRL\") ; hideL(-1==\"simTime=0.0\") ; hideL(-1==\"SMALLSTEPSIZE()=0.01\") ; hideL(-1==\"XOpp<=XOppUPPERLIMIT()\") ; hideL(-1==\"XOpp>=XOppLOWERLIMIT()\") ; hideL(-1==\"YOpp<=YOppUPPERLIMIT()\") ; hideL(-1==\"YOpp>=YOppLOWERLIMIT()\") ; hideL(-1==\"YRL<=YRLUPPERLIMIT()\") ; hideL(-1==\"YRL>=YRLLOWERLIMIT()\") ; hideL(-1==\"XRL<=XRLUPPERLIMIT()\") ; hideL(-1==\"XRL>=XRLLOWERLIMIT()\") ; hideL(-1==\"smallStep=0.0\") ; andR(1) ; <(
+implyR(1) ; cut(\"((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX()\") ; <(
+  hideL(-7==\"((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX()->DiffYOpp=noise*DiffYOppSub\") ; hideL(-5==\"((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX()->DiffXOpp=noise*DiffXOppSub\") ; implyL(-4) ; <(
+    master, 
+      implyL(-5) ; <(
+      master, 
+        allL2R(-4) ; allL2R(-5) ; hideL(-9==\"((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX()\") ; hideL(-8==\"(DiffXOppSub^2.0+DiffYOppSub^2.0)^0.5*noise>DMAX()\") ; master
+      )
+    ), 
+    hideR(1==\"(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=DMAX()\") ; hideL(-9==\"noise<=noiseMAX()\") ; hideL(-2==\"noiseMAX()>=noiseMIN()\") ; hideL(-2==\"DMAX()>=0\") ; hideL(-2==\"((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX()->DiffXOpp=0.0\") ; hideL(-2==\"((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX()->DiffXOpp=noise*DiffXOppSub\") ; hideL(-2==\"((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX()->DiffYOpp=DMAX()\") ; hideL(-2==\"((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX()->DiffYOpp=noise*DiffYOppSub\") ; master
+  ), 
+  andR(1) ; <(
+  implyR(1) ; cut(\"((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX()\") ; <(
+    implyL(-7) ; <(
+      master, 
+        implyL(-5) ; <(
+        master, 
+          allL2R(-7) ; allL2R(-7) ; allL2R(-5) ; hideL(-2==\"noiseMAX()>=noiseMIN()\") ; hideL(-2==\"DMAX()>=0\") ; hideL(-2==\"((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX()->noise*DiffXOppSub=0.0\") ; hideL(-2==\"DiffXOpp=noise*DiffXOppSub\") ; hideL(-2==\"((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX()->noise*DiffYOppSub=DMAX()\") ; hideL(-2==\"DiffYOpp=noise*DiffYOppSub\") ; hideL(-3==\"noise<=noiseMAX()\") ; hideL(-3==\"(DiffXOppSub^2.0+DiffYOppSub^2.0)^0.5*noise<=DMAX()\") ; hideL(-3==\"((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX()\") ; master
+        )
+      ), 
+      hideR(1==\"(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=(DiffXOppSub^2.0+DiffYOppSub^2.0)^0.5*noise\") ; hideL(-2==\"noiseMAX()>=noiseMIN()\") ; hideL(-2==\"DMAX()>=0\") ; hideL(-2==\"((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX()->DiffXOpp=0.0\") ; hideL(-2==\"((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX()->DiffXOpp=noise*DiffXOppSub\") ; hideL(-2==\"((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX()->DiffYOpp=DMAX()\") ; hideL(-2==\"((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX()->DiffYOpp=noise*DiffYOppSub\") ; hideL(-3==\"noise<=noiseMAX()\") ; master
+    ), 
+    master
+  )
+)
+)") ; andR(1) ; <(
+implyR(1) ; hideL(-20=="((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX()->DiffYOpp=noise*DiffYOppSub") ; implyL(-19) ; <(
+  hideL(-16=="DMAX()>=0") ; hideL(-16=="((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX()->DiffXOpp=0.0") ; andL(-13) ; allL2R(-17) ; allL2R(-18) ; hideL(-17=="DiffXOppSub=XOpp-XRL") ; hideL(-17=="DiffYOppSub=YOpp-YRL") ; hideL(-15=="((noise*(XOpp-XRL))^2.0+(noise*(YOpp-YRL))^2.0)^0.5<=DMAX()->DiffXOpp=noise*(XOpp-XRL)") ; hideL(-11=="smallStep=0.0") ; hideL(-3=="XOpp<=XOppUPPERLIMIT()") ; hideL(-3=="XOpp>=XOppLOWERLIMIT()") ; hideL(-3=="YOpp<=YOppUPPERLIMIT()") ; hideL(-3=="YOpp>=YOppLOWERLIMIT()") ; hideL(-3=="YRL<=YRLUPPERLIMIT()") ; hideL(-3=="YRL>=YRLLOWERLIMIT()") ; hideL(-3=="XRL<=XRLUPPERLIMIT()") ; hideL(-3=="XRL>=XRLLOWERLIMIT()") ; hideL(-3=="noiseMAX()>=noiseMIN()->noise>=noiseMIN()&noise<=noiseMAX()") ; hideR(1=="(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=DMAX()") ; auto, 
+    implyL(-17) ; <(
+    andL(-13) ; allL2R(-19) ; allL2R(-20) ; hideL(-19=="DiffXOppSub=XOpp-XRL") ; hideL(-19=="DiffYOppSub=YOpp-YRL") ; hideR(1=="(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=DMAX()") ; hideL(-16=="((noise*(XOpp-XRL))^2.0+(noise*(YOpp-YRL))^2.0)^0.5<=DMAX()->DiffXOpp=noise*(XOpp-XRL)") ; hideL(-3=="XOpp<=XOppUPPERLIMIT()") ; hideL(-3=="XOpp>=XOppLOWERLIMIT()") ; hideL(-3=="YOpp<=YOppUPPERLIMIT()") ; hideL(-3=="YOpp>=YOppLOWERLIMIT()") ; hideL(-3=="YRL<=YRLUPPERLIMIT()") ; hideL(-3=="YRL>=YRLLOWERLIMIT()") ; hideL(-3=="XRL<=XRLUPPERLIMIT()") ; hideL(-3=="XRL>=XRLLOWERLIMIT()") ; implyL(-4) ; <(
+      hideR(1=="((noise*(XOpp-XRL))^2.0+(noise*(YOpp-YRL))^2.0)^0.5>DMAX()") ; auto, 
+        auto
+      ), 
+      allL2R(-19) ; allL2R(-17) ; hideL(-18=="((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX()->0.0=noise*DiffXOppSub") ; hideL(-18=="DiffYOpp=DMAX()") ; hideL(-18=="((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5*noise>DMAX()") ; hideL(-12=="noiseMAX()>=noiseMIN()->noise>=noiseMIN()&noise<=noiseMAX()") ; hideL(-12=="DiffXOppSub=XOpp-XRL&DiffYOppSub=YOpp-YRL") ; auto
+    )
+  ), 
+  andR(1) ; <(
+  implyR(1) ; implyL(-20) ; <(
+    hideR(1=="(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5*noise") ; hideL(-19=="((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX()->DiffYOpp=DMAX()") ; hideL(-18=="((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX()->DiffXOpp=noise*DiffXOppSub") ; hideL(-17=="((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX()->DiffXOpp=0.0") ; implyL(-12) ; <(
+      hideR(1=="((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX()") ; auto, 
+        andL(-13) ; allL2R(-18) ; allL2R(-17) ; hideL(-3=="XOpp<=XOppUPPERLIMIT()") ; hideL(-3=="XOpp>=XOppLOWERLIMIT()") ; hideL(-3=="YOpp<=YOppUPPERLIMIT()") ; hideL(-3=="YOpp>=YOppLOWERLIMIT()") ; hideL(-3=="YRL<=YRLUPPERLIMIT()") ; hideL(-3=="YRL>=YRLLOWERLIMIT()") ; hideL(-3=="XRL<=XRLUPPERLIMIT()") ; hideL(-3=="XRL>=XRLLOWERLIMIT()") ; auto
+      ), 
+      hideL(-3=="XOpp<=XOppUPPERLIMIT()") ; hideL(-3=="XOpp>=XOppLOWERLIMIT()") ; hideL(-3=="YOpp<=YOppUPPERLIMIT()") ; hideL(-3=="YOpp>=YOppLOWERLIMIT()") ; hideL(-3=="YRL<=YRLUPPERLIMIT()") ; hideL(-3=="YRL>=YRLLOWERLIMIT()") ; hideL(-3=="XRL<=XRLUPPERLIMIT()") ; hideL(-3=="XRL>=XRLLOWERLIMIT()") ; hideL(-1=="simTime=0.0") ; hideL(-1=="SMALLSTEPSIZE()=0.01") ; hideL(-1=="smallStep=0.0") ; andL(-2) ; allL2R(-10) ; allL2R(-11) ; hideL(-10=="DiffXOppSub=XOpp-XRL") ; hideL(-10=="DiffYOppSub=YOpp-YRL") ; hideL(-7=="((noise*(XOpp-XRL))^2.0+(noise*(YOpp-YRL))^2.0)^0.5>DMAX()->DiffYOpp=DMAX()") ; hideL(-5=="((noise*(XOpp-XRL))^2.0+(noise*(YOpp-YRL))^2.0)^0.5>DMAX()->DiffXOpp=0.0") ; implyL(-5) ; <(
+      hideR(1=="(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5*noise") ; auto, 
+        allL2R(-5) ; allL2R(-6) ; hideL(-7=="((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5*noise<=DMAX()") ; hideL(-5=="DiffXOpp=noise*(XOpp-XRL)") ; hideL(-5=="DiffYOpp=noise*(YOpp-YRL)") ; auto
+      )
+    ), 
+    auto
+  )
+), 
+master, 
+hideL(-1=="(((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5*noise>DMAX()->(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=DMAX())&(((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5*noise<=DMAX()->(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5*noise)&noise>=noiseMIN()&noiseMAX()>=noise") ; hideL(-1=="SMALLSTEPSIZE()=0.01") ; composeb(1) ; assignb(1) ; composeb(1) ; randomb(1) ; composeb(1.0) ; allR(1) ; testb(1) ; implyR(1) ; composeb(1) ; randomb(1) ; composeb(1.0) ; allR(1) ; testb(1) ; implyR(1) ; composeb(1) ; randomb(1) ; allR(1) ; composeb(1) ; testb(1) ; implyR(1) ; composeb(1) ; randomb(1) ; allR(1) ; composeb(1) ; testb(1) ; implyR(1) ; composeb(1) ; composeb(1) ; randomb(1) ; allR(1) ; testb(1) ; implyR(1) ; composeb(1) ; composeb(1) ; randomb(1) ; allR(1) ; composeb(1) ; randomb(1) ; allR(1) ; composeb(1) ; randomb(1) ; composeb(1.0) ; allR(1) ; randomb(1) ; allR(1) ; trueImply(1.0.0) ; testb(1) ; implyR(1) ; andL(-10) ; implyL(-9) ; <(
+hideR(1=="[{?((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX();DirXOpp:=0.0;++?((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX();DirXOpp:=DirXOppSub;}{?((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX();DirYOpp:=0.0;++?((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX();DirYOpp:=DirYOppSub;}{?((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX();DiffYOpp:=DMAX();++?((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX();DiffYOpp:=noise*DiffYOppSub;}{?((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX();DiffXOpp:=0.0;++?((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX();DiffXOpp:=noise*DiffXOppSub;}{?((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX();{simTime'=1.0,smallStep'=1.0&((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5>DMAX()|smallStep<=SMALLSTEPSIZE()}++?((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX();{simTime'=1.0,smallStep'=1.0&((noise*DiffXOppSub)^2.0+(noise*DiffYOppSub)^2.0)^0.5<=DMAX()|smallStep<=SMALLSTEPSIZE()}}]((((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5*noise>DMAX()->(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=DMAX())&(((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5*noise<=DMAX()->(DiffXOpp^2.0+DiffYOpp^2.0)^0.5=((XOpp-XRL)^2.0+(YOpp-YRL)^2.0)^0.5*noise)&noise>=noiseMIN()&noiseMAX()>=noise)") ; master, 
+  hideL(-5=="XRL<=XRLUPPERLIMIT()&XRL>=XRLLOWERLIMIT()") ; hideL(-5=="YRL<=YRLUPPERLIMIT()&YRL>=YRLLOWERLIMIT()") ; hideL(-5=="YOpp<=YOppUPPERLIMIT()&YOpp>=YOppLOWERLIMIT()") ; hideL(-5=="XOpp<=XOppUPPERLIMIT()&XOpp>=XOppLOWERLIMIT()") ; andL(-5) ; composeb(1) ; MR("true", 1) ; <(
+  master, 
+    composeb(1) ; MR("true", 1) ; <(
+    master, 
+      composeb(1) ; master
+    )
+  )
+)
+)""""
+End.
+
+Tool.
+  kyxversion """"4.9.3""""
+End.

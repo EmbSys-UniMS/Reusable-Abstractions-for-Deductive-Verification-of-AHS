@@ -1,0 +1,182 @@
+﻿Lemma "Top Level 2 Opp: Proof".
+"  ==>  (((simTime) = ((0.0)))&(((SMALLSTEPSIZE()) = ((0.01)))&(((smallStep) = ((0.0)))&(((STEPTSRL()) >= ((0)))&(((STEPTSA()) > ((0)))&(((STEPTSB()) > ((0)))&(((SAFETYDISTANCEA()) >= ((0)))&(((SAFETYDISTANCEB()) >= ((0)))&(((THRESHOLDB()) >= (((VMAXB())*(STEPTSB()))+(SAFETYDISTANCEB())))&(((THRESHOLDA()) >= (((VMAXA())*(STEPTSA()))+(SAFETYDISTANCEA())))&(((VMAXA()) >= ((0.0)))&(((VMAXB()) >= ((0.0)))&(((((((XA)-(XRL))^((2.0)))+(((YA)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEA()))&((((((XB)-(XRL))^((2.0)))+(((YB)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEB())))))))))))))))->([{{smallStep:=(0.0);};{{{GoalXA:=*;};{GoalYA:=*;}};{{{GoalXRL:=*;};{GoalYRL:=*;}};{{{GoalXB:=*;};{GoalYB:=*;}};{{XRLOld:=XRL;};{{YRLOld:=YRL;};{{XBOld:=XB;};{{YBOld:=YB;};{{tDiff:=(simTime)-(simTimeOld);};{{simTimeOld:=simTime;};{{XAOld:=XA;};{{YAOld:=YA;};{{XB:=*;};{{YB:=*;};{{ArrivedB:=*;};{{XRL:=*;};{{YRL:=*;};{{ArrivedRL:=*;};{{XA:=*;};{{YA:=*;};{{ArrivedA:=*;};{{{?((((STEPTSA()) > ((0.0)))&(((SAFETYDISTANCEA()) >= ((0)))&(((THRESHOLDA()) >= (((VMAXA())*(STEPTSA()))+(SAFETYDISTANCEA())))&(((VMAXA()) >= ((0.0)))&((((((((XAOld)-(XRL))^((2.0)))+(((YAOld)-(YRL))^((2.0))))^((0.5))) > (THRESHOLDA()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld))))&((((((XAOld)-(XRL))^((2.0)))+(((YAOld)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEA())))))))->((((((XA)-(XRL))^((2.0)))+(((YA)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEA())));};{?((((THRESHOLDA()) >= ((0)))&(((VMAXA()) >= ((0)))&((STEPTSA()) > ((0)))))->((((((XA)-(XAOld))^((2.0)))+(((YA)-(YAOld))^((2.0))))^((0.5))) <= ((VMAXA())*(tDiff))));}};{{{?((((STEPTSB()) > ((0.0)))&(((SAFETYDISTANCEB()) >= ((0)))&(((THRESHOLDB()) >= (((VMAXB())*(STEPTSB()))+(SAFETYDISTANCEB())))&(((VMAXB()) >= ((0.0)))&((((((((XBOld)-(XRL))^((2.0)))+(((YBOld)-(YRL))^((2.0))))^((0.5))) > (THRESHOLDB()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld))))&((((((XBOld)-(XRL))^((2.0)))+(((YBOld)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEB())))))))->((((((XB)-(XRL))^((2.0)))+(((YB)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEB())));};{?((((THRESHOLDB()) >= ((0)))&(((VMAXB()) >= ((0)))&((STEPTSB()) > ((0)))))->((((((XB)-(XBOld))^((2.0)))+(((YB)-(YBOld))^((2.0))))^((0.5))) <= ((VMAXB())*(tDiff))));}};{{{?((((VMAXA()) >= ((0.0)))&(((STEPTSRL()) >= ((0.0)))&((((((XA)-(XAOld))^((2.0)))+(((YA)-(YAOld))^((2.0))))^((0.5))) <= ((VMAXA())*(tDiff)))))->(((((((XAOld)-(XRL))^((2.0)))+(((YAOld)-(YRL))^((2.0))))^((0.5))) > (THRESHOLDA()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld)))));};{?((((VMAXB()) >= ((0.0)))&(((STEPTSRL()) >= ((0.0)))&((((((XB)-(XBOld))^((2.0)))+(((YB)-(YBOld))^((2.0))))^((0.5))) <= ((VMAXB())*(tDiff)))))->(((((((XBOld)-(XRL))^((2.0)))+(((YBOld)-(YRL))^((2.0))))^((0.5))) > (THRESHOLDB()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld)))));}};{{?(true);};{{simTime'=(1.0),smallStep'=(1.0)}}}}}}}}}}}}}}}}}}}}}}}}}}}*](((((((XA)-(XRL))^((2.0)))+(((YA)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEA()))&((((((XB)-(XRL))^((2.0)))+(((YB)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEB()))))
+\qed::5afcc3123f1fd5e6a9ed3e09f77d1558"
+End.
+Tool.
+  tool """"KeYmaera X""""
+  model """"ArchiveEntry "Top Level 2 Opp"
+
+Functions.
+  R SMALLSTEPSIZE.
+  R STEPTSA.
+  R THRESHOLDA.
+  R VMAXA.
+  R SAFETYDISTANCEA.
+  R STEPTSRL.
+  R THRESHOLDB.
+  R STEPTSB.
+  R VMAXB.
+  R SAFETYDISTANCEB.
+End.
+
+ProgramVariables.
+  R simTime.
+  R XRLOld.
+  R YRLOld.
+  R XAOld.
+  R YAOld.
+  R tDiff.
+  R simTimeOld.
+  R XA.
+  R YA.
+  R ArrivedA.
+  R GoalXA.
+  R GoalYA.
+  R XRL.
+  R YRL.
+  R ArrivedRL.
+  R XBOld.
+  R YBOld.
+  R XB.
+  R YB.
+  R ArrivedB.
+  R GoalXRL.
+  R GoalYRL.
+  R GoalXB.
+  R GoalYB.
+  R smallStep.
+End.
+
+Problem.
+(simTime = 0.0) &
+  (SMALLSTEPSIZE = 0.01) &
+  (smallStep = 0.0) &
+    STEPTSRL >=0&
+    STEPTSA >0&
+    STEPTSB >0&
+    SAFETYDISTANCEA >=0 &
+    SAFETYDISTANCEB >=0 &
+    THRESHOLDB >= ((VMAXB*STEPTSB)+SAFETYDISTANCEB)&
+    THRESHOLDA >= ((VMAXA*STEPTSA)+SAFETYDISTANCEA)&
+    VMAXA >= 0.0&
+    VMAXB >= 0.0&
+    ((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5 > SAFETYDISTANCEA&
+    ((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5 > SAFETYDISTANCEB
+->([
+    {
+      smallStep:=0.0;
+      {
+        GoalXA:= *;
+        GoalYA:= *;
+      }
+      {
+        GoalXRL:= *;
+        GoalYRL:= *;
+      }
+      {
+        GoalXB:= *;
+        GoalYB:= *;
+      }
+      XRLOld:=XRL;
+      YRLOld:=YRL;
+      XBOld:=XB;
+      YBOld:=YB;
+      tDiff:=(simTime-simTimeOld);
+      simTimeOld:=simTime;
+      XAOld:=XA;
+      YAOld:=YA;
+      XB:= *;
+      YB:= *;
+      ArrivedB:= *;
+      XRL:= *;
+      YRL:= *;
+      ArrivedRL:= *;
+      XA:= *;
+      YA:= *;
+      ArrivedA:= *;
+      /* Opponent Contracts */
+      {
+        ?((STEPTSA > 0.0) &
+            (SAFETYDISTANCEA >=0) &
+            (THRESHOLDA >= ((VMAXA*STEPTSA)+SAFETYDISTANCEA)) &
+            (VMAXA >= 0.0) &
+            ((((((XAOld-XRL)^2.0)+((YAOld-YRL)^2.0))^0.5) > THRESHOLDA) |
+              ((XRL = XRLOld) &
+                (YRL = YRLOld))) &
+            (((((XAOld-XRL)^2.0)+((YAOld-YRL)^2.0))^0.5) > SAFETYDISTANCEA)
+          ->((((((XA-XRL)^2.0)+((YA-YRL)^2.0))^0.5) > SAFETYDISTANCEA)));
+        ?(( (THRESHOLDA>=0) &
+            (VMAXA>=0) &
+            (STEPTSA>0))
+          ->((((((XA-XAOld)^2.0)+((YA-YAOld)^2.0))^0.5) <= (VMAXA*tDiff))));
+      }
+      {
+        ?((STEPTSB > 0.0) &
+            (SAFETYDISTANCEB >=0) &
+            (THRESHOLDB >= ((VMAXB*STEPTSB)+SAFETYDISTANCEB)) &
+            (VMAXB >= 0.0) &
+            ((((((XBOld-XRL)^2.0)+((YBOld-YRL)^2.0))^0.5) > THRESHOLDB) |
+              ((XRL = XRLOld) &
+                (YRL = YRLOld))) &
+            (((((XBOld-XRL)^2.0)+((YBOld-YRL)^2.0))^0.5) > SAFETYDISTANCEB)
+          ->((((((XB-XRL)^2.0)+((YB-YRL)^2.0))^0.5) > SAFETYDISTANCEB)));
+        ?(( (THRESHOLDB>=0) &
+            (VMAXB>=0) &
+            (STEPTSB>0))
+          ->((((((XB-XBOld)^2.0)+((YB-YBOld)^2.0))^0.5) <= (VMAXB*tDiff))));
+      }
+      /* RL Robot Contracts */
+      {
+        ?((VMAXA >= 0.0) &
+            (STEPTSRL >= 0.0) &
+            (((((XA-XAOld)^2.0)+((YA-YAOld)^2.0))^0.5) <= (VMAXA*tDiff))
+          ->(((((((XAOld-XRL)^2.0)+((YAOld-YRL)^2.0))^0.5) > THRESHOLDA) |
+              ((XRL = XRLOld) &
+                (YRL = YRLOld)))));
+        ?((VMAXB >= 0.0) &
+            (STEPTSRL >= 0.0) &
+            (((((XB-XBOld)^2.0)+((YB-YBOld)^2.0))^0.5) <= (VMAXB*tDiff))
+          ->(((((((XBOld-XRL)^2.0)+((YBOld-YRL)^2.0))^0.5) > THRESHOLDB) |
+              ((XRL = XRLOld) &
+                (YRL = YRLOld)))));
+      }
+      {
+        ?((true));
+        {
+          simTime' = 1.0,
+          smallStep' = 1.0
+        &(true)
+        }
+      }
+    }*
+  ] (((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5 > SAFETYDISTANCEA & ((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5 > SAFETYDISTANCEB))
+End.
+End.""""
+  tactic """"unfold ; loop("((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()&((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()", 1) ; <(
+  master,
+  master,
+  unfold ; implyL(-24) ; <(
+    hideR(1=="((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()&((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; master,
+    implyL(-22) ; <(
+      hideR(1=="((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()&((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; master,
+      implyL(-25) ; <(
+        hideR(1=="((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()&((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; master,
+        implyL(-26) ; <(
+          hideR(1=="((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()&((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; master,
+          implyL(-21) ; <(
+            hideR(1=="((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()&((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; master,
+            implyL(-23) ; <(
+              hideR(1=="((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()&((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; master,
+              master
+              )
+            )
+          )
+        )
+      )
+    )
+  )""""
+End.
+
+Tool.
+  kyxversion """"4.9.3""""
+End.

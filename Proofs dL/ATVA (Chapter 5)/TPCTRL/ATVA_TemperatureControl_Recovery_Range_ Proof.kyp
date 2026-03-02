@@ -1,0 +1,231 @@
+﻿Lemma "ATVA/TemperatureControl_Recovery_Range: Proof".
+"  ==>  (((t) = ((0.0)))&(((crl) = ((0.0)))&(((TS()) > ((0)))&(((tLD) = ((0.0)))&(((tRECMAX()) > (TS()))&(((TMAX()) >= (T))&(((T) >= (TMIN()))&(((TMAX()) >= (TMIN()))&(((HMAX()) >= (h))&(((h) >= (HMIN()))&(((cool) >= ((0)))&((((T)+(((HMIN())-(cool))*(TS()))) >= (TMIN()))&(((T)+(((HMAX())-(cool))*(TS()))) <= (TMAX()))))))))))))))->([{{{h:=*;};{?(((HMAX()) >= (h))&((h) >= (HMIN())));}};{{{{?((crl) >= (TS()));};{{crl:=(0.0);};{{cool:=*;};{{?((cool) >= ((0)));};{{?(((T) < (TMIN()))->(((T)+(((HMIN())-(cool))*(((tLD)+(tRECMAX()))+(-(t))))) >= (TMIN())));};{{?(((T) > (TMAX()))->(((T)+(((HMAX())-(cool))*(((tLD)+(tRECMAX()))+(-(t))))) <= (TMAX())));};{{?(((T) >= (TMIN()))->(((T)+(((HMIN())-(cool))*(TS()))) >= (TMIN())));};{?(((T) <= (TMAX()))->(((T)+(((HMAX())-(cool))*(TS()))) <= (TMAX())));}}}}}}}}++{?((crl) < (TS()));}};{{{{T:=*;};{tLD:=t;}}++{?(true);}};{{t'=(1.0),crl'=(1.0),T'=(h)-(cool)&(crl) <= (TS())}}}}}*]((((t)-(tLD)) >= (tRECMAX()))->(((TMAX()) >= (T))&((T) >= (TMIN())))))
+\qed::c256413154a5ca3dcfb537efb8f9d1b5"
+End.
+Tool.
+  tool """" KeYmaera X """"
+  model """" Theorem "ATVA/TemperatureControl_Recovery_Range"
+
+Definitions
+  Real TS;
+  Real tRECMAX;
+  Real CMAX;
+  Real CMIN;
+  Real TMIN;
+  Real TMAX;
+  Real HMAX;
+  Real HMIN;
+End.
+
+ProgramVariables
+  Real crl; 
+  Real T;
+  Real t;
+  Real tLD;
+  Real h;
+  Real cool;
+End.
+
+Problem
+/*Clocks Init Values + Evolutions*/
+(t = 0.0)
+& (crl = 0.0)
+& (TS > 0)
+& (tLD = 0.0)
+& (tRECMAX>TS)
+/*Threshold pre conditions*/
+& (TMAX >= T)
+& (T >= TMIN)
+& (TMAX>=TMIN)
+& (HMAX >= h)
+& (h >= HMIN)
+/*Contract conditions*/
+& cool>=0
+& ((T + ((HMIN - cool) *  TS) >= TMIN) & (T + ((HMAX - cool) *  TS) <= TMAX))
+  ->
+  [
+    {
+      {
+        /*Opp chooses Action*/  
+        h:= *;
+        ?(HMAX >= h) & (h >= HMIN);
+      }
+
+      {
+        /*Every TS the Agent chooses an Action that is valid under the Hybrid Contract*/  
+        ?(crl >= TS);
+            crl :=0.0;
+            cool:= *;
+            ?cool>=0;
+            ?T<TMIN -> T + (HMIN - cool) *  (tLD + tRECMAX +  - t) >= TMIN;
+            ?T>TMAX -> T + (HMAX - cool) *  (tLD + tRECMAX +  - t) <= TMAX;
+            ?T>=TMIN -> T + (HMIN - cool) *  TS >= TMIN;
+            ?T<=TMAX-> T + (HMAX - cool) *  TS <= TMAX;
+        ++
+        /*Do Nothing - Between Time TSs*/
+        ?(crl < TS);
+        
+      }
+      
+      {
+        /*DISTURBANCE*/
+        T:=*;
+        tLD:= t;
+        ++ 
+        /*Normal Case - NOTHING*/
+        ?true;
+      }
+      
+      {
+        
+        {
+          /*Evolutions*/
+          t' = 1.0,
+          crl ' = 1.0,
+          T' = (h - cool)
+          & (crl  <= TS)
+        }
+      }
+      
+    }*@invariant(cool>=0&((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))
+  ] (t-tLD >= tRECMAX -> (TMAX >= T & T >= TMIN))
+End.
+
+Tactic "TemperatureControl_Recovery_Range: Proof"
+unfold;
+loop("((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN())", 'R=="[{{h:=*;?HMAX()>=h&h>=HMIN();}{?crl>=TS();crl:=0.0;cool:=*;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();}{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}}*](t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN())"); <(
+  "Init":
+    auto,
+  "Post":
+    auto,
+  "Step":
+    composeb('R=="[{h:=*;?HMAX()>=h&h>=HMIN();}{?crl>=TS();crl:=0.0;cool:=*;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();}{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+    composeb('R=="[h:=*;?HMAX()>=h&h>=HMIN();][{?crl>=TS();crl:=0.0;cool:=*;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();}{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+    randomb('R=="[h:=*;][?HMAX()>=h&h>=HMIN();][{?crl>=TS();crl:=0.0;cool:=*;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();}{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+    allR('R=="\forall h [?HMAX()>=h&h>=HMIN();][{?crl>=TS();crl:=0.0;cool:=*;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();}{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+    testb('R=="[?HMAX()>=h&h>=HMIN();][{?crl>=TS();crl:=0.0;cool:=*;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();}{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+    implyR('R=="HMAX()>=h&h>=HMIN()->[{?crl>=TS();crl:=0.0;cool:=*;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();}{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+    composeb('R=="[{?crl>=TS();crl:=0.0;cool:=*;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();}{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+    MR("((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN())", 'R=="[?crl>=TS();crl:=0.0;cool:=*;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();][{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))"); <(
+      "Use Q->P":
+        auto,
+      "Show [a]Q":
+        composeb('R=="[{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+        MR("((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN())", 'R=="[T:=*;tLD:=t;++?true;][{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))"); <(
+          "Use Q->P":
+            auto,
+          "Show [a]Q":
+            auto
+        )
+    )
+)
+End.
+
+End. """"
+  tactic """" unfold;
+loop("cool>=0&((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN())", 'R=="[{{h:=*;?HMAX()>=h&h>=HMIN();}{?crl>=TS();crl:=0.0;cool:=*;?cool>=0;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();}{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}}*](t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN())"); <(
+  "Init":
+    QE,
+  "Post":
+    QE,
+  "Step":
+    composeb('R=="[{h:=*;?HMAX()>=h&h>=HMIN();}{?crl>=TS();crl:=0.0;cool:=*;?cool>=0;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();}{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](cool>=0&((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+    composeb('R=="[h:=*;?HMAX()>=h&h>=HMIN();][{?crl>=TS();crl:=0.0;cool:=*;?cool>=0;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();}{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](cool>=0&((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+    randomb('R=="[h:=*;][?HMAX()>=h&h>=HMIN();][{?crl>=TS();crl:=0.0;cool:=*;?cool>=0;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();}{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](cool>=0&((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+    allR('R=="\forall h [?HMAX()>=h&h>=HMIN();][{?crl>=TS();crl:=0.0;cool:=*;?cool>=0;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();}{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](cool>=0&((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+    testb('R=="[?HMAX()>=h&h>=HMIN();][{?crl>=TS();crl:=0.0;cool:=*;?cool>=0;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();}{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](cool>=0&((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+    implyR('R=="HMAX()>=h&h>=HMIN()->[{?crl>=TS();crl:=0.0;cool:=*;?cool>=0;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();}{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](cool>=0&((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+    composeb('R=="[{?crl>=TS();crl:=0.0;cool:=*;?cool>=0;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();}{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](cool>=0&((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+    MR("cool>=0&((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN())", 'R=="[?crl>=TS();crl:=0.0;cool:=*;?cool>=0;?T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN();?T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX();?T>=TMIN()->T+(HMIN()-cool)*TS()>=TMIN();?T<=TMAX()->T+(HMAX()-cool)*TS()<=TMAX();++?crl < TS();][{T:=*;tLD:=t;++?true;}{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](cool>=0&((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))"); <(
+      "Use Q->P":
+        auto,
+      "Show [a]Q":
+        unfold; <(
+          "[T:=*;tLD:=t;][{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](cool>=0&((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))":
+            hideL('L=="(T_0 < TMIN()->T_0+(HMIN()-cool)*(tLD_0+tRECMAX()+-t)>=TMIN())&(T_0>TMAX()->T_0+(HMAX()-cool)*(tLD_0+tRECMAX()+-t)<=TMAX())&(T_0>=TMIN()->T_0+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T_0<=TMAX()->T_0+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD_0<=crl");
+            auto,
+          "[?true;][{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](cool>=0&((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))":
+            cut("t-tLD>=tRECMAX()|t-tLD < tRECMAX()"); <(
+              "Use":
+                orL('L=="t-tLD>=tRECMAX()|t-tLD < tRECMAX()"); <(
+                  "t-tLD>=tRECMAX()":
+                    unfold;
+                    fullSimplify;
+                    unfold;
+                    unfold;
+                    fullSimplify;
+                    auto,
+                  "t-tLD < tRECMAX()":
+                    hideL('L=="t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()");
+                    hideL('L=="t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()");
+                    boxAnd('R=="[{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](cool>=0&((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+                    andR('R=="[{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}]cool>=0&[{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))"); <(
+                      "[{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}]cool>=0":
+                        auto,
+                      "[{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))":
+                        orL('L=="(T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl"); <(
+                          "(T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())":
+                            cut("T < TMIN()|TMIN()<=T&T<=TMAX()|TMAX() < T"); <(
+                              "Use":
+                                orL('L=="T < TMIN()|TMIN()<=T&T<=TMAX()|TMAX() < T"); <(
+                                  "T < TMIN()":
+                                    unfold;
+                                    fullSimplify;
+                                    cut("T>TMAX()|T<=TMAX()"); <(
+                                      "Use":
+                                        orL('L=="T>TMAX()|T<=TMAX()"); <(
+                                          "T>TMAX()":
+                                            unfold;
+                                            fullSimplify;
+                                            auto,
+                                          "T<=TMAX()":
+                                            unfold;
+                                            fullSimplify;
+                                            auto
+                                        ),
+                                      "Show":
+                                        hideR('R=="[{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+                                        QE
+                                    ),
+                                  "TMIN()<=T&T<=TMAX()|TMAX() < T":
+                                    orL('L=="TMIN()<=T&T<=TMAX()|TMAX() < T"); <(
+                                      "TMIN()<=T&T<=TMAX()":
+                                        unfold;
+                                        fullSimplify;
+                                        auto,
+                                      "TMAX() < T":
+                                        unfold;
+                                        fullSimplify;
+                                        implyL('L=="T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN()"); <(
+                                          "T>=TMIN()":
+                                            hideR('R=="[{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+                                            auto,
+                                          "T+(HMIN()-cool)*(TS()-crl)>=TMIN()":
+                                            hideL('L=="T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()-t)>=TMIN()");
+                                            unfold;
+                                            fullSimplify;
+                                            auto
+                                        )
+                                    )
+                                ),
+                              "Show":
+                                hideR('R=="[{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+                                auto
+                            ),
+                          "t-tLD<=crl":
+                            auto
+                        )
+                    )
+                ),
+              "Show":
+                hideR('R=="[{t'=1.0,crl'=1.0,T'=h-cool&crl<=TS()}](cool>=0&((T < TMIN()->T+(HMIN()-cool)*(tLD+tRECMAX()+-t)>=TMIN())&(T>TMAX()->T+(HMAX()-cool)*(tLD+tRECMAX()+-t)<=TMAX())&(T>=TMIN()->T+(HMIN()-cool)*(TS()-crl)>=TMIN())&(T<=TMAX()->T+(HMAX()-cool)*(TS()-crl)<=TMAX())|t-tLD<=crl)&crl>=0&crl<=TS()&(t-tLD>=tRECMAX()->TMAX()>=T&T>=TMIN()))");
+                QE
+            )
+        )
+    )
+) """"
+End.
+
+Tool.
+  kyxversion """" 5.1.2 """"
+End.

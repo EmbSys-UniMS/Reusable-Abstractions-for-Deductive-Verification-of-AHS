@@ -1,0 +1,73 @@
+﻿/* Exported from KeYmaera X v5.1.2 */
+
+Theorem "ATVA/TemperatureControlThreshold"
+
+Definitions
+  Real TS;
+  Real CMAX;
+  Real CMIN;
+  Real TMIN;
+  Real TMAX;
+  Real HMAX;
+  Real HMIN;
+End.
+
+ProgramVariables
+  Real crl;
+  Real T;
+  Real h;
+  Real cool;
+End.
+
+Problem
+  /*Clocks Init Values + Evolutions*/
+    (crl  = 0.0)
+  & (TS > 0)
+  /*Threshold pre conditions*/
+  & (TMAX >= T)
+  & (T >= TMIN)
+  & (HMAX >= h)
+  & (h >= HMIN)
+   /*Contract conditions*/
+  & cool>=0 
+  & ((T + ((HMIN - cool) *  TS) >= TMIN) & (T + ((HMAX - cool) *  TS) <= TMAX))
+  ->
+  [
+    {
+      {
+        /*Env chooses heating*/  
+        h:= *;
+        ?(HMAX >= h) & (h >= HMIN);
+      }
+ 
+        
+      {
+        /*Every TS the Agent chooses an Action that is valid under the Hybrid Contract*/  
+        ?(crl  >= TS);
+            crl :=0.0;
+            cool:= *;
+            ?(cool>=0 & T + ((HMAX - cool) *  TS) <= TMAX);
+        ++
+        /*Do Nothing - Between Time TSs*/
+        ?(crl  < TS);
+        
+      }
+      {
+        
+        {
+          /*Evolutions*/        
+          crl ' = 1.0,
+          T' = (h - cool)
+          & (crl  <= TS)
+        }
+      }
+      
+    }*@invariant(cool>=0&TMAX()>=T&T+(HMAX()-cool)*(TS()-crl)<=TMAX()&TS()>=crl&crl>=0)
+  ] (TMAX >= T)
+End.
+
+Tactic "ATVA/TemperatureControlThreshold: Proof"
+auto
+End.
+
+End.

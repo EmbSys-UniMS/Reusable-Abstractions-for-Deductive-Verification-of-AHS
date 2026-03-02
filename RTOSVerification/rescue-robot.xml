@@ -1,0 +1,2785 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>//clock global;
+const int SMAX = 1; 
+
+///////////////////
+// CONSTANTS
+///////////////////
+const int N_TASKS = 4;
+const int NULL = -1;
+const int QUEUE_DEFAULT_WAITING = false;
+const int QUEUE_DEFAULT_PRIORITY = -1;
+const int QUEUE_DEFAULT_IDENTIFIER = -1;
+const int BT_IN_QUEUE_SIZE = 1;
+const int COLOR_BLACK = 1;
+const int MAIN_TASK_ID = 0;
+const int MOTOR_TASK_ID = 1;
+const int BT_READ_TASK_ID = 2;
+const int BT_WRITE_TASK_ID = 3;
+const int BT_OUT_QUEUE_ID = 0;
+const int BT_IN_QUEUE_ID = 1;
+const int BT_OUT_SEND_WAIT = 3;
+
+const int MAIN_TASK_PRIO = 0;
+const int MOTOR_TASK_PRIO = 1;
+const int BT_READ_TASK_PRIO = 2;
+const int BT_WRITE_TASK_PRIO = 3;
+
+///////////////////
+// TASK STRUCTS
+///////////////////
+typedef int[-1, N_TASKS] id_t;
+typedef struct {id_t id; int prio; bool waiting;} task_t;
+typedef struct {task_t queue[N_TASKS];} task_queue_t;
+// the tasks must be initialized with {NULL, NULL, false}, because the sort functions etc. check for NULL.
+// zero is not possible, because it stands for the id of the first task...
+task_queue_t tasks = {{{NULL, NULL, false}, {NULL, NULL, false}, {NULL, NULL, false}, {NULL, NULL, false}}};
+
+///////////////////
+// SENSOR CONSTANTS
+///////////////////
+const int N_HANDLERS = 4;
+const int N_SENSORS = 3;
+const int SENSOR_BORDER = 0;
+const int SENSOR_IR = 1;
+const int SENSOR_PIXY = 2;
+const int HANDLER_NO_MOVEMENT = 0;
+const int HANDLER_BORDER = 1;
+const int HANDLER_IR = 2;
+const int HANDLER_PIXY = 3;
+
+
+
+///////////////////
+// FLAG CONSTANTS
+///////////////////
+const int E_BORDER = 2;
+const int E_STOP = 1;
+const int E_BLOCK = 4;
+const int E_COLLISION_AVOIDANCE = 8;
+
+
+/////////////////////////
+// ROBOT STATUS CONSTANTS
+/////////////////////////
+const int S_INIT = 1;
+const int S_GET_GOAL = 3;
+const int S_GRIPPED = 4;
+const int S_GO_S_DELIVER = 5;
+const int S_WAIT_FOR_DELIVER = 9;
+const int S_DELIVERING = 6;
+const int S_DELIVERED = 7;
+const int S_GO_HOME = 8;
+const int S_HOME = 10;
+
+////////////////////////
+// DATA PACKET CONSTANTS
+////////////////////////
+const int PKT_OBS = 7;
+const int PKT_PATH = 6;
+const int PKT_POSITION = 5;
+const int PKT_GRAPH = 4;
+const int PKT_GOAL = 3;
+const int PKT_HEARTBEAT = 2;
+const int PKT_ID = 1;
+const int PKT_MODE = 0;
+
+///////////////////
+// ERROR CONSTANTS
+///////////////////
+const int ERR_QUEUE_MAX_ITEMS = -9999;
+
+///////////////////
+// CHANNELS
+///////////////////
+urgent broadcast chan init_system;
+chan bt_empty_packet;
+chan bt_packet;
+
+///////////////////
+// TASK CHANNELS
+///////////////////
+chan next[N_TASKS];
+broadcast chan activate[N_TASKS];
+urgent chan start[N_TASKS];
+urgent broadcast chan wait[N_TASKS];
+urgent chan release[N_TASKS];
+urgent broadcast chan reschedule;
+broadcast chan preempt[N_TASKS];
+chan terminate[N_TASKS];
+broadcast chan exitT[N_TASKS];
+
+///////////////////
+// DTQ CHANNELS
+///////////////////
+chan rcv_dtq[2];
+chan trcv_dtq[2];
+chan snd_dtq[2];
+
+
+///////////////////
+// CYCLIC CHANNELS
+///////////////////
+chan get_value[N_SENSORS];
+urgent broadcast chan handler_execute[N_HANDLERS];
+broadcast chan handler_finished[N_HANDLERS];
+chan h_next[N_HANDLERS];
+
+///////////////////
+// GLOBAL VARIABLES
+///////////////////
+int wcet[N_TASKS] = {1, 1, 1, 1};
+int bcet[N_TASKS] = {1, 1, 1, 1};
+int cyc_wcet[N_HANDLERS] = {1, 1, 1, 1};
+int cyc_bcet[N_HANDLERS] = {1, 1, 1, 1};
+int handler_queue[N_HANDLERS] = {-1, -1, -1, -1};
+int bt_in_queue[BT_IN_QUEUE_SIZE][2] = {{-1, -1}};
+int send_wait_q[BT_OUT_SEND_WAIT] = {NULL, NULL, NULL};
+int[-1, N_TASKS] g_snd_tsk = NULL;
+int[-1, N_TASKS] sw_tsk = 0;
+bool E_TMOUT = false;
+
+///////////////////
+// ROBOT VARIABLES
+///////////////////
+int packet[1][2] = {{-1,-1}};
+int[-1,10] robot_id = NULL;
+int[-1,10] position = NULL;
+int[0, 10] status = S_INIT;
+bool graph_recv = false;
+bool path_recv = false;
+bool goal_recv = false;
+bool grips = false;
+bool has_goal = false;
+int[0,3] ir_distance = 2;
+int[0,3] sonic_distance = 2;
+int[-1,2] color_sensor = -1;
+bool goal_spotted = false;
+bool motor_left = false;
+bool motor_right = false;
+
+////////////////////////
+// FLAG VARIABLES (Bits)
+////////////////////////
+int[0,15] bit_pattern = 0;
+
+///////////////////
+// ROUTE VARIABLES
+///////////////////
+bool route_active = false;
+bool route_wait = false;
+int[0,4] route_instructions = 4;
+int[-1,4] current_instr = -1;
+
+///////////////////
+// SAFETY CLOCKS
+///////////////////
+clock border_c;
+
+typedef struct 
+{
+    int id; 
+    int prio;
+} task_info;
+
+typedef struct 
+{
+    int id; 
+    int period;
+    int activation;
+} handler_info;
+
+
+/**
+ * Returns the first free position in task queue.
+ */
+int find_free_position_task_queue() {
+    int pos;
+    for (pos = 0; pos &lt; N_TASKS; pos++) {
+        if (tasks.queue[pos].prio == QUEUE_DEFAULT_PRIORITY
+        &amp;&amp; tasks.queue[pos].id == QUEUE_DEFAULT_IDENTIFIER) {
+            return pos;
+        }
+    }
+    return ERR_QUEUE_MAX_ITEMS;
+}
+
+/**
+ * Returns the first free position in handler queue.
+ */
+int find_free_position_handler_queue() {
+    int pos;
+    for (pos = 0; pos &lt; N_HANDLERS; pos++) {
+        if (handler_queue[pos] == NULL) {
+            return pos;
+        }
+    }
+    return ERR_QUEUE_MAX_ITEMS;
+}
+
+/**
+ * Sorts task queue.
+ */
+void sort_task_queue() {
+    int i, prio, j, id, waiting;
+    for (i = 1; i &lt; N_TASKS; i++) {
+        prio = tasks.queue[i].prio;
+        id = tasks.queue[i].id;
+        waiting = tasks.queue[i].waiting;
+        j = i - 1;
+ 
+        /* Move elements of arr[0..i-1], that are
+          greater than key, to one position ahead
+          of their current position */
+        while (j &gt;= 0 &amp;&amp; ((tasks.queue[j].prio &gt; prio &amp;&amp; waiting == false &amp;&amp; id != NULL)
+                         || (tasks.queue[j].prio &gt; prio &amp;&amp; tasks.queue[j].waiting &amp;&amp; waiting == true &amp;&amp; id != NULL)
+                         || (tasks.queue[j].prio &lt; prio &amp;&amp; tasks.queue[j].waiting &amp;&amp; waiting == false &amp;&amp; id != NULL))) {
+            tasks.queue[j + 1].waiting = tasks.queue[j].waiting;
+            tasks.queue[j + 1].prio = tasks.queue[j].prio;
+            tasks.queue[j + 1].id = tasks.queue[j].id;
+            j = j - 1;
+        }
+
+        tasks.queue[j + 1].id = id;
+        tasks.queue[j + 1].prio = prio;
+        tasks.queue[j + 1].waiting = waiting;
+    }
+}
+
+/**
+ * Add parameters to task queue and sort afterwards.
+ */
+void add_task(int identifier, int task_prio) {
+    int pos = find_free_position_task_queue();
+    tasks.queue[pos].id = identifier;
+    tasks.queue[pos].prio = task_prio;
+    tasks.queue[pos].waiting = QUEUE_DEFAULT_WAITING;
+    sort_task_queue();
+}
+
+/**
+ * Add parameters to handler queue.
+ */
+void add_handler(int identifier) {
+    int pos = find_free_position_handler_queue();
+    handler_queue[pos] = identifier;
+}
+
+/**
+ * Removes handler from queue when finished execution.
+ */
+void remove_handler() {
+    int pos;
+    handler_queue[0] = NULL;
+    for (pos = 0; pos &lt; (N_HANDLERS - 1); pos++){
+        if (handler_queue[pos] == NULL &amp;&amp; handler_queue[pos + 1] != NULL) {
+            handler_queue[pos] = handler_queue[pos + 1];
+            handler_queue[pos + 1] = NULL;
+        }
+    }
+}
+
+/**
+ * Sets waiting property for given identifier.
+ */
+void set_waiting(int id, bool value) {
+    int pos;
+    for (pos = 0; pos &lt; N_TASKS; pos++) {
+        if (tasks.queue[pos].id == id) {
+            tasks.queue[pos].waiting = value;
+        }
+    }
+    sort_task_queue();
+}
+
+/**
+ * Returns next task's id.
+ */
+int next_task_id() {
+    return tasks.queue[0].id;
+}
+
+/**
+ * Returns next handler's id.
+ */
+int next_handler_id() {
+    return handler_queue[0];
+}
+
+/**
+ * Removes task with given identifier from task queue
+ */
+void remove_task(int id) {
+    int pos;
+    for (pos = 0; pos &lt; N_TASKS; pos++) {
+        if (tasks.queue[pos].id == id) {
+            tasks.queue[pos].id = QUEUE_DEFAULT_IDENTIFIER;
+            tasks.queue[pos].prio = QUEUE_DEFAULT_PRIORITY;
+            tasks.queue[pos].waiting = true;
+        }
+    }
+    sort_task_queue();
+}
+
+/**
+ * Finds a free position in bt_in_q
+ */
+int find_free_position_bt_in_q() {
+    int pos;
+    for (pos = 0; pos &lt; BT_IN_QUEUE_SIZE; pos++) {
+        if (bt_in_queue[pos][0] == -1) {
+            return pos;
+        }
+    }
+    return ERR_QUEUE_MAX_ITEMS;
+}
+
+/**
+ * Add parameters to task queue and sort afterwards
+ */
+void add_bt_in_q(int type, int value) {
+    int pos = find_free_position_bt_in_q();
+    if (pos == ERR_QUEUE_MAX_ITEMS) {
+        return;
+    }
+    bt_in_queue[pos][0] = type;
+    bt_in_queue[pos][1] = value;
+}
+
+/**
+ * True if bt_in_queue is empty.
+ */
+bool is_bt_in_q_empty() {
+    return (bt_in_queue[0][0] == -1);
+}
+
+/**
+ * Move elements to first positions.
+ */
+void sort_bt_in_queue() {
+    int i;
+    for (i = 0; i &lt; BT_IN_QUEUE_SIZE - 1; i++) {
+        if (bt_in_queue[i][0] == -1 &amp;&amp; bt_in_queue[i + 1][0] != -1) {
+            bt_in_queue[i][0] = bt_in_queue[i + 1][0];
+            bt_in_queue[i][1] = bt_in_queue[i + 1][1];
+            bt_in_queue[i + 1][0] = NULL;
+            bt_in_queue[i + 1][1] = NULL;
+        }
+    }
+}
+
+/**
+ * Process first element of bt_in_q
+ */
+void process_bt_in_q() {
+    if (bt_in_queue[0][0] != NULL) {
+        bt_in_queue[0][0] = NULL;
+        bt_in_queue[0][1] = NULL;
+    }
+    sort_bt_in_queue();
+}
+
+/**
+ * Returns next msg type.
+ */
+int next_msg_type() {
+    if (bt_in_queue[0][0] != NULL) {
+        return bt_in_queue[0][0];
+    }
+    return NULL;
+}
+
+/**
+ * Returns next msg value.
+ */
+int next_msg_val() {
+    if (bt_in_queue[0][0] != NULL) {
+        int value = bt_in_queue[0][1];
+        bt_in_queue[0][0] = NULL;
+        bt_in_queue[0][1] = NULL;
+        sort_bt_in_queue();
+        return value;
+    }
+    return NULL;
+}
+
+/*
+ * Generates a packet with type and value. (used in BTMessageGenerator)
+ */
+void set_packet(int type, int value) {
+    packet[0][0] = type;
+    packet[0][1] = value;
+}
+
+/*
+ * Adds packet to Bluetooth q
+ */
+void add_packet_to_q() {
+    add_bt_in_q(packet[0][0], packet[0][1]);
+    packet[0][0] = NULL;
+    packet[0][1] = NULL;
+}
+
+/*
+ * Returns true if any task is ready,
+ * false otherwise
+ */
+bool task_ready() {
+    return !tasks.queue[0].waiting;
+}
+
+/**
+ * Returns true if at least one handler is ready.
+ */
+bool handler_ready() {
+    return handler_queue[0] != NULL;
+}
+
+/**
+ * Returns the first free position in handler queue.
+ */
+int find_free_position_send_wait_queue() {
+    int pos;
+    for (pos = 0; pos &lt; BT_OUT_SEND_WAIT; pos++) {
+        if (send_wait_q[pos] == NULL) {
+            return pos;
+        }
+    }
+    return ERR_QUEUE_MAX_ITEMS;
+}
+
+/**
+ * Adds sending task to send-wait queue.
+ */
+void add_send_wait() {
+    int pos = find_free_position_send_wait_queue();
+    send_wait_q[pos] = g_snd_tsk;
+}
+
+/**
+ * Removes first entry from send-wait queue and moves other entries forward by one position.
+ */
+void remove_send_wait() {
+    int i;
+    send_wait_q[0] = NULL;
+    for (i = 0; i &lt; BT_OUT_SEND_WAIT - 1; i++) {
+        if (send_wait_q[i] == NULL &amp;&amp; send_wait_q[i + 1] != NULL) {
+            send_wait_q[i] = send_wait_q[i + 1];
+            send_wait_q[i + 1] = NULL;
+        }
+    }
+}
+
+/**
+ * Returns true if send_wait_q is empty. Otherwise false.
+ */
+bool send_wait_empty() {
+    return send_wait_q[0] == NULL;
+}</declaration>
+	<template>
+		<name>IRGenericTesterTA</name>
+		<location id="id0" x="-272" y="-17">
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="select" x="-221" y="-42">x:int[0,SMAX]</label>
+			<label kind="synchronisation" x="-221" y="-25">get_value[SENSOR_IR]?</label>
+			<label kind="assignment" x="-221" y="-8">ir_distance = x</label>
+			<nail x="-229" y="-34"/>
+			<nail x="-229" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name>PixyGenericTesterTA</name>
+		<location id="id1" x="0" y="0">
+		</location>
+		<init ref="id1"/>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="select" x="51" y="-25">x:int[0,SMAX]</label>
+			<label kind="synchronisation" x="51" y="-8">get_value[SENSOR_PIXY]?</label>
+			<label kind="assignment" x="51" y="9">goal_spotted = x</label>
+			<nail x="42" y="-17"/>
+			<nail x="42" y="17"/>
+		</transition>
+	</template>
+	<template>
+		<name>BorderTesterTA</name>
+		<location id="id2" x="0" y="0">
+		</location>
+		<init ref="id2"/>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id2"/>
+			<label kind="select" x="51" y="-25">x:int[0,SMAX]</label>
+			<label kind="synchronisation" x="51" y="-8">get_value[SENSOR_BORDER]?</label>
+			<label kind="assignment" x="51" y="8">color_sensor = x</label>
+			<nail x="42" y="-17"/>
+			<nail x="42" y="17"/>
+		</transition>
+	</template>
+	<template>
+		<name>BTMessageGenerator</name>
+		<declaration>clock c;
+int msg_interval = 25;</declaration>
+		<location id="id3" x="-255" y="-884">
+			<label kind="invariant" x="-314" y="-867">c &lt;= msg_interval</label>
+		</location>
+		<location id="id4" x="42" y="-884">
+		</location>
+		<location id="id5" x="42" y="-807">
+			<label kind="invariant" x="-9" y="-790">c &lt;= msg_interval</label>
+		</location>
+		<location id="id6" x="-255" y="-807">
+		</location>
+		<location id="id7" x="-255" y="-739">
+			<label kind="invariant" x="-314" y="-722">c &lt;= msg_interval</label>
+		</location>
+		<location id="id8" x="42" y="-739">
+		</location>
+		<location id="id9" x="42" y="-671">
+			<label kind="invariant" x="-9" y="-654">c &lt;= msg_interval</label>
+		</location>
+		<location id="id10" x="-255" y="-671">
+		</location>
+		<location id="id11" x="-110" y="-527">
+			<label kind="invariant" x="-170" y="-519">c &lt;= msg_interval</label>
+		</location>
+		<location id="id12" x="-110" y="-459">
+		</location>
+		<location id="id13" x="-255" y="-604">
+			<label kind="invariant" x="-314" y="-587">c &lt;= msg_interval</label>
+		</location>
+		<location id="id14" x="42" y="-604">
+		</location>
+		<init ref="id3"/>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-102" y="-578">bt_packet!</label>
+			<label kind="assignment" x="-102" y="-561">c = 0</label>
+			<nail x="42" y="-578"/>
+			<nail x="-110" y="-578"/>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-153" y="-646">c == msg_interval</label>
+			<label kind="assignment" x="-238" y="-629">set_packet(PKT_MODE, S_GET_GOAL)</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id12"/>
+			<label kind="guard" x="42" y="-434">c == msg_interval
+&amp;&amp; status == S_GRIPPED</label>
+			<label kind="assignment" x="-34" y="-400">set_packet(PKT_MODE, S_GO_S_DELIVER)</label>
+			<nail x="0" y="-544"/>
+			<nail x="229" y="-544"/>
+			<nail x="229" y="-434"/>
+			<nail x="0" y="-434"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-144" y="-442">bt_packet!</label>
+			<label kind="assignment" x="-127" y="-425">c = 0</label>
+			<nail x="-110" y="-391"/>
+			<nail x="-382" y="-391"/>
+			<nail x="-382" y="-553"/>
+			<nail x="-136" y="-553"/>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id12"/>
+			<label kind="guard" x="-314" y="-510">c == msg_interval</label>
+			<label kind="assignment" x="-365" y="-493">set_packet(PKT_HEARTBEAT, 1)</label>
+			<nail x="-255" y="-527"/>
+			<nail x="-255" y="-459"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-331" y="-654">bt_packet!</label>
+			<label kind="assignment" x="-297" y="-637">c = 0</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="guard" x="-153" y="-714">c == msg_interval</label>
+			<label kind="assignment" x="-178" y="-697">set_packet(PKT_GOAL, 1)</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="51" y="-722">bt_packet!</label>
+			<label kind="assignment" x="51" y="-705">c = 0</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="guard" x="-153" y="-781">c == msg_interval</label>
+			<label kind="assignment" x="-187" y="-764">set_packet(PKT_GRAPH, 1)</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-331" y="-790">bt_packet!</label>
+			<label kind="assignment" x="-297" y="-773">c = 0</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<label kind="guard" x="-153" y="-850">c == msg_interval</label>
+			<label kind="assignment" x="-187" y="-833">set_packet(PKT_POSITION, 1)</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id12"/>
+			<label kind="guard" x="-43" y="-527">c == msg_interval
+&amp;&amp; status == S_WAIT_FOR_DELIVER</label>
+			<label kind="assignment" x="-43" y="-485">set_packet(PKT_MODE, S_DELIVERING)</label>
+			<nail x="0" y="-527"/>
+			<nail x="0" y="-459"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="51" y="-867">bt_packet!</label>
+			<label kind="assignment" x="51" y="-850">c = 0</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-153" y="-926">c == msg_interval</label>
+			<label kind="assignment" x="-170" y="-909">set_packet(PKT_ID, 1)</label>
+		</transition>
+	</template>
+	<template>
+		<name>CyclicHandlerHead</name>
+		<parameter>int id, int period, int activation, int &amp;cyc_bcet[N_HANDLERS], int &amp;cyc_wcet[N_HANDLERS]</parameter>
+		<declaration>clock c;
+clock x;</declaration>
+		<location id="id15" x="-289" y="-221">
+		</location>
+		<location id="id16" x="-246" y="-42">
+			<name x="-365" y="-42">NOT_RUNNING</name>
+			<label kind="invariant" x="-348" y="-25">c &lt;= period</label>
+		</location>
+		<location id="id17" x="-51" y="-42">
+			<name x="-42" y="-68">RUNNING</name>
+			<label kind="invariant" x="-34" y="-51">x &lt;= cyc_wcet[id]</label>
+		</location>
+		<location id="id18" x="-153" y="-119">
+			<name x="-136" y="-136">READY</name>
+		</location>
+		<location id="id19" x="-153" y="-221">
+			<label kind="invariant" x="-136" y="-230">c &lt;= activation</label>
+		</location>
+		<init ref="id15"/>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id18"/>
+			<label kind="guard" x="-144" y="-204">c == activation</label>
+			<label kind="synchronisation" x="-144" y="-187">preempt[next_task_id()]!</label>
+			<label kind="assignment" x="-144" y="-170">add_handler(id),
+c = 0</label>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id18"/>
+			<label kind="guard" x="-365" y="-127">c == period</label>
+			<label kind="synchronisation" x="-365" y="-110">preempt[next_task_id()]!</label>
+			<label kind="assignment" x="-365" y="-93">add_handler(id),
+c = 0</label>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id17"/>
+			<label kind="guard" x="-76" y="-8">x &gt;= cyc_bcet[id]</label>
+			<label kind="synchronisation" x="-76" y="8">h_next[id]!</label>
+			<label kind="assignment" x="-76" y="25">x:=0</label>
+			<nail x="-26" y="-8"/>
+			<nail x="-77" y="-8"/>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id16"/>
+			<label kind="synchronisation" x="-229" y="-34">handler_finished[id]?</label>
+			<label kind="assignment" x="-229" y="-17">remove_handler()</label>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="-85" y="-110">handler_execute[id]?</label>
+			<label kind="assignment" x="-85" y="-93">x = 0</label>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id19"/>
+			<label kind="synchronisation" x="-272" y="-221">init_system?</label>
+			<label kind="assignment" x="-272" y="-204">c:=0</label>
+		</transition>
+	</template>
+	<template>
+		<name>BorderHandlerBody</name>
+		<parameter>int id</parameter>
+		<location id="id20" x="0" y="-34">
+		</location>
+		<location id="id21" x="0" y="68">
+		</location>
+		<location id="id22" x="-93" y="144">
+		</location>
+		<location id="id23" x="0" y="280">
+			<committed/>
+		</location>
+		<location id="id24" x="0" y="17">
+			<committed/>
+		</location>
+		<init ref="id20"/>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id20"/>
+			<label kind="synchronisation" x="-170" y="306">handler_finished[id]!</label>
+			<nail x="0" y="306"/>
+			<nail x="-204" y="306"/>
+			<nail x="-204" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id23"/>
+			<label kind="guard" x="0" y="153">color_sensor != COLOR_BLACK</label>
+			<label kind="synchronisation" x="51" y="170">h_next[id]?</label>
+			<nail x="93" y="68"/>
+			<nail x="93" y="280"/>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="-170" y="170">h_next[id]?</label>
+			<label kind="assignment" x="-170" y="187">bit_pattern = bit_pattern | E_BORDER,
+border_c = 0</label>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id22"/>
+			<label kind="guard" x="-195" y="85">color_sensor == COLOR_BLACK</label>
+			<label kind="synchronisation" x="-136" y="102">h_next[id]?</label>
+			<nail x="-93" y="68"/>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="8" y="25">get_value[SENSOR_BORDER]!</label>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id24"/>
+			<label kind="synchronisation" x="8" y="-25">h_next[id]?</label>
+		</transition>
+	</template>
+	<template>
+		<name>InfraredHandlerBody</name>
+		<parameter>int id</parameter>
+		<location id="id25" x="8" y="-144">
+		</location>
+		<location id="id26" x="8" y="161">
+			<committed/>
+		</location>
+		<location id="id27" x="8" y="25">
+		</location>
+		<location id="id28" x="8" y="-34">
+			<committed/>
+		</location>
+		<init ref="id25"/>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id26"/>
+			<label kind="guard" x="34" y="59">sonic_distance &gt;= 1
+&amp;&amp; ir_distance &gt;= 1</label>
+			<label kind="synchronisation" x="51" y="93">h_next[id]?</label>
+			<nail x="93" y="25"/>
+			<nail x="93" y="161"/>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id28"/>
+			<label kind="synchronisation" x="17" y="-76">h_next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id26"/>
+			<label kind="guard" x="-136" y="68">sonic_distance &lt; 1
+|| ir_distance &lt; 1</label>
+			<label kind="synchronisation" x="-136" y="51">h_next[id]?</label>
+			<label kind="assignment" x="-127" y="110">bit_pattern = bit_pattern | E_COLLISION_AVOIDANCE</label>
+			<nail x="-76" y="25"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="-136" y="195">handler_finished[id]!</label>
+			<nail x="8" y="195"/>
+			<nail x="-161" y="195"/>
+			<nail x="-161" y="-144"/>
+		</transition>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id27"/>
+			<label kind="synchronisation" x="17" y="-17">get_value[SENSOR_IR]!</label>
+		</transition>
+	</template>
+	<template>
+		<name>NoMovementHandlerBody</name>
+		<parameter>int id</parameter>
+		<location id="id29" x="-42" y="-493">
+		</location>
+		<location id="id30" x="-127" y="-348">
+		</location>
+		<location id="id31" x="43" y="-348">
+		</location>
+		<location id="id32" x="-42" y="-221">
+			<committed/>
+		</location>
+		<init ref="id29"/>
+		<transition>
+			<source ref="id32"/>
+			<target ref="id29"/>
+			<label kind="synchronisation" x="-187" y="-194">handler_finished[id]!</label>
+			<nail x="-42" y="-195"/>
+			<nail x="-238" y="-195"/>
+			<nail x="-238" y="-493"/>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id32"/>
+			<label kind="synchronisation" x="8" y="-289">h_next[id]?</label>
+			<nail x="42" y="-221"/>
+		</transition>
+		<transition>
+			<source ref="id30"/>
+			<target ref="id32"/>
+			<label kind="synchronisation" x="-221" y="-331">h_next[id]?</label>
+			<label kind="assignment" x="-221" y="-314">bit_pattern = bit_pattern | E_STOP</label>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id31"/>
+			<label kind="guard" x="-17" y="-408">motor_left || motor_right</label>
+			<label kind="synchronisation" x="8" y="-391">h_next[id]?</label>
+			<nail x="43" y="-416"/>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id30"/>
+			<label kind="guard" x="-221" y="-408">!motor_left &amp;&amp; !motor_right</label>
+			<label kind="synchronisation" x="-170" y="-391">h_next[id]?</label>
+			<nail x="-127" y="-416"/>
+		</transition>
+	</template>
+	<template>
+		<name>PixyCamHandlerBody</name>
+		<parameter>int id</parameter>
+		<location id="id33" x="-8" y="-476">
+		</location>
+		<location id="id34" x="-8" y="-399">
+			<committed/>
+		</location>
+		<location id="id35" x="-8" y="-323">
+		</location>
+		<location id="id36" x="-93" y="-238">
+		</location>
+		<location id="id37" x="-8" y="0">
+			<committed/>
+		</location>
+		<location id="id38" x="-161" y="-127">
+		</location>
+		<init ref="id33"/>
+		<transition>
+			<source ref="id38"/>
+			<target ref="id37"/>
+			<label kind="synchronisation" x="-204" y="-110">h_next[id]?</label>
+			<label kind="assignment" x="-161" y="-89">bit_pattern = bit_pattern | E_BLOCK</label>
+		</transition>
+		<transition>
+			<source ref="id36"/>
+			<target ref="id37"/>
+			<label kind="guard" x="-85" y="-161">status != S_GET_GOAL 
+|| current_instr &lt; (route_instructions - 1)</label>
+			<label kind="synchronisation" x="-59" y="-119">h_next[id]?</label>
+			<nail x="-8" y="-238"/>
+		</transition>
+		<transition>
+			<source ref="id36"/>
+			<target ref="id38"/>
+			<label kind="guard" x="-263" y="-221">status == S_GET_GOAL 
+&amp;&amp; current_instr &gt;= (route_instructions - 1)</label>
+			<label kind="synchronisation" x="-204" y="-178">h_next[id]?</label>
+			<nail x="-161" y="-238"/>
+		</transition>
+		<transition>
+			<source ref="id37"/>
+			<target ref="id33"/>
+			<label kind="synchronisation" x="-178" y="33">handler_finished[id]!</label>
+			<nail x="-8" y="33"/>
+			<nail x="-280" y="33"/>
+			<nail x="-280" y="-476"/>
+		</transition>
+		<transition>
+			<source ref="id35"/>
+			<target ref="id36"/>
+			<label kind="guard" x="-127" y="-306">goal_spotted</label>
+			<label kind="synchronisation" x="-127" y="-289">h_next[id]?</label>
+			<nail x="-93" y="-323"/>
+		</transition>
+		<transition>
+			<source ref="id35"/>
+			<target ref="id37"/>
+			<label kind="guard" x="51" y="-306">!goal_spotted</label>
+			<label kind="synchronisation" x="59" y="-289">h_next[id]?</label>
+			<nail x="93" y="-323"/>
+			<nail x="93" y="-1"/>
+		</transition>
+		<transition>
+			<source ref="id34"/>
+			<target ref="id35"/>
+			<label kind="synchronisation" x="0" y="-374">get_value[SENSOR_PIXY]!</label>
+		</transition>
+		<transition>
+			<source ref="id33"/>
+			<target ref="id34"/>
+			<label kind="synchronisation" x="0" y="-450">h_next[id]?</label>
+		</transition>
+	</template>
+	<template>
+		<name>MainTaskBody</name>
+		<parameter>int id, int motor_control_id, int bt_read_id, int bt_write_id</parameter>
+		<declaration>int temp_status = -1;</declaration>
+		<location id="id39" x="-722" y="-93">
+			<name x="-765" y="-136">GRAPH_RECV</name>
+		</location>
+		<location id="id40" x="-476" y="-127">
+			<name x="-518" y="-170">MODE_RECV</name>
+		</location>
+		<location id="id41" x="-688" y="586">
+			<name x="-782" y="578">WHILE_END</name>
+		</location>
+		<location id="id42" x="-1173" y="-595">
+		</location>
+		<location id="id43" x="-1054" y="-595">
+		</location>
+		<location id="id44" x="-748" y="-595">
+		</location>
+		<location id="id45" x="-688" y="-510">
+			<name x="-790" y="-501">WHILE_START</name>
+		</location>
+		<location id="id46" x="-688" y="-450">
+		</location>
+		<location id="id47" x="-1088" y="-178">
+			<name x="-1122" y="-221">ID_RECV</name>
+		</location>
+		<location id="id48" x="-688" y="-280">
+			<name x="-824" y="-288">SWITCH_PACKET</name>
+		</location>
+		<location id="id49" x="-850" y="-178">
+			<name x="-901" y="-212">POSITION_RECV</name>
+		</location>
+		<location id="id50" x="-612" y="-178">
+			<name x="-654" y="-212">GOAL_RECV</name>
+		</location>
+		<location id="id51" x="-969" y="-85">
+			<name x="-1011" y="-119">PATH_RECV</name>
+		</location>
+		<location id="id52" x="-688" y="51">
+		</location>
+		<location id="id53" x="-918" y="314">
+			<name x="-952" y="271">GRIPPED</name>
+		</location>
+		<location id="id54" x="-731" y="314">
+			<name x="-782" y="272">GO_DELIVER</name>
+		</location>
+		<location id="id55" x="-527" y="297">
+			<name x="-561" y="263">DELIVERED</name>
+		</location>
+		<location id="id56" x="-688" y="535">
+			<committed/>
+		</location>
+		<location id="id57" x="-1088" y="314">
+			<name x="-1122" y="271">GET_GOAL</name>
+		</location>
+		<location id="id58" x="-468" y="-595">
+		</location>
+		<location id="id59" x="-969" y="-595">
+			<committed/>
+		</location>
+		<location id="id60" x="-646" y="-595">
+			<committed/>
+		</location>
+		<location id="id61" x="-383" y="-595">
+			<committed/>
+		</location>
+		<location id="id62" x="-688" y="187">
+			<name x="-824" y="178">SWITCH_STATUS</name>
+		</location>
+		<location id="id63" x="-688" y="-399">
+			<committed/>
+		</location>
+		<location id="id64" x="-688" y="127">
+		</location>
+		<location id="id65" x="-918" y="374">
+			<committed/>
+		</location>
+		<location id="id66" x="-527" y="416">
+		</location>
+		<location id="id67" x="-850" y="-85">
+		</location>
+		<location id="id68" x="-850" y="-8">
+			<committed/>
+		</location>
+		<location id="id69" x="-476" y="-59">
+		</location>
+		<location id="id70" x="-476" y="9">
+			<committed/>
+		</location>
+		<location id="id71" x="-688" y="-348">
+		</location>
+		<location id="id72" x="-204" y="-595">
+		</location>
+		<location id="id73" x="-306" y="-552">
+			<committed/>
+		</location>
+		<location id="id74" x="-1088" y="433">
+		</location>
+		<location id="id75" x="-918" y="433">
+		</location>
+		<location id="id76" x="-918" y="493">
+			<committed/>
+		</location>
+		<location id="id77" x="-731" y="433">
+		</location>
+		<location id="id78" x="-442" y="416">
+			<committed/>
+		</location>
+		<location id="id79" x="-442" y="493">
+		</location>
+		<init ref="id42"/>
+		<transition>
+			<source ref="id79"/>
+			<target ref="id76"/>
+			<label kind="synchronisation" x="-569" y="476">next[id]?</label>
+			<label kind="assignment" x="-586" y="493">g_snd_tsk = id</label>
+		</transition>
+		<transition>
+			<source ref="id78"/>
+			<target ref="id79"/>
+			<label kind="synchronisation" x="-535" y="442">snd_dtq[BT_OUT_QUEUE_ID]!</label>
+		</transition>
+		<transition>
+			<source ref="id77"/>
+			<target ref="id76"/>
+			<label kind="synchronisation" x="-756" y="450">next[id]?</label>
+			<label kind="assignment" x="-782" y="467">g_snd_tsk = id</label>
+			<label kind="comments" x="-697" y="425">Simulates
+Send Log
+Message</label>
+			<nail x="-731" y="493"/>
+		</transition>
+		<transition>
+			<source ref="id76"/>
+			<target ref="id56"/>
+			<label kind="synchronisation" x="-994" y="510">snd_dtq[BT_OUT_QUEUE_ID]!</label>
+			<nail x="-918" y="535"/>
+		</transition>
+		<transition>
+			<source ref="id75"/>
+			<target ref="id76"/>
+			<label kind="synchronisation" x="-943" y="442">next[id]?</label>
+			<label kind="assignment" x="-969" y="459">g_snd_tsk = id</label>
+			<label kind="comments" x="-884" y="425">Simulates
+Send Log
+Message</label>
+		</transition>
+		<transition>
+			<source ref="id74"/>
+			<target ref="id76"/>
+			<label kind="synchronisation" x="-1113" y="450">next[id]?</label>
+			<label kind="assignment" x="-1130" y="467">g_snd_tsk = id</label>
+			<label kind="comments" x="-1054" y="425">Simulates
+Send Log
+Message</label>
+			<nail x="-1088" y="493"/>
+		</transition>
+		<transition>
+			<source ref="id73"/>
+			<target ref="id45"/>
+			<label kind="synchronisation" x="-586" y="-569">snd_dtq[BT_OUT_QUEUE_ID]!</label>
+			<nail x="-688" y="-552"/>
+		</transition>
+		<transition>
+			<source ref="id72"/>
+			<target ref="id73"/>
+			<label kind="synchronisation" x="-238" y="-578">next[id]?</label>
+			<label kind="assignment" x="-263" y="-561">g_snd_tsk = id</label>
+			<nail x="-204" y="-552"/>
+		</transition>
+		<transition>
+			<source ref="id71"/>
+			<target ref="id52"/>
+			<label kind="guard" x="-374" y="-365">E_TMOUT</label>
+			<label kind="synchronisation" x="-365" y="-348">next[id]?</label>
+			<nail x="-187" y="-348"/>
+			<nail x="-187" y="68"/>
+			<nail x="-637" y="68"/>
+		</transition>
+		<transition>
+			<source ref="id71"/>
+			<target ref="id48"/>
+			<label kind="guard" x="-680" y="-331">!E_TMOUT</label>
+			<label kind="synchronisation" x="-680" y="-314">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id65"/>
+			<target ref="id75"/>
+			<label kind="synchronisation" x="-1011" y="391">snd_dtq[BT_OUT_QUEUE_ID]!</label>
+			<label kind="comments" x="-884" y="331">Simulates
+Position
+Update</label>
+		</transition>
+		<transition>
+			<source ref="id54"/>
+			<target ref="id77"/>
+			<label kind="synchronisation" x="-756" y="331">next[id]?</label>
+			<label kind="assignment" x="-782" y="357">route_wait = false,
+route_active = true,
+current_instr = -1</label>
+		</transition>
+		<transition>
+			<source ref="id70"/>
+			<target ref="id52"/>
+			<label kind="synchronisation" x="-569" y="25">snd_dtq[BT_OUT_QUEUE_ID]!</label>
+			<nail x="-476" y="51"/>
+		</transition>
+		<transition>
+			<source ref="id69"/>
+			<target ref="id70"/>
+			<label kind="synchronisation" x="-501" y="-42">next[id]?</label>
+			<label kind="assignment" x="-535" y="-25">g_snd_tsk = id = id</label>
+		</transition>
+		<transition>
+			<source ref="id68"/>
+			<target ref="id52"/>
+			<label kind="synchronisation" x="-943" y="9">snd_dtq[BT_OUT_QUEUE_ID]!</label>
+			<nail x="-850" y="51"/>
+		</transition>
+		<transition>
+			<source ref="id67"/>
+			<target ref="id68"/>
+			<label kind="synchronisation" x="-875" y="-76">next[id]?</label>
+			<label kind="assignment" x="-892" y="-59">g_snd_tsk = id</label>
+		</transition>
+		<transition>
+			<source ref="id48"/>
+			<target ref="id52"/>
+			<label kind="guard" x="-416" y="-212">next_msg_type() != PKT_ID
+&amp;&amp; next_msg_type() != PKT_PATH
+&amp;&amp; next_msg_type() != PKT_POSITION
+&amp;&amp; next_msg_type() != PKT_GRAPH
+&amp;&amp; next_msg_type() != PKT_GOAL
+&amp;&amp; next_msg_type() != PKT_MODE</label>
+			<label kind="synchronisation" x="-348" y="-93">next[id]?</label>
+			<nail x="-688" y="-263"/>
+			<nail x="-323" y="-263"/>
+			<nail x="-323" y="51"/>
+		</transition>
+		<transition>
+			<source ref="id66"/>
+			<target ref="id78"/>
+			<label kind="synchronisation" x="-510" y="399">next[id]?</label>
+			<label kind="assignment" x="-527" y="416">g_snd_tsk = id</label>
+		</transition>
+		<transition>
+			<source ref="id64"/>
+			<target ref="id62"/>
+			<label kind="synchronisation" x="-680" y="136">next[id]?</label>
+			<label kind="assignment" x="-680" y="153">temp_status = status</label>
+		</transition>
+		<transition>
+			<source ref="id63"/>
+			<target ref="id71"/>
+			<label kind="synchronisation" x="-680" y="-382">trcv_dtq[BT_IN_QUEUE_ID]!</label>
+		</transition>
+		<transition>
+			<source ref="id52"/>
+			<target ref="id45"/>
+			<label kind="guard" x="-986" y="93">status == temp_status</label>
+			<label kind="synchronisation" x="-943" y="76">next[id]?</label>
+			<nail x="-756" y="76"/>
+			<nail x="-1198" y="76"/>
+			<nail x="-1198" y="-510"/>
+		</transition>
+		<transition>
+			<source ref="id52"/>
+			<target ref="id64"/>
+			<label kind="guard" x="-680" y="85">status != temp_status</label>
+			<label kind="synchronisation" x="-680" y="68">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id58"/>
+			<target ref="id61"/>
+			<label kind="synchronisation" x="-451" y="-620">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id60"/>
+			<target ref="id58"/>
+			<label kind="synchronisation" x="-629" y="-620">activate[bt_read_id]!</label>
+		</transition>
+		<transition>
+			<source ref="id43"/>
+			<target ref="id59"/>
+			<label kind="synchronisation" x="-1037" y="-620">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id61"/>
+			<target ref="id72"/>
+			<label kind="synchronisation" x="-366" y="-620">activate[bt_write_id]!</label>
+		</transition>
+		<transition>
+			<source ref="id57"/>
+			<target ref="id74"/>
+			<label kind="synchronisation" x="-1113" y="331">next[id]?</label>
+			<label kind="assignment" x="-1139" y="357">route_wait = false,
+route_active = true</label>
+		</transition>
+		<transition>
+			<source ref="id62"/>
+			<target ref="id57"/>
+			<label kind="guard" x="-1156" y="221">status == S_GET_GOAL</label>
+			<label kind="synchronisation" x="-1114" y="246">next[id]?</label>
+			<nail x="-688" y="221"/>
+			<nail x="-1089" y="222"/>
+		</transition>
+		<transition>
+			<source ref="id62"/>
+			<target ref="id56"/>
+			<label kind="guard" x="-425" y="255">status != S_GET_GOAL
+&amp;&amp; status != S_GRIPPED 
+&amp;&amp; status != S_GO_S_DELIVER
+&amp;&amp; status != S_DELIVERED</label>
+			<label kind="synchronisation" x="-382" y="340">next[id]?</label>
+			<nail x="-688" y="221"/>
+			<nail x="-357" y="221"/>
+			<nail x="-357" y="535"/>
+		</transition>
+		<transition>
+			<source ref="id56"/>
+			<target ref="id45"/>
+			<nail x="-688" y="561"/>
+			<nail x="-1198" y="561"/>
+			<nail x="-1198" y="-510"/>
+		</transition>
+		<transition>
+			<source ref="id55"/>
+			<target ref="id66"/>
+			<label kind="synchronisation" x="-552" y="306">next[id]?</label>
+			<label kind="assignment" x="-586" y="323">status = S_GO_HOME, 
+route_wait = false, 
+route_active = true,
+current_instr = -1</label>
+		</transition>
+		<transition>
+			<source ref="id53"/>
+			<target ref="id65"/>
+			<label kind="synchronisation" x="-943" y="323">next[id]?</label>
+			<label kind="assignment" x="-977" y="340">g_snd_tsk = id = id</label>
+		</transition>
+		<transition>
+			<source ref="id62"/>
+			<target ref="id55"/>
+			<label kind="guard" x="-595" y="221">status == S_DELIVERED</label>
+			<label kind="synchronisation" x="-552" y="238">next[id]?</label>
+			<nail x="-688" y="221"/>
+			<nail x="-527" y="222"/>
+		</transition>
+		<transition>
+			<source ref="id62"/>
+			<target ref="id53"/>
+			<label kind="guard" x="-986" y="221">status == S_GRIPPED</label>
+			<label kind="synchronisation" x="-943" y="246">next[id]?</label>
+			<nail x="-688" y="221"/>
+			<nail x="-918" y="222"/>
+		</transition>
+		<transition>
+			<source ref="id62"/>
+			<target ref="id54"/>
+			<label kind="guard" x="-816" y="221">status == S_GO_S_DELIVER</label>
+			<label kind="synchronisation" x="-756" y="246">next[id]?</label>
+			<nail x="-688" y="221"/>
+			<nail x="-731" y="222"/>
+		</transition>
+		<transition>
+			<source ref="id40"/>
+			<target ref="id69"/>
+			<label kind="synchronisation" x="-501" y="-110">next[id]?</label>
+			<label kind="assignment" x="-552" y="-93">status = next_msg_val()</label>
+		</transition>
+		<transition>
+			<source ref="id50"/>
+			<target ref="id52"/>
+			<label kind="synchronisation" x="-629" y="-153">next[id]?</label>
+			<label kind="assignment" x="-654" y="-136">goal_recv := true,
+process_bt_in_q()</label>
+			<nail x="-612" y="51"/>
+		</transition>
+		<transition>
+			<source ref="id39"/>
+			<target ref="id52"/>
+			<label kind="synchronisation" x="-748" y="-68">next[id]?</label>
+			<label kind="assignment" x="-782" y="-51">graph_recv := true,
+process_bt_in_q()</label>
+			<nail x="-722" y="51"/>
+		</transition>
+		<transition>
+			<source ref="id49"/>
+			<target ref="id67"/>
+			<label kind="synchronisation" x="-875" y="-144">next[id]?</label>
+			<label kind="assignment" x="-926" y="-127">position := next_msg_val()</label>
+		</transition>
+		<transition>
+			<source ref="id51"/>
+			<target ref="id52"/>
+			<label kind="synchronisation" x="-994" y="-68">next[id]?</label>
+			<label kind="assignment" x="-1020" y="-51">path_recv := true,
+process_bt_in_q()</label>
+			<nail x="-969" y="51"/>
+		</transition>
+		<transition>
+			<source ref="id47"/>
+			<target ref="id52"/>
+			<label kind="synchronisation" x="-1113" y="-110">next[id]?</label>
+			<label kind="assignment" x="-1173" y="-93">robot_id := next_msg_val()</label>
+			<nail x="-1087" y="51"/>
+		</transition>
+		<transition>
+			<source ref="id48"/>
+			<target ref="id39"/>
+			<label kind="guard" x="-833" y="-170">next_msg_type() == PKT_GRAPH</label>
+			<label kind="synchronisation" x="-748" y="-153">next[id]?</label>
+			<nail x="-688" y="-263"/>
+			<nail x="-722" y="-263"/>
+		</transition>
+		<transition>
+			<source ref="id48"/>
+			<target ref="id51"/>
+			<label kind="guard" x="-1062" y="-161">next_msg_type() == PKT_PATH</label>
+			<label kind="synchronisation" x="-994" y="-144">next[id]?</label>
+			<nail x="-688" y="-263"/>
+			<nail x="-969" y="-263"/>
+		</transition>
+		<transition>
+			<source ref="id48"/>
+			<target ref="id40"/>
+			<label kind="guard" x="-569" y="-229">next_msg_type() == PKT_MODE</label>
+			<label kind="synchronisation" x="-501" y="-212">next[id]?</label>
+			<nail x="-688" y="-263"/>
+			<nail x="-476" y="-263"/>
+		</transition>
+		<transition>
+			<source ref="id48"/>
+			<target ref="id50"/>
+			<label kind="guard" x="-715" y="-255">next_msg_type() == PKT_GOAL</label>
+			<label kind="synchronisation" x="-637" y="-238">next[id]?</label>
+			<nail x="-688" y="-263"/>
+			<nail x="-612" y="-263"/>
+		</transition>
+		<transition>
+			<source ref="id48"/>
+			<target ref="id49"/>
+			<label kind="guard" x="-961" y="-255">next_msg_type() == PKT_POSITION</label>
+			<label kind="synchronisation" x="-875" y="-238">next[id]?</label>
+			<nail x="-688" y="-263"/>
+			<nail x="-850" y="-263"/>
+		</transition>
+		<transition>
+			<source ref="id46"/>
+			<target ref="id63"/>
+			<label kind="synchronisation" x="-680" y="-433">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id48"/>
+			<target ref="id47"/>
+			<label kind="guard" x="-1173" y="-255">next_msg_type() == PKT_ID</label>
+			<label kind="synchronisation" x="-1113" y="-238">next[id]?</label>
+			<nail x="-688" y="-263"/>
+			<nail x="-1088" y="-263"/>
+		</transition>
+		<transition>
+			<source ref="id45"/>
+			<target ref="id41"/>
+			<label kind="guard" x="-484" y="-527">false</label>
+			<label kind="synchronisation" x="-493" y="-510">next[id]?</label>
+			<nail x="-170" y="-510"/>
+			<nail x="-170" y="586"/>
+		</transition>
+		<transition>
+			<source ref="id45"/>
+			<target ref="id46"/>
+			<label kind="guard" x="-680" y="-493">true</label>
+			<label kind="synchronisation" x="-680" y="-476">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id44"/>
+			<target ref="id60"/>
+			<label kind="synchronisation" x="-723" y="-620">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id59"/>
+			<target ref="id44"/>
+			<label kind="synchronisation" x="-952" y="-620">activate[motor_control_id]!</label>
+		</transition>
+		<transition>
+			<source ref="id42"/>
+			<target ref="id43"/>
+			<label kind="synchronisation" x="-1156" y="-620">activate[id]?</label>
+		</transition>
+	</template>
+	<template>
+		<name>BtReadTaskBody</name>
+		<parameter>int id</parameter>
+		<declaration>clock c;</declaration>
+		<location id="id80" x="-629" y="323">
+			<name x="-671" y="340">WHILE_END</name>
+		</location>
+		<location id="id81" x="-629" y="-323">
+		</location>
+		<location id="id82" x="-629" y="-221">
+			<name x="-680" y="-255">WHILE_START</name>
+		</location>
+		<location id="id83" x="-629" y="60">
+		</location>
+		<location id="id84" x="-629" y="-8">
+		</location>
+		<location id="id85" x="-552" y="136">
+		</location>
+		<location id="id86" x="-875" y="59">
+			<committed/>
+		</location>
+		<location id="id87" x="-697" y="127">
+		</location>
+		<location id="id88" x="-875" y="135">
+			<label kind="invariant" x="-858" y="118">c &lt;= 30</label>
+		</location>
+		<location id="id89" x="-875" y="211">
+			<committed/>
+		</location>
+		<location id="id90" x="-552" y="204">
+			<committed/>
+		</location>
+		<location id="id91" x="-697" y="221">
+			<committed/>
+		</location>
+		<location id="id92" x="-629" y="-153">
+		</location>
+		<location id="id93" x="-629" y="-93">
+			<committed/>
+		</location>
+		<location id="id94" x="-960" y="212">
+		</location>
+		<init ref="id81"/>
+		<transition>
+			<source ref="id89"/>
+			<target ref="id94"/>
+			<label kind="synchronisation" x="-952" y="221">release[sw_tsk]!</label>
+		</transition>
+		<transition>
+			<source ref="id93"/>
+			<target ref="id84"/>
+			<label kind="comments" x="-595" y="-68">simulates
+empty packet</label>
+			<nail x="-603" y="-51"/>
+		</transition>
+		<transition>
+			<source ref="id93"/>
+			<target ref="id84"/>
+			<label kind="synchronisation" x="-731" y="-59">bt_packet?</label>
+			<nail x="-654" y="-51"/>
+		</transition>
+		<transition>
+			<source ref="id92"/>
+			<target ref="id93"/>
+			<label kind="synchronisation" x="-620" y="-136">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id91"/>
+			<target ref="id82"/>
+			<label kind="synchronisation" x="-799" y="238">snd_dtq[BT_OUT_QUEUE_ID]!</label>
+			<nail x="-697" y="263"/>
+			<nail x="-994" y="263"/>
+			<nail x="-994" y="-221"/>
+		</transition>
+		<transition>
+			<source ref="id87"/>
+			<target ref="id91"/>
+			<label kind="synchronisation" x="-723" y="137">next[id]?</label>
+			<label kind="assignment" x="-757" y="154">packet[0][0] = NULL,
+packet[0][1] = NULL,
+g_snd_tsk = id</label>
+		</transition>
+		<transition>
+			<source ref="id90"/>
+			<target ref="id82"/>
+			<label kind="synchronisation" x="-544" y="221">snd_dtq[BT_IN_QUEUE_ID]!</label>
+			<label kind="assignment" x="-544" y="238">add_packet_to_q()</label>
+			<nail x="-552" y="263"/>
+			<nail x="-994" y="263"/>
+			<nail x="-994" y="-221"/>
+		</transition>
+		<transition>
+			<source ref="id88"/>
+			<target ref="id89"/>
+			<label kind="guard" x="-901" y="152">c == 30</label>
+			<label kind="assignment" x="-909" y="170">sw_tsk = id</label>
+		</transition>
+		<transition>
+			<source ref="id94"/>
+			<target ref="id82"/>
+			<label kind="synchronisation" x="-858" y="-178">reschedule!</label>
+			<nail x="-960" y="211"/>
+			<nail x="-960" y="-179"/>
+			<nail x="-688" y="-178"/>
+		</transition>
+		<transition>
+			<source ref="id86"/>
+			<target ref="id88"/>
+			<label kind="synchronisation" x="-935" y="76">wait[id]!</label>
+			<label kind="assignment" x="-892" y="93">c = 0</label>
+			<label kind="comments" x="-977" y="102">simulates
+sleep with
+timeout</label>
+		</transition>
+		<transition>
+			<source ref="id83"/>
+			<target ref="id87"/>
+			<label kind="guard" x="-816" y="85">packet[0][0] == PKT_HEARTBEAT</label>
+			<label kind="synchronisation" x="-765" y="102">next[id]?</label>
+			<nail x="-697" y="60"/>
+		</transition>
+		<transition>
+			<source ref="id83"/>
+			<target ref="id85"/>
+			<label kind="guard" x="-645" y="67">packet[0][0] != PKT_HEARTBEAT</label>
+			<label kind="synchronisation" x="-544" y="85">next[id]?</label>
+			<nail x="-552" y="59"/>
+		</transition>
+		<transition>
+			<source ref="id85"/>
+			<target ref="id90"/>
+			<label kind="synchronisation" x="-544" y="153">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id84"/>
+			<target ref="id86"/>
+			<label kind="guard" x="-935" y="-1">packet[0][0] == NULL</label>
+			<label kind="synchronisation" x="-900" y="16">next[id]?</label>
+			<nail x="-875" y="-9"/>
+		</transition>
+		<transition>
+			<source ref="id82"/>
+			<target ref="id80"/>
+			<label kind="guard" x="-408" y="-195">false</label>
+			<label kind="synchronisation" x="-408" y="-178">next[id]?</label>
+			<nail x="-416" y="-221"/>
+			<nail x="-416" y="323"/>
+		</transition>
+		<transition>
+			<source ref="id82"/>
+			<target ref="id92"/>
+			<label kind="guard" x="-620" y="-204">true</label>
+			<label kind="synchronisation" x="-620" y="-187">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id84"/>
+			<target ref="id83"/>
+			<label kind="guard" x="-620" y="8">packet[0][0] != NULL</label>
+			<label kind="synchronisation" x="-620" y="25">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id81"/>
+			<target ref="id82"/>
+			<label kind="synchronisation" x="-663" y="-289">activate[id]?</label>
+		</transition>
+	</template>
+	<template>
+		<name>BtWriteTaskBody</name>
+		<parameter>int id</parameter>
+		<location id="id95" x="-195" y="-280">
+		</location>
+		<location id="id96" x="-195" y="-220">
+			<name x="-187" y="-246">WHILE_START</name>
+		</location>
+		<location id="id97" x="-195" y="-144">
+		</location>
+		<location id="id98" x="-195" y="-34">
+			<name x="-238" y="-17">WHILE_END</name>
+		</location>
+		<location id="id99" x="-195" y="-85">
+			<committed/>
+		</location>
+		<init ref="id95"/>
+		<transition>
+			<source ref="id97"/>
+			<target ref="id99"/>
+			<label kind="synchronisation" x="-187" y="-127">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id99"/>
+			<target ref="id96"/>
+			<label kind="synchronisation" x="-297" y="-161">rcv_dtq[0]!</label>
+			<nail x="-263" y="-85"/>
+			<nail x="-263" y="-221"/>
+		</transition>
+		<transition>
+			<source ref="id96"/>
+			<target ref="id98"/>
+			<label kind="guard" x="-93" y="-136">false</label>
+			<label kind="synchronisation" x="-102" y="-119">next[id]?</label>
+			<nail x="-76" y="-221"/>
+			<nail x="-76" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id96"/>
+			<target ref="id97"/>
+			<label kind="guard" x="-187" y="-204">true</label>
+			<label kind="synchronisation" x="-187" y="-187">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id95"/>
+			<target ref="id96"/>
+			<label kind="synchronisation" x="-187" y="-272">activate[id]?</label>
+		</transition>
+	</template>
+	<template>
+		<name>MotorControlTaskBody</name>
+		<parameter>int id, int[0,15] &amp;bit_pattern_e1</parameter>
+		<location id="id100" x="-1011" y="-637">
+			<name x="-994" y="-662">WHILE_START</name>
+		</location>
+		<location id="id101" x="-1011" y="50">
+		</location>
+		<location id="id102" x="-1011" y="-705">
+		</location>
+		<location id="id103" x="-1011" y="-561">
+			<committed/>
+		</location>
+		<location id="id104" x="-1011" y="1641">
+			<name x="-1045" y="1658">WHILE_END</name>
+		</location>
+		<location id="id105" x="-1130" y="-204">
+		</location>
+		<location id="id106" x="-1011" y="-298">
+		</location>
+		<location id="id107" x="-1105" y="-383">
+			<name x="-1283" y="-391">AVOID_TABLE_BORDER</name>
+		</location>
+		<location id="id108" x="-1130" y="-35">
+		</location>
+		<location id="id109" x="-1130" y="-128">
+		</location>
+		<location id="id110" x="-1011" y="195">
+		</location>
+		<location id="id111" x="-1130" y="118">
+		</location>
+		<location id="id112" x="-1011" y="944">
+		</location>
+		<location id="id113" x="-1130" y="280">
+		</location>
+		<location id="id114" x="-1011" y="1479">
+		</location>
+		<location id="id115" x="-1105" y="1037">
+		</location>
+		<location id="id116" x="-1105" y="1105">
+		</location>
+		<location id="id117" x="-1198" y="1216">
+		</location>
+		<location id="id118" x="-977" y="1215">
+		</location>
+		<location id="id119" x="-1292" y="1284">
+		</location>
+		<location id="id120" x="-1105" y="1284">
+		</location>
+		<location id="id121" x="-1011" y="-510">
+		</location>
+		<location id="id122" x="-1198" y="1377">
+		</location>
+		<location id="id123" x="-1198" y="1479">
+		</location>
+		<location id="id124" x="-1011" y="510">
+		</location>
+		<location id="id125" x="-1011" y="756">
+		</location>
+		<location id="id126" x="-1130" y="570">
+		</location>
+		<location id="id127" x="-1130" y="858">
+		</location>
+		<location id="id128" x="-884" y="1292">
+		</location>
+		<location id="id129" x="-1011" y="1385">
+		</location>
+		<location id="id130" x="-1130" y="391">
+		</location>
+		<location id="id131" x="-1130" y="450">
+			<committed/>
+		</location>
+		<location id="id132" x="-1130" y="629">
+		</location>
+		<location id="id133" x="-1130" y="705">
+			<committed/>
+		</location>
+		<location id="id134" x="-1011" y="-391">
+		</location>
+		<location id="id135" x="-1011" y="-459">
+			<committed/>
+		</location>
+		<init ref="id102"/>
+		<transition>
+			<source ref="id135"/>
+			<target ref="id134"/>
+			<label kind="synchronisation" x="-1011" y="-442">reschedule!</label>
+		</transition>
+		<transition>
+			<source ref="id133"/>
+			<target ref="id125"/>
+			<label kind="synchronisation" x="-1232" y="722">snd_dtq[BT_OUT_QUEUE_ID]!</label>
+			<nail x="-1130" y="748"/>
+		</transition>
+		<transition>
+			<source ref="id132"/>
+			<target ref="id133"/>
+			<label kind="synchronisation" x="-1156" y="646">next[id]?</label>
+			<label kind="assignment" x="-1181" y="663">g_snd_tsk = id</label>
+		</transition>
+		<transition>
+			<source ref="id131"/>
+			<target ref="id124"/>
+			<label kind="synchronisation" x="-1232" y="467">snd_dtq[BT_OUT_QUEUE_ID]!</label>
+			<nail x="-1130" y="493"/>
+		</transition>
+		<transition>
+			<source ref="id130"/>
+			<target ref="id131"/>
+			<label kind="synchronisation" x="-1156" y="399">next[id]?</label>
+			<label kind="assignment" x="-1173" y="416">g_snd_tsk = id</label>
+		</transition>
+		<transition>
+			<source ref="id121"/>
+			<target ref="id135"/>
+			<label kind="guard" x="-994" y="-501">bit_pattern_e1 &amp; (E_STOP | E_BORDER | E_BLOCK | E_COLLISION_AVOIDANCE)</label>
+			<label kind="synchronisation" x="-994" y="-484">release[id]!</label>
+		</transition>
+		<transition>
+			<source ref="id118"/>
+			<target ref="id129"/>
+			<label kind="guard" x="-1079" y="1258">status != S_GO_HOME</label>
+			<label kind="synchronisation" x="-1037" y="1275">next[id]?</label>
+			<nail x="-1011" y="1216"/>
+		</transition>
+		<transition>
+			<source ref="id128"/>
+			<target ref="id129"/>
+			<label kind="synchronisation" x="-909" y="1327">next[id]?</label>
+			<label kind="assignment" x="-943" y="1344">status = S_HOME</label>
+			<nail x="-884" y="1386"/>
+		</transition>
+		<transition>
+			<source ref="id118"/>
+			<target ref="id128"/>
+			<label kind="guard" x="-969" y="1233">status == S_GO_HOME</label>
+			<label kind="synchronisation" x="-909" y="1250">next[id]?</label>
+			<nail x="-884" y="1215"/>
+		</transition>
+		<transition>
+			<source ref="id125"/>
+			<target ref="id112"/>
+			<label kind="guard" x="-1054" y="807">status != S_DELIVERING</label>
+			<label kind="synchronisation" x="-1003" y="824">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id127"/>
+			<target ref="id112"/>
+			<label kind="synchronisation" x="-1164" y="875">next[id]?</label>
+			<label kind="assignment" x="-1207" y="892">status = S_DELIVERED</label>
+			<nail x="-1130" y="909"/>
+		</transition>
+		<transition>
+			<source ref="id125"/>
+			<target ref="id127"/>
+			<label kind="guard" x="-1224" y="799">status == S_DELIVERING</label>
+			<label kind="synchronisation" x="-1181" y="816">next[id]?</label>
+			<nail x="-1130" y="790"/>
+		</transition>
+		<transition>
+			<source ref="id126"/>
+			<target ref="id132"/>
+			<label kind="synchronisation" x="-1181" y="579">next[id]?</label>
+			<label kind="assignment" x="-1258" y="596">status = S_WAIT_FOR_DELIVER</label>
+		</transition>
+		<transition>
+			<source ref="id124"/>
+			<target ref="id125"/>
+			<label kind="guard" x="-1045" y="536">status != S_GO_S_DELIVER
+|| route_active</label>
+			<label kind="synchronisation" x="-1003" y="570">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id124"/>
+			<target ref="id126"/>
+			<label kind="guard" x="-1224" y="502">status == S_GO_S_DELIVER
+&amp;&amp; !route_active</label>
+			<label kind="synchronisation" x="-1198" y="537">next[id]?</label>
+			<nail x="-1130" y="519"/>
+		</transition>
+		<transition>
+			<source ref="id123"/>
+			<target ref="id114"/>
+			<label kind="synchronisation" x="-1147" y="1453">next[id]?</label>
+			<label kind="assignment" x="-1173" y="1471">motor_left := false,
+motor_right := false</label>
+		</transition>
+		<transition>
+			<source ref="id122"/>
+			<target ref="id123"/>
+			<label kind="synchronisation" x="-1224" y="1394">next[id]?</label>
+			<label kind="assignment" x="-1258" y="1411">motor_left := true,
+motor_right := true</label>
+		</transition>
+		<transition>
+			<source ref="id103"/>
+			<target ref="id121"/>
+			<label kind="synchronisation" x="-1003" y="-544">wait[id]!</label>
+		</transition>
+		<transition>
+			<source ref="id119"/>
+			<target ref="id122"/>
+			<label kind="synchronisation" x="-1317" y="1300">next[id]?</label>
+			<label kind="comments" x="-1317" y="1327">robot
+moves
+straight
+forward</label>
+			<nail x="-1292" y="1377"/>
+		</transition>
+		<transition>
+			<source ref="id120"/>
+			<target ref="id122"/>
+			<label kind="synchronisation" x="-1130" y="1300">next[id]?</label>
+			<label kind="comments" x="-1130" y="1327">robot
+does a
+turn</label>
+			<nail x="-1105" y="1377"/>
+		</transition>
+		<transition>
+			<source ref="id117"/>
+			<target ref="id120"/>
+			<label kind="guard" x="-1173" y="1224">(current_instr % 2) == 0</label>
+			<label kind="synchronisation" x="-1130" y="1241">next[id]?</label>
+			<nail x="-1105" y="1216"/>
+		</transition>
+		<transition>
+			<source ref="id117"/>
+			<target ref="id119"/>
+			<label kind="guard" x="-1368" y="1224">(current_instr % 2) != 0</label>
+			<label kind="synchronisation" x="-1317" y="1241">next[id]?</label>
+			<nail x="-1292" y="1216"/>
+		</transition>
+		<transition>
+			<source ref="id129"/>
+			<target ref="id114"/>
+			<label kind="synchronisation" x="-1037" y="1402">next[id]?</label>
+			<label kind="assignment" x="-1079" y="1419">route_active := false</label>
+			<nail x="-1011" y="1462"/>
+		</transition>
+		<transition>
+			<source ref="id116"/>
+			<target ref="id117"/>
+			<label kind="guard" x="-1309" y="1122">current_instr &lt; route_instructions</label>
+			<label kind="synchronisation" x="-1224" y="1139">next[id]?</label>
+			<nail x="-1198" y="1105"/>
+		</transition>
+		<transition>
+			<source ref="id116"/>
+			<target ref="id118"/>
+			<label kind="guard" x="-1088" y="1155">current_instr &gt;= route_instructions</label>
+			<label kind="synchronisation" x="-1003" y="1172">next[id]?</label>
+			<nail x="-977" y="1104"/>
+		</transition>
+		<transition>
+			<source ref="id112"/>
+			<target ref="id114"/>
+			<label kind="guard" x="-850" y="995">!(bit_pattern_e1 &amp; E_STOP) 
+|| !route_active
+|| route_wait</label>
+			<label kind="synchronisation" x="-842" y="1054">next[id]?</label>
+			<nail x="-807" y="944"/>
+			<nail x="-807" y="1480"/>
+		</transition>
+		<transition>
+			<source ref="id115"/>
+			<target ref="id116"/>
+			<label kind="synchronisation" x="-1130" y="1054">next[id]?</label>
+			<label kind="assignment" x="-1147" y="1071">current_instr++</label>
+		</transition>
+		<transition>
+			<source ref="id112"/>
+			<target ref="id115"/>
+			<label kind="guard" x="-1309" y="943">(bit_pattern_e1 &amp; E_STOP)
+&amp;&amp; route_active
+&amp;&amp; !route_wait</label>
+			<label kind="synchronisation" x="-1130" y="994">next[id]?</label>
+			<nail x="-1105" y="944"/>
+		</transition>
+		<transition>
+			<source ref="id113"/>
+			<target ref="id130"/>
+			<label kind="synchronisation" x="-1156" y="296">next[id]?</label>
+			<label kind="assignment" x="-1181" y="314">grips := true,
+has_goal := true,
+status := S_GRIPPED</label>
+		</transition>
+		<transition>
+			<source ref="id110"/>
+			<target ref="id124"/>
+			<label kind="guard" x="-1003" y="331">!((bit_pattern_e1 &amp; E_BLOCK) &amp;&amp; status == S_GET_GOAL)</label>
+			<label kind="synchronisation" x="-926" y="348">next[id]?</label>
+			<nail x="-892" y="220"/>
+			<nail x="-892" y="484"/>
+		</transition>
+		<transition>
+			<source ref="id110"/>
+			<target ref="id113"/>
+			<label kind="guard" x="-1300" y="221">(bit_pattern_e1 &amp; E_BLOCK) &amp;&amp; status == S_GET_GOAL</label>
+			<label kind="synchronisation" x="-1156" y="237">next[id]?</label>
+			<nail x="-1130" y="220"/>
+		</transition>
+		<transition>
+			<source ref="id111"/>
+			<target ref="id110"/>
+			<label kind="synchronisation" x="-1156" y="135">next[id]?</label>
+			<label kind="assignment" x="-1190" y="152">route_wait := false</label>
+			<nail x="-1130" y="178"/>
+		</transition>
+		<transition>
+			<source ref="id101"/>
+			<target ref="id110"/>
+			<label kind="guard" x="-884" y="93">!(!(bit_pattern_e1 &amp; E_COLLISION_AVOIDANCE) &amp;&amp; route_wait)</label>
+			<label kind="synchronisation" x="-918" y="118">next[id]?</label>
+			<nail x="-892" y="50"/>
+			<nail x="-892" y="178"/>
+		</transition>
+		<transition>
+			<source ref="id101"/>
+			<target ref="id111"/>
+			<label kind="guard" x="-1402" y="59">!(bit_pattern_e1 &amp; E_COLLISION_AVOIDANCE) &amp;&amp; route_wait</label>
+			<label kind="synchronisation" x="-1156" y="75">next[id]?</label>
+			<nail x="-1130" y="50"/>
+		</transition>
+		<transition>
+			<source ref="id105"/>
+			<target ref="id101"/>
+			<label kind="guard" x="-1079" y="-145">!(current_instr % 2) != 0</label>
+			<label kind="synchronisation" x="-1037" y="-128">next[id]?</label>
+			<nail x="-1011" y="-204"/>
+		</transition>
+		<transition>
+			<source ref="id108"/>
+			<target ref="id101"/>
+			<label kind="synchronisation" x="-1156" y="-18">next[id]?</label>
+			<label kind="assignment" x="-1190" y="-1">route_wait := true</label>
+			<nail x="-1130" y="33"/>
+		</transition>
+		<transition>
+			<source ref="id105"/>
+			<target ref="id109"/>
+			<label kind="guard" x="-1207" y="-187">(current_instr % 2) != 0</label>
+			<label kind="synchronisation" x="-1156" y="-171">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id114"/>
+			<target ref="id100"/>
+			<label kind="synchronisation" x="-1003" y="1513">next[id]?</label>
+			<label kind="assignment" x="-1003" y="1530">bit_pattern_e1 = 0</label>
+			<nail x="-1011" y="1573"/>
+			<nail x="-1428" y="1572"/>
+			<nail x="-1428" y="-637"/>
+		</transition>
+		<transition>
+			<source ref="id107"/>
+			<target ref="id106"/>
+			<label kind="synchronisation" x="-1139" y="-365">next[id]?</label>
+			<label kind="comments" x="-1079" y="-374">robot
+does a
+turn</label>
+			<nail x="-1105" y="-323"/>
+		</transition>
+		<transition>
+			<source ref="id134"/>
+			<target ref="id106"/>
+			<label kind="guard" x="-952" y="-400">!(bit_pattern_e1 &amp; E_BORDER)</label>
+			<label kind="synchronisation" x="-935" y="-383">next[id]?</label>
+			<nail x="-909" y="-442"/>
+			<nail x="-909" y="-323"/>
+		</transition>
+		<transition>
+			<source ref="id134"/>
+			<target ref="id107"/>
+			<label kind="guard" x="-1309" y="-450">bit_pattern_e1 &amp; E_BORDER</label>
+			<label kind="synchronisation" x="-1181" y="-433">next[id]?</label>
+			<nail x="-1105" y="-442"/>
+		</transition>
+		<transition>
+			<source ref="id109"/>
+			<target ref="id108"/>
+			<label kind="synchronisation" x="-1156" y="-111">next[id]?</label>
+			<label kind="assignment" x="-1190" y="-94">motor_left := false,
+motor_right := false</label>
+		</transition>
+		<transition>
+			<source ref="id100"/>
+			<target ref="id104"/>
+			<label kind="guard" x="-765" y="-587">false</label>
+			<label kind="synchronisation" x="-774" y="-570">next[id]?</label>
+			<nail x="-748" y="-638"/>
+			<nail x="-748" y="1640"/>
+		</transition>
+		<transition>
+			<source ref="id100"/>
+			<target ref="id103"/>
+			<label kind="guard" x="-1003" y="-620">true</label>
+			<label kind="synchronisation" x="-1003" y="-603">next[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id102"/>
+			<target ref="id100"/>
+			<label kind="synchronisation" x="-1003" y="-688">activate[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id106"/>
+			<target ref="id101"/>
+			<label kind="guard" x="-884" y="-178">!((bit_pattern_e1 &amp; E_COLLISION_AVOIDANCE) &amp;&amp; !route_wait)</label>
+			<label kind="synchronisation" x="-918" y="-256">next[id]?</label>
+			<nail x="-892" y="-298"/>
+			<nail x="-892" y="33"/>
+		</transition>
+		<transition>
+			<source ref="id106"/>
+			<target ref="id105"/>
+			<label kind="guard" x="-1258" y="-280">(bit_pattern_e1 &amp; E_COLLISION_AVOIDANCE) &amp;&amp; !route_wait</label>
+			<label kind="synchronisation" x="-1156" y="-247">next[id]?</label>
+			<nail x="-1130" y="-298"/>
+		</transition>
+	</template>
+	<template>
+		<name>TaskHead</name>
+		<parameter>int id, int prio, int &amp;bcet[N_TASKS], int &amp;wcet[N_TASKS]</parameter>
+		<declaration>clock x;
+clock readyClk;</declaration>
+		<location id="id136" x="-1054" y="-1504">
+			<name x="-1088" y="-1538">SUSPENDED</name>
+		</location>
+		<location id="id137" x="-1275" y="-1606">
+			<name x="-1258" y="-1632">RUNNING</name>
+			<label kind="invariant" x="-1258" y="-1615">x&lt;=wcet[id]</label>
+		</location>
+		<location id="id138" x="-1479" y="-1504">
+			<name x="-1513" y="-1538">WAITING</name>
+		</location>
+		<location id="id139" x="-1275" y="-1402">
+			<name x="-1300" y="-1385">READY</name>
+		</location>
+		<init ref="id136"/>
+		<transition>
+			<source ref="id137"/>
+			<target ref="id136"/>
+			<label kind="synchronisation" x="-1164" y="-1589">exitT[id]?</label>
+			<label kind="assignment" x="-1164" y="-1572">remove_task(id)</label>
+		</transition>
+		<transition>
+			<source ref="id139"/>
+			<target ref="id136"/>
+			<label kind="synchronisation" x="-1232" y="-1496">terminate[id]?</label>
+			<label kind="assignment" x="-1249" y="-1479">remove_task(id)</label>
+		</transition>
+		<transition>
+			<source ref="id138"/>
+			<target ref="id136"/>
+			<label kind="synchronisation" x="-1428" y="-1521">terminate[id]?</label>
+			<label kind="assignment" x="-1428" y="-1504">remove_task(id)</label>
+			<nail x="-1334" y="-1504"/>
+		</transition>
+		<transition>
+			<source ref="id138"/>
+			<target ref="id139"/>
+			<label kind="synchronisation" x="-1487" y="-1453">release[id]?</label>
+			<label kind="assignment" x="-1487" y="-1436">set_waiting(id, false),
+readyClk:=0</label>
+		</transition>
+		<transition>
+			<source ref="id137"/>
+			<target ref="id137"/>
+			<label kind="guard" x="-1394" y="-1640">x &gt;= bcet[id]</label>
+			<label kind="synchronisation" x="-1394" y="-1657">next[id]!</label>
+			<label kind="assignment" x="-1394" y="-1623">x:=0</label>
+			<nail x="-1300" y="-1649"/>
+			<nail x="-1249" y="-1649"/>
+		</transition>
+		<transition>
+			<source ref="id139"/>
+			<target ref="id137"/>
+			<label kind="synchronisation" x="-1249" y="-1547">start[id]?</label>
+			<label kind="assignment" x="-1249" y="-1530">x:=0</label>
+			<nail x="-1258" y="-1470"/>
+			<nail x="-1258" y="-1547"/>
+		</transition>
+		<transition>
+			<source ref="id137"/>
+			<target ref="id139"/>
+			<label kind="synchronisation" x="-1385" y="-1479">preempt[id]?</label>
+			<nail x="-1292" y="-1538"/>
+			<nail x="-1292" y="-1462"/>
+		</transition>
+		<transition>
+			<source ref="id137"/>
+			<target ref="id138"/>
+			<label kind="synchronisation" x="-1487" y="-1598">wait[id]?</label>
+			<label kind="assignment" x="-1487" y="-1581">set_waiting(id, true)</label>
+		</transition>
+		<transition>
+			<source ref="id136"/>
+			<target ref="id139"/>
+			<label kind="synchronisation" x="-1147" y="-1436">activate[id]?</label>
+			<label kind="assignment" x="-1181" y="-1419">add_task(id, prio)</label>
+			<nail x="-1054" y="-1402"/>
+		</transition>
+	</template>
+	<template>
+		<name>Scheduler</name>
+		<declaration>int c_task_id = -1;
+int test;</declaration>
+		<location id="id140" x="-442" y="-110">
+		</location>
+		<location id="id141" x="-442" y="-51">
+			<name x="-433" y="-76">IDLE</name>
+		</location>
+		<location id="id142" x="-773" y="76">
+			<name x="-765" y="85">TASK_RUNNING</name>
+		</location>
+		<location id="id143" x="-773" y="170">
+			<committed/>
+		</location>
+		<location id="id144" x="-127" y="76">
+			<name x="-272" y="93">HANDLER_RUNNING</name>
+		</location>
+		<init ref="id140"/>
+		<transition>
+			<source ref="id142"/>
+			<target ref="id141"/>
+			<label kind="synchronisation" x="-637" y="25">exitT[c_task_id]?</label>
+			<nail x="-467" y="76"/>
+		</transition>
+		<transition>
+			<source ref="id144"/>
+			<target ref="id141"/>
+			<label kind="synchronisation" x="-382" y="8">handler_finished[next_handler_id()]?</label>
+			<nail x="-348" y="76"/>
+		</transition>
+		<transition>
+			<source ref="id141"/>
+			<target ref="id144"/>
+			<label kind="guard" x="-382" y="-68">handler_ready()</label>
+			<label kind="synchronisation" x="-382" y="-51">handler_execute[next_handler_id()]!</label>
+			<nail x="-127" y="-51"/>
+		</transition>
+		<transition>
+			<source ref="id142"/>
+			<target ref="id141"/>
+			<label kind="synchronisation" x="-612" y="76">preempt[c_task_id]?</label>
+			<nail x="-493" y="42"/>
+		</transition>
+		<transition>
+			<source ref="id142"/>
+			<target ref="id143"/>
+			<label kind="guard" x="-765" y="119">next_task_id() != c_task_id</label>
+			<label kind="synchronisation" x="-765" y="136">reschedule?</label>
+			<nail x="-773" y="93"/>
+		</transition>
+		<transition>
+			<source ref="id143"/>
+			<target ref="id141"/>
+			<label kind="synchronisation" x="-620" y="153">preempt[c_task_id]!</label>
+			<nail x="-442" y="170"/>
+		</transition>
+		<transition>
+			<source ref="id142"/>
+			<target ref="id141"/>
+			<label kind="synchronisation" x="-731" y="0">wait[c_task_id]?</label>
+		</transition>
+		<transition>
+			<source ref="id141"/>
+			<target ref="id142"/>
+			<label kind="guard" x="-765" y="-68">task_ready() &amp;&amp; !handler_ready()</label>
+			<label kind="synchronisation" x="-765" y="-51">start[next_task_id()]!</label>
+			<label kind="assignment" x="-765" y="-34">c_task_id := next_task_id()</label>
+			<nail x="-773" y="-51"/>
+		</transition>
+		<transition>
+			<source ref="id140"/>
+			<target ref="id141"/>
+			<label kind="synchronisation" x="-433" y="-102">init_system?</label>
+		</transition>
+	</template>
+	<template>
+		<name>AsyncDataQueue</name>
+		<parameter>int id, int rcv_tsk</parameter>
+		<location id="id145" x="-824" y="-178">
+			<name x="-875" y="-212">NO_DATA</name>
+		</location>
+		<location id="id146" x="-824" y="-119">
+			<committed/>
+		</location>
+		<location id="id147" x="-824" y="-60">
+			<name x="-807" y="-76">RECV_WAIT</name>
+		</location>
+		<location id="id148" x="-824" y="59">
+			<committed/>
+		</location>
+		<location id="id149" x="-696" y="-178">
+		</location>
+		<location id="id150" x="-543" y="-178">
+		</location>
+		<location id="id151" x="901" y="-178">
+		</location>
+		<location id="id152" x="901" y="-119">
+			<committed/>
+		</location>
+		<location id="id153" x="901" y="-59">
+			<name x="816" y="-76">SND_WAIT</name>
+		</location>
+		<location id="id154" x="901" y="8">
+			<committed/>
+		</location>
+		<location id="id155" x="-416" y="-178">
+		</location>
+		<location id="id156" x="-288" y="-178">
+		</location>
+		<location id="id157" x="-161" y="-178">
+		</location>
+		<location id="id158" x="-51" y="-178">
+		</location>
+		<location id="id159" x="76" y="-178">
+		</location>
+		<location id="id160" x="187" y="-178">
+		</location>
+		<location id="id161" x="314" y="-178">
+		</location>
+		<location id="id162" x="433" y="-178">
+		</location>
+		<location id="id163" x="552" y="-178">
+		</location>
+		<location id="id164" x="671" y="-178">
+		</location>
+		<location id="id165" x="799" y="-178">
+		</location>
+		<location id="id166" x="-824" y="0">
+			<committed/>
+		</location>
+		<location id="id167" x="986" y="51">
+			<committed/>
+		</location>
+		<init ref="id145"/>
+		<transition>
+			<source ref="id167"/>
+			<target ref="id151"/>
+			<label kind="synchronisation" x="919" y="-195">reschedule!</label>
+			<nail x="986" y="-178"/>
+		</transition>
+		<transition>
+			<source ref="id166"/>
+			<target ref="id148"/>
+			<label kind="synchronisation" x="-816" y="17">release[rcv_tsk]!</label>
+		</transition>
+		<transition>
+			<source ref="id165"/>
+			<target ref="id151"/>
+			<label kind="synchronisation" x="816" y="-212">snd_dtq[id]?</label>
+			<nail x="850" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id151"/>
+			<target ref="id165"/>
+			<label kind="synchronisation" x="816" y="-170">rcv_dtq[id]?</label>
+			<nail x="850" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id154"/>
+			<target ref="id153"/>
+			<label kind="guard" x="918" y="-42">!send_wait_empty()</label>
+			<label kind="synchronisation" x="918" y="-25">release[sw_tsk]!</label>
+			<nail x="961" y="0"/>
+			<nail x="961" y="-51"/>
+		</transition>
+		<transition>
+			<source ref="id161"/>
+			<target ref="id162"/>
+			<label kind="synchronisation" x="340" y="-212">snd_dtq[id]?</label>
+			<nail x="374" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id162"/>
+			<target ref="id161"/>
+			<label kind="synchronisation" x="340" y="-170">rcv_dtq[id]?</label>
+			<nail x="382" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id160"/>
+			<target ref="id159"/>
+			<label kind="synchronisation" x="102" y="-170">rcv_dtq[id]?</label>
+			<nail x="136" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id159"/>
+			<target ref="id160"/>
+			<label kind="synchronisation" x="93" y="-212">snd_dtq[id]?</label>
+			<nail x="136" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id158"/>
+			<target ref="id157"/>
+			<label kind="synchronisation" x="-136" y="-170">rcv_dtq[id]?</label>
+			<nail x="-102" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id157"/>
+			<target ref="id158"/>
+			<label kind="synchronisation" x="-144" y="-212">snd_dtq[id]?</label>
+			<nail x="-102" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id155"/>
+			<target ref="id156"/>
+			<label kind="synchronisation" x="-391" y="-212">snd_dtq[id]?</label>
+			<nail x="-348" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id156"/>
+			<target ref="id155"/>
+			<label kind="synchronisation" x="-382" y="-170">rcv_dtq[id]?</label>
+			<nail x="-348" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id153"/>
+			<target ref="id152"/>
+			<label kind="synchronisation" x="909" y="-102">snd_dtq[id]?</label>
+			<nail x="961" y="-68"/>
+			<nail x="961" y="-110"/>
+		</transition>
+		<transition>
+			<source ref="id154"/>
+			<target ref="id167"/>
+			<label kind="guard" x="774" y="25">send_wait_empty()</label>
+			<label kind="synchronisation" x="765" y="42">release[sw_tsk]!</label>
+			<nail x="901" y="51"/>
+		</transition>
+		<transition>
+			<source ref="id153"/>
+			<target ref="id154"/>
+			<label kind="synchronisation" x="646" y="-42">rcv_dtq[id]?</label>
+			<label kind="assignment" x="569" y="-25">sw_tsk = send_wait_q[0], remove_send_wait()</label>
+		</transition>
+		<transition>
+			<source ref="id152"/>
+			<target ref="id153"/>
+			<label kind="synchronisation" x="765" y="-110">wait[g_snd_tsk]!</label>
+			<label kind="assignment" x="782" y="-93">add_send_wait()</label>
+		</transition>
+		<transition>
+			<source ref="id151"/>
+			<target ref="id152"/>
+			<label kind="synchronisation" x="909" y="-161">snd_dtq[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id155"/>
+			<target ref="id150"/>
+			<label kind="synchronisation" x="-509" y="-170">rcv_dtq[id]?</label>
+			<nail x="-476" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id150"/>
+			<target ref="id149"/>
+			<label kind="synchronisation" x="-654" y="-170">rcv_dtq[id]?</label>
+			<nail x="-620" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id150"/>
+			<target ref="id155"/>
+			<label kind="synchronisation" x="-509" y="-212">snd_dtq[id]?</label>
+			<nail x="-476" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id149"/>
+			<target ref="id150"/>
+			<label kind="synchronisation" x="-654" y="-212">snd_dtq[id]?</label>
+			<nail x="-620" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id149"/>
+			<target ref="id145"/>
+			<label kind="synchronisation" x="-790" y="-170">rcv_dtq[id]?</label>
+			<nail x="-756" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id145"/>
+			<target ref="id149"/>
+			<label kind="synchronisation" x="-790" y="-212">snd_dtq[id]?</label>
+			<nail x="-756" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id148"/>
+			<target ref="id145"/>
+			<label kind="synchronisation" x="-909" y="68">reschedule!</label>
+			<nail x="-918" y="59"/>
+			<nail x="-918" y="-178"/>
+		</transition>
+		<transition>
+			<source ref="id147"/>
+			<target ref="id166"/>
+			<label kind="synchronisation" x="-816" y="-42">snd_dtq[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id146"/>
+			<target ref="id147"/>
+			<label kind="synchronisation" x="-816" y="-102">wait[rcv_tsk]!</label>
+		</transition>
+		<transition>
+			<source ref="id145"/>
+			<target ref="id146"/>
+			<label kind="synchronisation" x="-901" y="-161">rcv_dtq[id]?</label>
+		</transition>
+		<transition>
+			<source ref="id157"/>
+			<target ref="id156"/>
+			<label kind="synchronisation" x="-254" y="-170">rcv_dtq[id]?</label>
+			<nail x="-221" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id156"/>
+			<target ref="id157"/>
+			<label kind="synchronisation" x="-254" y="-212">snd_dtq[id]?</label>
+			<nail x="-221" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id159"/>
+			<target ref="id158"/>
+			<label kind="synchronisation" x="-17" y="-170">rcv_dtq[id]?</label>
+			<nail x="16" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id158"/>
+			<target ref="id159"/>
+			<label kind="synchronisation" x="-17" y="-212">snd_dtq[id]?</label>
+			<nail x="16" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id161"/>
+			<target ref="id160"/>
+			<label kind="synchronisation" x="221" y="-170">rcv_dtq[id]?</label>
+			<nail x="254" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id160"/>
+			<target ref="id161"/>
+			<label kind="synchronisation" x="221" y="-212">snd_dtq[id]?</label>
+			<nail x="254" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id162"/>
+			<target ref="id163"/>
+			<label kind="synchronisation" x="459" y="-212">snd_dtq[id]?</label>
+			<nail x="493" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id163"/>
+			<target ref="id162"/>
+			<label kind="synchronisation" x="459" y="-170">rcv_dtq[id]?</label>
+			<nail x="493" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id163"/>
+			<target ref="id164"/>
+			<label kind="synchronisation" x="578" y="-212">snd_dtq[id]?</label>
+			<nail x="612" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id164"/>
+			<target ref="id163"/>
+			<label kind="synchronisation" x="578" y="-170">rcv_dtq[id]?</label>
+			<nail x="612" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id164"/>
+			<target ref="id165"/>
+			<label kind="synchronisation" x="705" y="-212">snd_dtq[id]?</label>
+			<nail x="739" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id165"/>
+			<target ref="id164"/>
+			<label kind="synchronisation" x="705" y="-170">rcv_dtq[id]?</label>
+			<nail x="739" y="-170"/>
+		</transition>
+	</template>
+	<template>
+		<name>SyncDataQueue</name>
+		<parameter>int id, int rcv_tsk, int snd_tsk, int timeout</parameter>
+		<declaration>clock c;</declaration>
+		<location id="id168" x="-229" y="-178">
+			<committed/>
+		</location>
+		<location id="id169" x="-382" y="-246">
+			<name x="-416" y="-229">NO_DATA</name>
+		</location>
+		<location id="id170" x="-484" y="17">
+			<committed/>
+		</location>
+		<location id="id171" x="-484" y="-102">
+			<name x="-535" y="-76">RECV_WAIT_T</name>
+			<label kind="invariant" x="-527" y="-93">c &lt;= timeout</label>
+		</location>
+		<location id="id172" x="-484" y="-178">
+			<committed/>
+		</location>
+		<location id="id173" x="-229" y="-119">
+			<name x="-212" y="-127">SEND_WAIT</name>
+		</location>
+		<location id="id174" x="-229" y="-42">
+			<committed/>
+		</location>
+		<location id="id175" x="-382" y="-289">
+			<committed/>
+		</location>
+		<init ref="id169"/>
+		<transition>
+			<source ref="id175"/>
+			<target ref="id169"/>
+			<label kind="synchronisation" x="-374" y="-272">reschedule!</label>
+		</transition>
+		<transition>
+			<source ref="id174"/>
+			<target ref="id175"/>
+			<label kind="synchronisation" x="-246" y="-289">release[snd_tsk]!</label>
+			<nail x="-229" y="-8"/>
+			<nail x="-110" y="-8"/>
+			<nail x="-110" y="-289"/>
+		</transition>
+		<transition>
+			<source ref="id173"/>
+			<target ref="id174"/>
+			<label kind="synchronisation" x="-263" y="-102">trcv_dtq[id]?</label>
+			<label kind="assignment" x="-280" y="-85">sw_tsk = snd_tsk</label>
+		</transition>
+		<transition>
+			<source ref="id168"/>
+			<target ref="id173"/>
+			<label kind="synchronisation" x="-297" y="-161">wait[snd_tsk]!</label>
+		</transition>
+		<transition>
+			<source ref="id171"/>
+			<target ref="id170"/>
+			<label kind="guard" x="-433" y="-59">c == timeout</label>
+			<label kind="assignment" x="-450" y="-42">sw_tsk = rcv_tsk,
+E_TMOUT = true</label>
+			<nail x="-399" y="-102"/>
+			<nail x="-399" y="17"/>
+		</transition>
+		<transition>
+			<source ref="id169"/>
+			<target ref="id168"/>
+			<label kind="synchronisation" x="-263" y="-229">snd_dtq[id]?</label>
+			<nail x="-229" y="-246"/>
+		</transition>
+		<transition>
+			<source ref="id170"/>
+			<target ref="id175"/>
+			<label kind="synchronisation" x="-586" y="-289">release[rcv_tsk]!</label>
+			<nail x="-484" y="42"/>
+			<nail x="-603" y="42"/>
+			<nail x="-603" y="-289"/>
+		</transition>
+		<transition>
+			<source ref="id171"/>
+			<target ref="id170"/>
+			<label kind="synchronisation" x="-586" y="-42">snd_dtq[id]?</label>
+			<label kind="assignment" x="-603" y="-25">sw_tsk = rcv_tsk</label>
+			<nail x="-561" y="-102"/>
+			<nail x="-561" y="17"/>
+		</transition>
+		<transition>
+			<source ref="id172"/>
+			<target ref="id171"/>
+			<label kind="synchronisation" x="-476" y="-170">wait[rcv_tsk]!</label>
+			<label kind="assignment" x="-476" y="-153">c = 0,
+E_TMOUT = false</label>
+		</transition>
+		<transition>
+			<source ref="id169"/>
+			<target ref="id172"/>
+			<label kind="synchronisation" x="-518" y="-229">trcv_dtq[id]?</label>
+			<nail x="-484" y="-246"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">Main</name>
+		<parameter>int start_task_id</parameter>
+		<declaration>// Place local declarations here.</declaration>
+		<location id="id176" x="-144" y="-110">
+			<committed/>
+		</location>
+		<location id="id177" x="-144" y="-68">
+			<committed/>
+		</location>
+		<location id="id178" x="-144" y="-25">
+		</location>
+		<init ref="id176"/>
+		<transition>
+			<source ref="id177"/>
+			<target ref="id178"/>
+			<label kind="synchronisation" x="-136" y="-59">init_system!</label>
+		</transition>
+		<transition>
+			<source ref="id176"/>
+			<target ref="id177"/>
+			<label kind="synchronisation" x="-136" y="-102">activate[start_task_id]!</label>
+		</transition>
+	</template>
+	<system>typedef int[0,N_TASKS-1] task_range;
+typedef int[0,N_HANDLERS-1] handler_range;
+const task_info task_infos[N_TASKS] = {{MAIN_TASK_ID, MAIN_TASK_PRIO}, {MOTOR_TASK_ID, MOTOR_TASK_PRIO}, {BT_READ_TASK_ID, BT_READ_TASK_PRIO}, {BT_WRITE_TASK_ID, BT_WRITE_TASK_PRIO} };
+const handler_info handler_infos[N_HANDLERS] = {{HANDLER_NO_MOVEMENT, 100, 0}, {HANDLER_BORDER, 50, 0}, {HANDLER_IR, 100, 0},  {HANDLER_PIXY, 100, 500} };
+// List one or more processes to be composed into a system.
+main = Main(MAIN_TASK_ID);
+scheduler = Scheduler();
+
+// main task and body
+mainTaskBody = MainTaskBody(MAIN_TASK_ID, MOTOR_TASK_ID, BT_READ_TASK_ID, BT_WRITE_TASK_ID);
+
+// motor control task and body
+motorControlTaskBody = MotorControlTaskBody(MOTOR_TASK_ID, bit_pattern);
+
+// bt read task and body
+btReadTaskBody = BtReadTaskBody(BT_READ_TASK_ID);
+
+// bt write task
+btWriteTaskBody = BtWriteTaskBody(BT_WRITE_TASK_ID);
+
+// infrared flag and cyclic handler
+infraredHandlerBody = InfraredHandlerBody(HANDLER_IR);
+infraredTesterAutomaton = IRGenericTesterTA();
+
+// border flag and cyclic handler
+borderHandlerBody = BorderHandlerBody(HANDLER_BORDER);
+borderTesterAutomaton = BorderTesterTA();
+
+// no movement cyclic handler
+noMovementHandlerBody = NoMovementHandlerBody(HANDLER_NO_MOVEMENT);
+
+// pixy cam cyclic handler
+pixyCamHandlerBody = PixyCamHandlerBody(HANDLER_PIXY);
+pixyTesterAutomaton = PixyGenericTesterTA();
+
+// BT Message Generator
+btMsgGenerator = BTMessageGenerator();
+
+// DATA QUEUES
+BtOutQueue = AsyncDataQueue(BT_OUT_QUEUE_ID, BT_WRITE_TASK_ID);
+BtInQueue = SyncDataQueue(BT_IN_QUEUE_ID, MAIN_TASK_ID, BT_READ_TASK_ID, 50);
+
+Tasks(const task_range i) = TaskHead(task_infos[i].id, task_infos[i].prio, bcet, wcet);
+Handlers(const handler_range i) = CyclicHandlerHead(handler_infos[i].id, handler_infos[i].period, handler_infos[i].activation, cyc_wcet, cyc_bcet);
+
+// declare whole system
+system main, scheduler,
+Tasks, Handlers,
+mainTaskBody, motorControlTaskBody, btReadTaskBody, btWriteTaskBody,
+infraredHandlerBody, borderHandlerBody, noMovementHandlerBody, pixyCamHandlerBody, 
+// COMMENT THIS OUT FOR THE VERIFICATION OF THE A[] properties
+btMsgGenerator, 
+BtOutQueue, BtInQueue,
+infraredTesterAutomaton,  borderTesterAutomaton, pixyTesterAutomaton
+;</system>
+	<queries>
+		<query>
+			<formula>E&lt;&gt; status == S_HOME</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; mainTaskBody.GOAL_RECV</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; mainTaskBody.GET_GOAL</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; mainTaskBody.GRIPPED</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; mainTaskBody.GO_DELIVER</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; mainTaskBody.DELIVERED</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula></formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment>can only be verified if btMsgGenerator is commented out</comment>
+		</query>
+		<query>
+			<formula>A[] forall(i:task_range) Tasks(i).RUNNING imply not(exists(j:task_range) Tasks(i).id!=Tasks(j).id &amp; Tasks(j).RUNNING)</formula>
+			<comment>can only be verified if btMsgGenerator is commented out</comment>
+		</query>
+		<query>
+			<formula>A[] forall(i:task_range) forall(j:task_range) Tasks(i).RUNNING &amp; Tasks(j).READY &amp; Tasks(j).prio&lt;Tasks(i).prio imply Tasks(j).readyClk&lt;=0</formula>
+			<comment>can only be verified if btMsgGenerator is commented out</comment>
+		</query>
+		<query>
+			<formula>A[] forall(i:task_range) Tasks(i).RUNNING imply not(exists(j:handler_range) (Handlers(j).READY | Handlers(j).RUNNING))</formula>
+			<comment>can only be verified if btMsgGenerator is commented out</comment>
+		</query>
+		<query>
+			<formula>A[] forall(i:handler_range) Handlers(i).RUNNING imply Handlers(i).c &lt;= Handlers(i).period</formula>
+			<comment>can only be verified if btMsgGenerator is commented out</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; Tasks(MAIN_TASK_ID).RUNNING</formula>
+			<comment>can only be verified if btMsgGenerator is commented out</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; Tasks(MOTOR_TASK_ID).RUNNING</formula>
+			<comment>can only be verified if btMsgGenerator is commented out</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; Tasks(BT_READ_TASK_ID).RUNNING</formula>
+			<comment>can only be verified if btMsgGenerator is commented out</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; Tasks(BT_WRITE_TASK_ID).RUNNING</formula>
+			<comment>can only be verified if btMsgGenerator is commented out</comment>
+		</query>
+	</queries>
+</nta>

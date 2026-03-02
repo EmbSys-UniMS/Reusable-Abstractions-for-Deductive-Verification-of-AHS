@@ -1,0 +1,620 @@
+﻿/* Exported from KeYmaera X v5.0 */
+
+Theorem "ISOLADissertation/IWDS1"
+
+Definitions
+  Real EPSSIZE;
+  Real hB;
+  Real TS;
+  Real FP;
+  Real hMIN;
+  Real hDEG;
+  Real supDEG;
+  Real supFULL;
+  Real hFULL;
+End.
+
+ProgramVariables
+  Real t;
+  Real p1;
+  Real p2;
+  Real p3;
+  Real pb;
+  Real a1;
+  Real a2;
+  Real a3;
+  Real asup;
+  Real crl;
+  Real i;
+  Real d;
+  Real h; /* h = water level wl */
+  Real eps;
+End.
+
+Problem
+  (t = 0.0)
+  /* assumptions on constants */  
+  & EPSSIZE>0
+  & supFULL=2*FP 
+  & supDEG=1*FP 
+  & FP >=0
+  & hMIN >=0 
+  & TS>=0
+  /* water levels */
+  & hFULL>=supFULL*TS+hMIN
+  & hDEG>=supDEG*TS+hMIN
+  & hB>hMIN+supFULL*EPSSIZE
+  & h>hMIN
+  & eps = 0.0
+  /* RL Contract */
+  & crl >=0 
+  & crl<=TS
+  /* full service */
+  & (h>hFULL->asup=supFULL)
+  /* above reserve */
+  & (h>hDEG & h<=hFULL)->asup>supDEG & asup<supFULL & h-asup*TS>hMIN 
+  /* in reserve */
+  & (h<=hDEG->asup=supDEG) &
+  (a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)
+  ->
+  [
+    {
+        eps:=0.0;
+        /* Pump Failure and Repair */
+        p1:= *;
+        ?((p1 = 1.0)
+        | (p1 = 0.0));
+        p2:= *;
+        ?((p2 = 1.0)
+        | (p2 = 0.0));
+        p3:= *;
+        ?((p3 = 1.0) | (p3 = 0.0));
+        pb := *;
+        ?((pb = 1.0) | (pb = 0.0));
+        /* Backup Pump */
+        ?(h <= hB -> pb = 1.0);
+        {
+        ?(crl >= TS);   /* RL Contracts */
+            a1:= *;
+            a2:= *;
+            a3:= *;
+            asup:= *;
+            ?(h>hFULL->asup=supFULL);
+            ?(h>hDEG & h<=hFULL)->asup>supDEG & asup<supFULL & h-asup*TS>hMIN; 
+            ?(h<=hDEG->asup=supDEG);
+            ?((a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0));
+            crl:=0.0;
+        ++
+        ?(crl < TS);
+        
+        }
+      i:= *; /* inflow */
+      ?(i = (min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP);
+      d:= *; /* demand */
+      ?((d >= 0) & (d <= asup));
+      {{?(!(h <= hB));
+        {t' = 1.0, crl' = 1.0, h' = (i-d), eps' = 1.0 &
+        (!(h <= hB) | eps <= EPSSIZE) & crl <= TS}
+      }
+      ++
+      {?(h <= hB);
+        {t' = 1.0, crl' = 1.0, h' = (i-d), eps' = 1.0 & 
+        (h <= hB | eps <= EPSSIZE) & crl <= TS}
+      }}
+    }*
+  ] h>hMIN
+End.
+
+Tactic "FinalWaterDistributionSafety: Proof"
+unfold;
+loop("((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL()", 'R=="[{eps:=0.0;p1:=*;?p1=1.0|p1=0.0;p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}}*]h>hMIN()"); <(
+  "Init":
+    auto,
+  "Post":
+    auto,
+  "Step":
+    composeb('R=="[eps:=0.0;p1:=*;?p1=1.0|p1=0.0;p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    assignb('R=="[eps:=0.0;][p1:=*;?p1=1.0|p1=0.0;p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[p1:=*;?p1=1.0|p1=0.0;p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    randomb('R=="[p1:=*;][?p1=1.0|p1=0.0;p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    allR('R=="\forall p1 [?p1=1.0|p1=0.0;p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[?p1=1.0|p1=0.0;p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    testb('R=="[?p1=1.0|p1=0.0;][p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    implyR('R=="p1=1.0|p1=0.0->[p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    randomb('R=="[p2:=*;][?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    allR('R=="\forall p2 [?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    testb('R=="[?p2=1.0|p2=0.0;][p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    implyR('R=="p2=1.0|p2=0.0->[p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    randomb('R=="[p3:=*;][?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    allR('R=="\forall p3 [?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    testb('R=="[?p3=1.0|p3=0.0;][pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    implyR('R=="p3=1.0|p3=0.0->[pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    randomb('R=="[pb:=*;][?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    allR('R=="\forall pb [?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    testb('R=="[?pb=1.0|pb=0.0;][?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    implyR('R=="pb=1.0|pb=0.0->[?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    testb('R=="[?h<=hB()->pb=1.0;][{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    implyR('R=="(h<=hB()->pb=1.0)->[{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    MR("((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL()", 'R=="[?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();][i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())"); <(
+      "Use Q->P":
+        unfold; <(
+          "[?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())":
+            hideL('L=="a1_0=1|a1_0=0");
+            hideL('L=="a2_0=1|a2_0=0");
+            hideL('L=="a3_0=1|a3_0=0");
+            andR('R=="((h-asup*(TS()-0.0)>hMIN()|asup=supDEG())&h>hMIN())&0.0>=0&0.0<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL()"); <(
+              "(h-asup*(TS()-0.0)>hMIN()|asup=supDEG())&h>hMIN()":
+                unfold;
+                fullSimplify;
+                QE,
+              "0.0>=0&0.0<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL()":
+                fullSimplify;
+                QE
+            ),
+          "[?crl < TS();](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())":
+            fullSimplify;
+            auto
+        ),
+      "Show [a]Q":
+        unfold; <(
+          "[?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())":
+            hideL('L=="h<=hB()->pb=1.0");
+            notLessEqual('L=="!h<=hB()");
+            boxAnd('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+            andR('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}](crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())"); <(
+              "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())":
+                cut("i>=0"); <(
+                  "Use":
+                    boxAnd('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())");
+                    andR('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}](h-asup*(TS()-crl)>hMIN()|asup=supDEG())&[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]h>hMIN()"); <(
+                      "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}](h-asup*(TS()-crl)>hMIN()|asup=supDEG())":
+                        orL('L=="h-asup*(TS()-crl)>hMIN()|asup=supDEG()"); <(
+                          "h-asup*(TS()-crl)>hMIN()":
+                            hideL('L=="i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP()");
+                            hideL('L=="h>hB()");
+                            hideL('L=="d>=0");
+                            hideL('L=="EPSSIZE()>0");
+                            hideL('L=="h>hMIN()");
+                            hideL('L=="supFULL()=2*FP()");
+                            allL2R('L=="supDEG()=1*FP()");
+                            fullSimplify;
+                            allL2R('L=="supDEG()=FP()");
+                            hideL('L=="supDEG()=FP()");
+                            hideL('L=="a1=1|a1=0");
+                            hideL('L=="a2=1|a2=0");
+                            hideL('L=="a3=1|a3=0");
+                            hideL('L=="hFULL()>=supFULL()*TS()+hMIN()");
+                            hideL('L=="hDEG()>=FP()*TS()+hMIN()");
+                            hideL('L=="hB()>hMIN()+supFULL()*EPSSIZE()");
+                            hideL('L=="eps=0");
+                            hideL('L=="p1=1|p1=0");
+                            hideL('L=="p2=1|p2=0");
+                            hideL('L=="p3=1|p3=0");
+                            hideL('L=="pb=1|pb=0");
+                            auto,
+                          "asup=supDEG()":
+                            allL2R('L=="asup=supDEG()");
+                            fullSimplify;
+                            auto
+                        ),
+                      "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]h>hMIN()":
+                        hideL('L=="h-asup*(TS()-crl)>hMIN()|asup=supDEG()");
+                        hideL('L=="i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP()");
+                        cut("d<=supFULL()"); <(
+                          "Use":
+                            hideL('L=="h>hMIN()");
+                            hideL('L=="h>hMIN()");
+                            hideL('L=="supFULL()=2*FP()");
+                            fullSimplify;
+                            allL2R('L=="supDEG()=FP()");
+                            hideL('L=="supDEG()=FP()");
+                            hideL('L=="a1=1|a1=0");
+                            hideL('L=="a2=1|a2=0");
+                            hideL('L=="a3=1|a3=0");
+                            hideL('L=="hFULL()>=supFULL()*TS()+hMIN()");
+                            hideL('L=="hDEG()>=FP()*TS()+hMIN()");
+                            hideL('L=="p1=1|p1=0");
+                            hideL('L=="p2=1|p2=0");
+                            hideL('L=="p3=1|p3=0");
+                            hideL('L=="pb=1|pb=0");
+                            auto,
+                          "Show":
+                            hideR('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]h>hMIN()");
+                            auto
+                        )
+                    ),
+                  "Show":
+                    hideR('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())");
+                    hideL('L=="h>hB()");
+                    hideL('L=="h>hMIN()");
+                    hideL('L=="d>=0");
+                    hideL('L=="d<=asup");
+                    hideL('L=="EPSSIZE()>0");
+                    hideL('L=="h-asup*(TS()-crl)>hMIN()|asup=supDEG()");
+                    hideL('L=="h>hMIN()");
+                    hideL('L=="crl>=0");
+                    hideL('L=="supFULL()=2*FP()");
+                    hideL('L=="crl<=TS()");
+                    hideL('L=="supDEG()=1*FP()");
+                    hideL('L=="asup<=supFULL()");
+                    hideL('L=="TS()>=0");
+                    hideL('L=="hFULL()>=supFULL()*TS()+hMIN()");
+                    hideL('L=="hDEG()>=supDEG()*TS()+hMIN()");
+                    hideL('L=="hB()>hMIN()+supFULL()*EPSSIZE()");
+                    hideL('L=="eps=0.0");
+                    hideL('L=="hMIN()>=0");
+                    QE
+                ),
+              "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}](crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())":
+                auto
+            ),
+          "[?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())":
+            implyL('L=="h<=hB()->pb=1.0"); <(
+              "h<=hB()":
+                id,
+              "pb=1.0":
+                cut("i>=supDEG()"); <(
+                  "Use":
+                    boxAnd('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+                    andR('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())"); <(
+                      "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())":
+                        orL('L=="h-asup*(TS()-crl)>hMIN()|asup=supDEG()"); <(
+                          "h-asup*(TS()-crl)>hMIN()":
+                            hideL('L=="a1=1|a1=0");
+                            hideL('L=="i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP()");
+                            hideL('L=="p1=1.0|p1=0.0");
+                            hideL('L=="p2=1.0|p2=0.0");
+                            hideL('L=="p3=1.0|p3=0.0");
+                            hideL('L=="pb=1.0|pb=0.0");
+                            hideL('L=="pb=1.0");
+                            hideL('L=="h<=hB()");
+                            hideL('L=="supFULL()=2*FP()");
+                            fullSimplify;
+                            allL2R('L=="supDEG()=FP()");
+                            hideL('L=="supDEG()=FP()");
+                            hideL('L=="a2=1|a2=0");
+                            hideL('L=="a3=1|a3=0");
+                            hideL('L=="hMIN()>=0");
+                            hideL('L=="hFULL()>=supFULL()*TS()+hMIN()");
+                            hideL('L=="hDEG()>=FP()*TS()+hMIN()");
+                            hideL('L=="hB()>hMIN()+supFULL()*EPSSIZE()");
+                            hideL('L=="eps=0");
+                            boxAnd('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]((h-asup*(TS()-crl)>hMIN()|asup=FP())&h>hMIN())");
+                            andR('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](h-asup*(TS()-crl)>hMIN()|asup=FP())&[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]h>hMIN()"); <(
+                              "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](h-asup*(TS()-crl)>hMIN()|asup=FP())":
+                                auto,
+                              "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]h>hMIN()":
+                                auto
+                            ),
+                          "asup=supDEG()":
+                            allL2R('L=="asup=supDEG()");
+                            boxAnd('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]((h-supDEG()*(TS()-crl)>hMIN()|supDEG()=supDEG())&h>hMIN())");
+                            andR('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](h-supDEG()*(TS()-crl)>hMIN()|supDEG()=supDEG())&[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]h>hMIN()"); <(
+                              "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](h-supDEG()*(TS()-crl)>hMIN()|supDEG()=supDEG())":
+                                fullSimplify;
+                                auto,
+                              "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]h>hMIN()":
+                                hideL('L=="p1=1.0|p1=0.0");
+                                hideL('L=="p2=1.0|p2=0.0");
+                                hideL('L=="p3=1.0|p3=0.0");
+                                hideL('L=="pb=1.0|pb=0.0");
+                                hideL('L=="pb=1.0");
+                                hideL('L=="i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP()");
+                                hideL('L=="h<=hB()");
+                                allL2R('L=="asup=supDEG()");
+                                hideL('L=="asup=supDEG()");
+                                fullSimplify;
+                                allL2R('L=="supDEG()=FP()");
+                                hideL('L=="supDEG()=FP()");
+                                hideL('L=="supFULL()=2*FP()");
+                                hideL('L=="a1=1|a1=0");
+                                hideL('L=="a2=1|a2=0");
+                                hideL('L=="a3=1|a3=0");
+                                hideL('L=="hMIN()>=0");
+                                hideL('L=="FP()<=supFULL()");
+                                hideL('L=="hFULL()>=supFULL()*TS()+hMIN()");
+                                hideL('L=="hDEG()>=FP()*TS()+hMIN()");
+                                hideL('L=="eps=0");
+                                hideL('L=="hB()>hMIN()+supFULL()*EPSSIZE()");
+                                auto
+                            )
+                        ),
+                      "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())":
+                        auto
+                    ),
+                  "Show":
+                    hideR('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+                    hideL('L=="h<=hB()");
+                    hideL('L=="h>hMIN()");
+                    hideL('L=="d>=0");
+                    hideL('L=="d<=asup");
+                    hideL('L=="EPSSIZE()>0");
+                    hideL('L=="h-asup*(TS()-crl)>hMIN()|asup=supDEG()");
+                    hideL('L=="h>hMIN()");
+                    hideL('L=="crl>=0");
+                    allL2R('L=="supDEG()=1*FP()");
+                    hideL('L=="supDEG()=1*FP()");
+                    hideL('L=="crl<=TS()");
+                    hideL('L=="supFULL()=2*FP()");
+                    hideL('L=="hMIN()>=0");
+                    hideL('L=="asup<=supFULL()");
+                    hideL('L=="TS()>=0");
+                    hideL('L=="hFULL()>=supFULL()*TS()+hMIN()");
+                    hideL('L=="hDEG()>=1*FP()*TS()+hMIN()");
+                    hideL('L=="hB()>hMIN()+supFULL()*EPSSIZE()");
+                    hideL('L=="eps=0.0");
+                    allL2R('L=="pb=1.0");
+                    hideL('L=="pb=1.0");
+                    QE
+                )
+            )
+        )
+    )
+)
+End.
+
+Tactic "ISOLADissertation/IWDS1 from tactic"
+unfold;
+loop("((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL()", 'R=="[{eps:=0.0;p1:=*;?p1=1.0|p1=0.0;p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}}*]h>hMIN()"); <(
+  "Init":
+    auto,
+  "Post":
+    auto,
+  "Step":
+    composeb('R=="[eps:=0.0;p1:=*;?p1=1.0|p1=0.0;p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    assignb('R=="[eps:=0.0;][p1:=*;?p1=1.0|p1=0.0;p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[p1:=*;?p1=1.0|p1=0.0;p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    randomb('R=="[p1:=*;][?p1=1.0|p1=0.0;p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    allR('R=="\forall p1 [?p1=1.0|p1=0.0;p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[?p1=1.0|p1=0.0;p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    testb('R=="[?p1=1.0|p1=0.0;][p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    implyR('R=="p1=1.0|p1=0.0->[p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    randomb('R=="[p2:=*;][?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    allR('R=="\forall p2 [?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    testb('R=="[?p2=1.0|p2=0.0;][p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    implyR('R=="p2=1.0|p2=0.0->[p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    randomb('R=="[p3:=*;][?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    allR('R=="\forall p3 [?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    testb('R=="[?p3=1.0|p3=0.0;][pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    implyR('R=="p3=1.0|p3=0.0->[pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    randomb('R=="[pb:=*;][?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    allR('R=="\forall pb [?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    testb('R=="[?pb=1.0|pb=0.0;][?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    implyR('R=="pb=1.0|pb=0.0->[?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    testb('R=="[?h<=hB()->pb=1.0;][{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    implyR('R=="(h<=hB()->pb=1.0)->[{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    composeb('R=="[{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+    MR("((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL()", 'R=="[?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();][i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())"); <(
+      "Use Q->P":
+        unfold; <(
+          "[?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())":
+            hideL('L=="a1_0=1|a1_0=0");
+            hideL('L=="a2_0=1|a2_0=0");
+            hideL('L=="a3_0=1|a3_0=0");
+            andR('R=="((h-asup*(TS()-0.0)>hMIN()|asup=supDEG())&h>hMIN())&0.0>=0&0.0<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL()"); <(
+              "(h-asup*(TS()-0.0)>hMIN()|asup=supDEG())&h>hMIN()":
+                unfold;
+                fullSimplify;
+                QE,
+              "0.0>=0&0.0<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL()":
+                fullSimplify;
+                QE
+            ),
+          "[?crl < TS();](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())":
+            fullSimplify;
+            auto
+        ),
+      "Show [a]Q":
+        unfold; <(
+          "[?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())":
+            hideL('L=="h<=hB()->pb=1.0");
+            notLessEqual('L=="!h<=hB()");
+            boxAnd('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+            andR('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}](crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())"); <(
+              "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())":
+                cut("i>=0"); <(
+                  "Use":
+                    boxAnd('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())");
+                    andR('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}](h-asup*(TS()-crl)>hMIN()|asup=supDEG())&[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]h>hMIN()"); <(
+                      "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}](h-asup*(TS()-crl)>hMIN()|asup=supDEG())":
+                        orL('L=="h-asup*(TS()-crl)>hMIN()|asup=supDEG()"); <(
+                          "h-asup*(TS()-crl)>hMIN()":
+                            hideL('L=="i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP()");
+                            hideL('L=="h>hB()");
+                            hideL('L=="d>=0");
+                            hideL('L=="EPSSIZE()>0");
+                            hideL('L=="h>hMIN()");
+                            hideL('L=="supFULL()=2*FP()");
+                            allL2R('L=="supDEG()=1*FP()");
+                            fullSimplify;
+                            allL2R('L=="supDEG()=FP()");
+                            hideL('L=="supDEG()=FP()");
+                            hideL('L=="a1=1|a1=0");
+                            hideL('L=="a2=1|a2=0");
+                            hideL('L=="a3=1|a3=0");
+                            hideL('L=="hFULL()>=supFULL()*TS()+hMIN()");
+                            hideL('L=="hDEG()>=FP()*TS()+hMIN()");
+                            hideL('L=="hB()>hMIN()+supFULL()*EPSSIZE()");
+                            hideL('L=="eps=0");
+                            hideL('L=="p1=1|p1=0");
+                            hideL('L=="p2=1|p2=0");
+                            hideL('L=="p3=1|p3=0");
+                            hideL('L=="pb=1|pb=0");
+                            auto,
+                          "asup=supDEG()":
+                            allL2R('L=="asup=supDEG()");
+                            fullSimplify;
+                            auto
+                        ),
+                      "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]h>hMIN()":
+                        hideL('L=="h-asup*(TS()-crl)>hMIN()|asup=supDEG()");
+                        hideL('L=="i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP()");
+                        cut("d<=supFULL()"); <(
+                          "Use":
+                            hideL('L=="h>hMIN()");
+                            hideL('L=="h>hMIN()");
+                            hideL('L=="supFULL()=2*FP()");
+                            fullSimplify;
+                            allL2R('L=="supDEG()=FP()");
+                            hideL('L=="supDEG()=FP()");
+                            hideL('L=="a1=1|a1=0");
+                            hideL('L=="a2=1|a2=0");
+                            hideL('L=="a3=1|a3=0");
+                            hideL('L=="hFULL()>=supFULL()*TS()+hMIN()");
+                            hideL('L=="hDEG()>=FP()*TS()+hMIN()");
+                            hideL('L=="p1=1|p1=0");
+                            hideL('L=="p2=1|p2=0");
+                            hideL('L=="p3=1|p3=0");
+                            hideL('L=="pb=1|pb=0");
+                            auto,
+                          "Show":
+                            hideR('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]h>hMIN()");
+                            auto
+                        )
+                    ),
+                  "Show":
+                    hideR('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())");
+                    hideL('L=="h>hB()");
+                    hideL('L=="h>hMIN()");
+                    hideL('L=="d>=0");
+                    hideL('L=="d<=asup");
+                    hideL('L=="EPSSIZE()>0");
+                    hideL('L=="h-asup*(TS()-crl)>hMIN()|asup=supDEG()");
+                    hideL('L=="h>hMIN()");
+                    hideL('L=="crl>=0");
+                    hideL('L=="supFULL()=2*FP()");
+                    hideL('L=="crl<=TS()");
+                    hideL('L=="supDEG()=1*FP()");
+                    hideL('L=="asup<=supFULL()");
+                    hideL('L=="TS()>=0");
+                    hideL('L=="hFULL()>=supFULL()*TS()+hMIN()");
+                    hideL('L=="hDEG()>=supDEG()*TS()+hMIN()");
+                    hideL('L=="hB()>hMIN()+supFULL()*EPSSIZE()");
+                    hideL('L=="eps=0.0");
+                    hideL('L=="hMIN()>=0");
+                    QE
+                ),
+              "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}](crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())":
+                auto
+            ),
+          "[?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())":
+            implyL('L=="h<=hB()->pb=1.0"); <(
+              "h<=hB()":
+                id,
+              "pb=1.0":
+                cut("i>=supDEG()"); <(
+                  "Use":
+                    boxAnd('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+                    andR('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())"); <(
+                      "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())":
+                        orL('L=="h-asup*(TS()-crl)>hMIN()|asup=supDEG()"); <(
+                          "h-asup*(TS()-crl)>hMIN()":
+                            hideL('L=="a1=1|a1=0");
+                            hideL('L=="i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP()");
+                            hideL('L=="p1=1.0|p1=0.0");
+                            hideL('L=="p2=1.0|p2=0.0");
+                            hideL('L=="p3=1.0|p3=0.0");
+                            hideL('L=="pb=1.0|pb=0.0");
+                            hideL('L=="pb=1.0");
+                            hideL('L=="h<=hB()");
+                            hideL('L=="supFULL()=2*FP()");
+                            fullSimplify;
+                            allL2R('L=="supDEG()=FP()");
+                            hideL('L=="supDEG()=FP()");
+                            hideL('L=="a2=1|a2=0");
+                            hideL('L=="a3=1|a3=0");
+                            hideL('L=="hMIN()>=0");
+                            hideL('L=="hFULL()>=supFULL()*TS()+hMIN()");
+                            hideL('L=="hDEG()>=FP()*TS()+hMIN()");
+                            hideL('L=="hB()>hMIN()+supFULL()*EPSSIZE()");
+                            hideL('L=="eps=0");
+                            boxAnd('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]((h-asup*(TS()-crl)>hMIN()|asup=FP())&h>hMIN())");
+                            andR('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](h-asup*(TS()-crl)>hMIN()|asup=FP())&[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]h>hMIN()"); <(
+                              "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](h-asup*(TS()-crl)>hMIN()|asup=FP())":
+                                auto,
+                              "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]h>hMIN()":
+                                auto
+                            ),
+                          "asup=supDEG()":
+                            allL2R('L=="asup=supDEG()");
+                            boxAnd('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]((h-supDEG()*(TS()-crl)>hMIN()|supDEG()=supDEG())&h>hMIN())");
+                            andR('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](h-supDEG()*(TS()-crl)>hMIN()|supDEG()=supDEG())&[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]h>hMIN()"); <(
+                              "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](h-supDEG()*(TS()-crl)>hMIN()|supDEG()=supDEG())":
+                                fullSimplify;
+                                auto,
+                              "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]h>hMIN()":
+                                hideL('L=="p1=1.0|p1=0.0");
+                                hideL('L=="p2=1.0|p2=0.0");
+                                hideL('L=="p3=1.0|p3=0.0");
+                                hideL('L=="pb=1.0|pb=0.0");
+                                hideL('L=="pb=1.0");
+                                hideL('L=="i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP()");
+                                hideL('L=="h<=hB()");
+                                allL2R('L=="asup=supDEG()");
+                                hideL('L=="asup=supDEG()");
+                                fullSimplify;
+                                allL2R('L=="supDEG()=FP()");
+                                hideL('L=="supDEG()=FP()");
+                                hideL('L=="supFULL()=2*FP()");
+                                hideL('L=="a1=1|a1=0");
+                                hideL('L=="a2=1|a2=0");
+                                hideL('L=="a3=1|a3=0");
+                                hideL('L=="hMIN()>=0");
+                                hideL('L=="FP()<=supFULL()");
+                                hideL('L=="hFULL()>=supFULL()*TS()+hMIN()");
+                                hideL('L=="hDEG()>=FP()*TS()+hMIN()");
+                                hideL('L=="eps=0");
+                                hideL('L=="hB()>hMIN()+supFULL()*EPSSIZE()");
+                                auto
+                            )
+                        ),
+                      "[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())":
+                        auto
+                    ),
+                  "Show":
+                    hideR('R=="[{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}](((h-asup*(TS()-crl)>hMIN()|asup=supDEG())&h>hMIN())&crl>=0&crl<=TS()&(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)&asup<=supFULL())");
+                    hideL('L=="h<=hB()");
+                    hideL('L=="h>hMIN()");
+                    hideL('L=="d>=0");
+                    hideL('L=="d<=asup");
+                    hideL('L=="EPSSIZE()>0");
+                    hideL('L=="h-asup*(TS()-crl)>hMIN()|asup=supDEG()");
+                    hideL('L=="h>hMIN()");
+                    hideL('L=="crl>=0");
+                    allL2R('L=="supDEG()=1*FP()");
+                    hideL('L=="supDEG()=1*FP()");
+                    hideL('L=="crl<=TS()");
+                    hideL('L=="supFULL()=2*FP()");
+                    hideL('L=="hMIN()>=0");
+                    hideL('L=="asup<=supFULL()");
+                    hideL('L=="TS()>=0");
+                    hideL('L=="hFULL()>=supFULL()*TS()+hMIN()");
+                    hideL('L=="hDEG()>=1*FP()*TS()+hMIN()");
+                    hideL('L=="hB()>hMIN()+supFULL()*EPSSIZE()");
+                    hideL('L=="eps=0.0");
+                    allL2R('L=="pb=1.0");
+                    hideL('L=="pb=1.0");
+                    QE
+                )
+            )
+        )
+    )
+)
+End.
+
+End.

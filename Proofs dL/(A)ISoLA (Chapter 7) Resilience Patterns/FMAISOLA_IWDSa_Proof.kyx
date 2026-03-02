@@ -1,0 +1,725 @@
+﻿/* Exported from KeYmaera X v5.0 */
+
+Theorem "FMAISOLA/IWDSa"
+
+ProgramVariables
+    Real c;
+    Real t;
+    
+    Real h; /* h= waterlevel l */
+    Real d;
+    Real i;
+    
+    Real asup;
+    Real a1; 
+    Real a2;
+    Real a3;
+    Real p1;
+    Real p2;
+    Real p3;
+    
+    Real hhs;
+    Real ths;
+    Real shs;
+    Real failOld;
+    Real fail;
+End.
+
+Definitions
+    Real TS;
+    /* max inflow */
+    Real iMAX;
+    /* pump rate */
+    Real pRate; 
+    
+    
+    Real hMAX;
+    Real hDEG;
+    Real hMIN;
+    /* Supply */
+    Real supMAX; 
+    Real supDEG;
+    Real sMIN;
+    
+    /* Contracts */
+    Real WCRREPAIR(Real a1, Real a2, Real a3, Real asup)         =   ((a1+a2+a3)*pRate-asup)*(TS);  
+    Real WCRFAIL(Real asup)                                      =   (0-asup)*(TS); 
+    Bool SLFULL(Real h, Real a1, Real a2, Real a3, Real asup)    <-> (a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1) & asup=supMAX & h+WCRREPAIR(a1, a2, a3, asup) > hMAX & h+WCRFAIL(asup) > hDEG;
+    Bool SLDEG(Real h, Real a1, Real a2, Real a3, Real asup)     <-> (a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1) & asup=supDEG & h+WCRREPAIR(a1, a2, a3, asup) > hDEG & h+WCRFAIL(asup) > hMIN;
+    Bool SLMIN(Real h, Real a1, Real a2, Real a3, Real asup)     <-> (a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1) & asup=0; 
+    Bool CHECKFULL(Real h) <-> (\exists a1 \exists a2 \exists a3 \exists asup SLFULL(h, a1, a2, a3, asup));
+    Bool CHECKDEG(Real h) <-> (\exists a1 \exists a2 \exists a3 \exists asup SLDEG(h, a1, a2, a3, asup));
+    Bool CHECKMIN(Real h) <-> (\exists a1 \exists a2 \exists a3 \exists asup SLMIN(h, a1, a2, a3, asup));
+    Real tMAX = (hMAX-hDEG)/supMAX; /*max time for degrading from hMAX to hDEG*/
+End.
+
+
+Problem
+(hMAX+WCRFAIL(supMAX) >= hDEG & hDEG+WCRFAIL(supDEG) >= hMIN & hMIN >= 0 & h > hMAX & true &iMAX>0)&
+(c=0 & TS>=c & TS >0 & t=0) &
+(supMAX>=supDEG & supDEG>0 & iMAX>=supMAX & pRate>0 & 3*pRate=iMAX) &
+/* contracts hold initially */
+((CHECKFULL(h))->SLFULL(h, a1, a2, a3, asup)) &
+((!CHECKFULL(h)&CHECKDEG(h))->SLDEG(h, a1, a2, a3, asup)) &
+((!CHECKFULL(h)&!CHECKDEG(h)&CHECKMIN(h))->SLMIN(h, a1, a2, a3, asup)) &
+/* pumps are working initially */
+(failOld = fail & fail= 0) & p1=1 & p2=1 & p3=1
+->
+[
+    {   
+        if(c>=TS) /* Resilience Contract Embedding */
+        {
+            c:=0;asup:=*;a1:=*; a2:=*;a3:=*;
+            if(CHECKFULL(h)){?SLFULL(h, a1, a2, a3, asup);}
+            else 
+            {
+                if(CHECKDEG(h)) {?SLDEG(h, a1, a2, a3, asup);}
+                else 
+                {
+                    if(CHECKMIN(h)) {?SLMIN(h, a1, a2, a3, asup);}
+                }
+            }
+            
+        }
+        {failOld:=fail;
+        {fail:=0; p1:=1; p2:=1; p3:=1; ++ fail:=1; p1:=*; p2:=*; p3:=*; ?(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0)&p1+p2+p3<3;}; /*pump system can fail*/
+        if(fail>failOld)  /* store state in case of failure */
+        {
+            ths:=t; hhs:=h; shs:=asup;
+        };}
+        i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate; /* caclulate inflow */
+        d:=*;?0<=d;?d<=asup;                        /* choose demand */
+        {t'=1, c'=1, h'=i-d & c<= TS} /* evolution */
+    }*@invariant((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate & (a1+a2+a3)*pRate<=iMAX & asup<=supMAX & TS>=c & c>=0 & 
+    (fail =0 | fail =1)) & 
+    (fail=1 & hhs>hMAX & shs>=supMAX & t-ths<=tMAX -> h>=hhs-supMAX*(t-ths) & h>hDEG & asup>=supDEG ) )
+] ((fail=1 & hhs>hMAX & shs>=supMAX & t-ths<=tMAX)->h>hDEG & asup>=supDEG)
+End.
+
+Tactic "FMAISOLA/PropAGreater: Proof"
+expandAllDefs();
+unfold;
+loop("(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())", 'R=="[{{?c>=TS();c:=0;asup:=*;a1:=*;a2:=*;a3:=*;{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG());?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG();++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG());{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN());?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN();++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN());{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0);?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0;++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0);}}}++?!c>=TS();}{failOld:=fail;{fail:=0;p1:=1;p2:=1;p3:=1;++fail:=1;p1:=*;p2:=*;p3:=*;?(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0)&p1+p2+p3 < 3;}{?fail>failOld;ths:=t;hhs:=h;shs:=asup;++?!fail>failOld;}}i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}}*](fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>hDEG()&asup>=supDEG())"); <(
+  "Init":
+    implyL('L=="\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG())->(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG()"); <(
+      "\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG())":
+        hideR('R=="(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())");
+        hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG())&\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN())->(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN()");
+        hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG())&!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN())&\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0)->(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0");
+        QE,
+      "(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG()":
+        hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG())&\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN())->(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN()");
+        hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG())&!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN())&\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0)->(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0");
+        QE
+    ),
+  "Post":
+    unfold;
+    fullSimplify;
+    QE,
+  "Step":
+    composeb('R=="[{?c>=TS();c:=0;asup:=*;a1:=*;a2:=*;a3:=*;{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG());?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG();++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG());{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN());?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN();++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN());{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0);?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0;++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0);}}}++?!c>=TS();}{failOld:=fail;{fail:=0;p1:=1;p2:=1;p3:=1;++fail:=1;p1:=*;p2:=*;p3:=*;?(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0)&p1+p2+p3 < 3;}{?fail>failOld;ths:=t;hhs:=h;shs:=asup;++?!fail>failOld;}}i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))");
+    MR("(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())", 'R=="[?c>=TS();c:=0;asup:=*;a1:=*;a2:=*;a3:=*;{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG());?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG();++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG());{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN());?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN();++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN());{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0);?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0;++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0);}}}++?!c>=TS();][{failOld:=fail;{fail:=0;p1:=1;p2:=1;p3:=1;++fail:=1;p1:=*;p2:=*;p3:=*;?(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0)&p1+p2+p3 < 3;}{?fail>failOld;ths:=t;hhs:=h;shs:=asup;++?!fail>failOld;}}i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))"); <(
+      "Use Q->P":
+        unfold; <(
+          "[?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG());?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG();]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))":
+            fullSimplify;
+            andR('R=="(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX())&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+              "0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()":
+                andR('R=="0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()"); <(
+                  "0<=(a1_1+a2_1+a3_1)*pRate()":
+                    QE,
+                  "(a1_1+a2_1+a3_1)*pRate()<=iMAX()":
+                    QE
+                ),
+              "fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG()":
+                implyR('R=="fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG()");
+                unfold;
+                fullSimplify;
+                QE
+            ),
+          "[?!c>=TS();]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))":
+            unfold;
+            fullSimplify;
+            QE,
+          "[?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN());?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN();]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))":
+            andR('R=="(a1_1=0|a1_1=1)&(a2_1=0|a2_1=1)&(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+              "a1_1=0|a1_1=1":
+                QE,
+              "(a2_1=0|a2_1=1)&(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())":
+                andR('R=="(a2_1=0|a2_1=1)&(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+                  "a2_1=0|a2_1=1":
+                    QE,
+                  "(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())":
+                    andR('R=="(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+                      "a3_1=0|a3_1=1":
+                        QE,
+                      "(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())":
+                        andR('R=="(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+                          "0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1)":
+                            unfold;
+                            fullSimplify;
+                            hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(-asup)*TS()>hDEG())");
+                            hideL('L=="a1_0=0|a1_0=1");
+                            hideL('L=="a2_0=0|a2_0=1");
+                            hideL('L=="a3_0=0|a3_0=1");
+                            hideL('L=="a1=0|a1=1");
+                            hideL('L=="a2=0|a2=1");
+                            hideL('L=="a3=0|a3=1");
+                            QE,
+                          "fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG()":
+                            implyR('R=="fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG()");
+                            unfold;
+                            fullSimplify;
+                            QE
+                        )
+                    )
+                )
+            ),
+          "[?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0);?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0;]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))":
+            andR('R=="(a1_1=0|a1_1=1)&(a2_1=0|a2_1=1)&(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+              "a1_1=0|a1_1=1":
+                unfold;
+                fullSimplify;
+                QE,
+              "(a2_1=0|a2_1=1)&(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())":
+                andR('R=="(a2_1=0|a2_1=1)&(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+                  "a2_1=0|a2_1=1":
+                    QE,
+                  "(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())":
+                    andR('R=="(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+                      "a3_1=0|a3_1=1":
+                        QE,
+                      "(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())":
+                        andR('R=="(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+                          "0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1)":
+                            unfold;
+                            fullSimplify;
+                            hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(-asup)*TS()>hDEG())");
+                            hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(-asup)*TS()>hMIN())");
+                            andR('R=="0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()"); <(
+                              "0<=(a1_1+a2_1+a3_1)*pRate()":
+                                QE,
+                              "(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()":
+                                unfold;
+                                fullSimplify;
+                                QE
+                            ),
+                          "fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG()":
+                            implyR('R=="fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG()");
+                            unfold;
+                            fullSimplify;
+                            cut("\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(-asup)*TS()>hMIN())"); <(
+                              "Use":
+                                hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(-asup)*TS()>hDEG())");
+                                QE,
+                              "Show":
+                                hideR('R=="h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG()");
+                                unfold;
+                                existsR("1", 'R=="\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(-asup)*TS()>hMIN())");
+                                existsR("1", 'R=="\exists a2 \exists a3 \exists asup ((1=0|1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(-asup)*TS()>hMIN())");
+                                existsR("1", 'R=="\exists a3 \exists asup ((1=0|1=1)&(1=0|1=1)&(a3=0|a3=1)&asup=supDEG()&h+((1+1+a3)*pRate()-asup)*TS()>hDEG()&h+(-asup)*TS()>hMIN())");
+                                existsR("supDEG()", 'R=="\exists asup ((1=0|1=1)&(1=0|1=1)&(1=0|1=1)&asup=supDEG()&h+((1+1+1)*pRate()-asup)*TS()>hDEG()&h+(-asup)*TS()>hMIN())");
+                                hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(-asup)*TS()>hDEG())");
+                                hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(-asup)*TS()>hMIN())");
+                                unfold;
+                                fullSimplify;
+                                hideL('L=="a1_0=0|a1_0=1");
+                                hideL('L=="a1_1=0|a1_1=1");
+                                hideL('L=="a2_0=0|a2_0=1");
+                                hideL('L=="a2_1=0|a2_1=1");
+                                hideL('L=="a3_0=0|a3_0=1");
+                                hideL('L=="a3_1=0|a3_1=1");
+                                hideL('L=="a1=0|a1=1");
+                                hideL('L=="a2=0|a2=1");
+                                hideL('L=="a3=0|a3=1");
+                                QE
+                            )
+                        )
+                    )
+                )
+            ),
+          "[?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0);]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))":
+            andR('R=="(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())"); <(
+              "a1=0|a1=1":
+                unfold;
+                fullSimplify;
+                QE,
+              "(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())":
+                andR('R=="(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())"); <(
+                  "a2=0|a2=1":
+                    QE,
+                  "(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())":
+                    andR('R=="(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())"); <(
+                      "a3=0|a3=1":
+                        QE,
+                      "(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())":
+                        andR('R=="(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())"); <(
+                          "0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1)":
+                            unfold;
+                            fullSimplify;
+                            QE,
+                          "fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()":
+                            implyR('R=="fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()");
+                            unfold;
+                            fullSimplify;
+                            QE
+                        )
+                    )
+                )
+            )
+        ),
+      "Show [a]Q":
+        composeb('R=="[{failOld:=fail;{fail:=0;p1:=1;p2:=1;p3:=1;++fail:=1;p1:=*;p2:=*;p3:=*;?(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0)&p1+p2+p3 < 3;}{?fail>failOld;ths:=t;hhs:=h;shs:=asup;++?!fail>failOld;}}i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))");
+        MR("(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())&(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0)", 'R=="[failOld:=fail;{fail:=0;p1:=1;p2:=1;p3:=1;++fail:=1;p1:=*;p2:=*;p3:=*;?(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0)&p1+p2+p3 < 3;}{?fail>failOld;ths:=t;hhs:=h;shs:=asup;++?!fail>failOld;}][i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))"); <(
+          "Use Q->P":
+            unfold; <(
+              "[?0>failOld;ths:=t;hhs:=h;shs:=asup;]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(0=0|0=1))&(0=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())&(1=1|1=0)&(1=1|1=0)&(1=1|1=0))":
+                fullSimplify;
+                QE,
+              "[?1>failOld;ths:=t;hhs:=h;shs:=asup;]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(1=0|1=1))&(1=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())&(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0))":
+                unfold;
+                fullSimplify;
+                QE,
+              "[?!0>failOld;]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(0=0|0=1))&(0=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())&(1=1|1=0)&(1=1|1=0)&(1=1|1=0))":
+                unfold;
+                fullSimplify;
+                QE,
+              "[?!1>failOld;]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(1=0|1=1))&(1=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())&(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0))":
+                unfold;
+                fullSimplify;
+                QE
+            ),
+          "Show [a]Q":
+            boxAnd('R=="[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))");
+            andR('R=="[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](a1=0|a1=1)&[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))"); <(
+              "[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](a1=0|a1=1)":
+                auto,
+              "[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))":
+                boxAnd('R=="[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))");
+                andR('R=="[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](a2=0|a2=1)&[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))"); <(
+                  "[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](a2=0|a2=1)":
+                    auto,
+                  "[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))":
+                    boxAnd('R=="[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))");
+                    andR('R=="[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](a3=0|a3=1)&[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))"); <(
+                      "[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](a3=0|a3=1)":
+                        auto,
+                      "[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))":
+                        boxAnd('R=="[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))");
+                        andR('R=="[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())"); <(
+                          "[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))":
+                            unfold;
+                            fullSimplify;
+                            auto,
+                          "[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())":
+                            unfold;
+                            fullSimplify;
+                            unfold;
+                            cut("fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()|!(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())"); <(
+                              "Use":
+                                orL('L=="fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()|!(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())"); <(
+                                  "fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()":
+                                    unfold;
+                                    fullSimplify;
+                                    unfold;
+                                    fullSimplify;
+                                    dC("h>=hhs-supMAX()*(t-ths)", 'R=="[{t'=1,c'=1,h'=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate()-d&c<=TS()}](fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())"); <(
+                                      "Use":
+                                        hideL('L=="a2=0|a2=1");
+                                        hideL('L=="a1=0|a1=1");
+                                        hideL('L=="a3=0|a3=1");
+                                        hideL('L=="p1=1|p1=0");
+                                        hideL('L=="p2=1|p2=0");
+                                        hideL('L=="p3=1|p3=0");
+                                        auto,
+                                      "Show":
+                                        cut("(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate()-d>=-supMAX()"); <(
+                                          "Use":
+                                            discreteGhost("(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate()-d", "in", 'R=="[{t'=1,c'=1,h'=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate()-d&c<=TS()}]h>=hhs-supMAX()*(t-ths)");
+                                            hideL('L=="in=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate()-d");
+                                            hideL('L=="p2=1|p2=0");
+                                            hideL('L=="p3=1|p3=0");
+                                            hideL('L=="p1=1|p1=0");
+                                            hideL('L=="a3=0|a3=1");
+                                            hideL('L=="a2=0|a2=1");
+                                            hideL('L=="a1=0|a1=1");
+                                            auto,
+                                          "Show":
+                                            hideR('R=="[{t'=1,c'=1,h'=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate()-d&c<=TS()}]h>=hhs-supMAX()*(t-ths)");
+                                            hideL('L=="TS()>=c");
+                                            hideL('L=="c>=0");
+                                            hideL('L=="fail=1");
+                                            hideL('L=="hhs>hMAX()");
+                                            hideL('L=="shs>=supMAX()");
+                                            hideL('L=="t-ths<=(hMAX()-hDEG())/supMAX()");
+                                            hideL('L=="h>=hhs-supMAX()*(t-ths)");
+                                            hideL('L=="h>hDEG()");
+                                            hideL('L=="hDEG()+(-supDEG())*TS()>=hMIN()");
+                                            hideL('L=="hMAX()+(-supMAX())*TS()>=hDEG()");
+                                            QE
+                                        )
+                                    ),
+                                  "!(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())":
+                                    notAnd('L=="!(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())");
+                                    orL('L=="!fail=1|!(hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())"); <(
+                                      "!fail=1":
+                                        notEqual('L=="!fail=1");
+                                        auto,
+                                      "!(hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())":
+                                        notAnd('L=="!(hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())");
+                                        notGreater('L=="#!hhs>hMAX()#|!(shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())");
+                                        orL('L=="hhs<=hMAX()|!(shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())"); <(
+                                          "hhs<=hMAX()":
+                                            auto,
+                                          "!(shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())":
+                                            notAnd('L=="!(shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())");
+                                            notGreaterEqual('L=="#!shs>=supMAX()#|!t-ths<=(hMAX()-hDEG())/supMAX()");
+                                            orL('L=="shs < supMAX()|!t-ths<=(hMAX()-hDEG())/supMAX()"); <(
+                                              "shs < supMAX()":
+                                                auto,
+                                              "!t-ths<=(hMAX()-hDEG())/supMAX()":
+                                                notLessEqual('L=="!t-ths<=(hMAX()-hDEG())/supMAX()");
+                                                dC("t-ths>(hMAX()-hDEG())/supMAX()", 'R=="[{t'=1,c'=1,h'=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate()-d&c<=TS()}](fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())"); <(
+                                                  "Use":
+                                                    auto,
+                                                  "Show":
+                                                    hideL('L=="a2=0|a2=1");
+                                                    hideL('L=="a1=0|a1=1");
+                                                    hideL('L=="a3=0|a3=1");
+                                                    hideL('L=="fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()");
+                                                    hideL('L=="p2=1|p2=0");
+                                                    hideL('L=="p3=1|p3=0");
+                                                    hideL('L=="p1=1|p1=0");
+                                                    auto
+                                                )
+                                            )
+                                        )
+                                    )
+                                ),
+                              "Show":
+                                hideR('R=="[{t'=1,c'=1,h'=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate()-d&c<=TS()}](fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())");
+                                QE
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+End.
+
+Tactic "FMAISOLA/IWDSa from tactic"
+expandAllDefs();
+unfold;
+loop("(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())", 'R=="[{{?c>=TS();c:=0;asup:=*;a1:=*;a2:=*;a3:=*;{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG());?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG();++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG());{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN());?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN();++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN());{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0);?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0;++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0);}}}++?!c>=TS();}{failOld:=fail;{fail:=0;p1:=1;p2:=1;p3:=1;++fail:=1;p1:=*;p2:=*;p3:=*;?(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0)&p1+p2+p3 < 3;}{?fail>failOld;ths:=t;hhs:=h;shs:=asup;++?!fail>failOld;}}i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}}*](fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>hDEG()&asup>=supDEG())"); <(
+  "Init":
+    implyL('L=="\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG())->(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG()"); <(
+      "\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG())":
+        hideR('R=="(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())");
+        hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG())&\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN())->(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN()");
+        hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG())&!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN())&\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0)->(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0");
+        QE,
+      "(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG()":
+        hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG())&\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN())->(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN()");
+        hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG())&!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN())&\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0)->(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0");
+        QE
+    ),
+  "Post":
+    unfold;
+    fullSimplify;
+    QE,
+  "Step":
+    composeb('R=="[{?c>=TS();c:=0;asup:=*;a1:=*;a2:=*;a3:=*;{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG());?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG();++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG());{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN());?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN();++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN());{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0);?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0;++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0);}}}++?!c>=TS();}{failOld:=fail;{fail:=0;p1:=1;p2:=1;p3:=1;++fail:=1;p1:=*;p2:=*;p3:=*;?(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0)&p1+p2+p3 < 3;}{?fail>failOld;ths:=t;hhs:=h;shs:=asup;++?!fail>failOld;}}i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))");
+    MR("(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())", 'R=="[?c>=TS();c:=0;asup:=*;a1:=*;a2:=*;a3:=*;{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG());?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG();++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG());{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN());?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN();++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN());{?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0);?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0;++?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0);}}}++?!c>=TS();][{failOld:=fail;{fail:=0;p1:=1;p2:=1;p3:=1;++fail:=1;p1:=*;p2:=*;p3:=*;?(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0)&p1+p2+p3 < 3;}{?fail>failOld;ths:=t;hhs:=h;shs:=asup;++?!fail>failOld;}}i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))"); <(
+      "Use Q->P":
+        unfold; <(
+          "[?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG());?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(0-asup)*TS()>hDEG();]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))":
+            fullSimplify;
+            andR('R=="(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX())&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+              "0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()":
+                andR('R=="0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()"); <(
+                  "0<=(a1_1+a2_1+a3_1)*pRate()":
+                    QE,
+                  "(a1_1+a2_1+a3_1)*pRate()<=iMAX()":
+                    QE
+                ),
+              "fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG()":
+                implyR('R=="fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG()");
+                unfold;
+                fullSimplify;
+                QE
+            ),
+          "[?!c>=TS();]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))":
+            unfold;
+            fullSimplify;
+            QE,
+          "[?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN());?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(0-asup)*TS()>hMIN();]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))":
+            andR('R=="(a1_1=0|a1_1=1)&(a2_1=0|a2_1=1)&(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+              "a1_1=0|a1_1=1":
+                QE,
+              "(a2_1=0|a2_1=1)&(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())":
+                andR('R=="(a2_1=0|a2_1=1)&(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+                  "a2_1=0|a2_1=1":
+                    QE,
+                  "(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())":
+                    andR('R=="(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+                      "a3_1=0|a3_1=1":
+                        QE,
+                      "(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())":
+                        andR('R=="(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+                          "0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1)":
+                            unfold;
+                            fullSimplify;
+                            hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(-asup)*TS()>hDEG())");
+                            hideL('L=="a1_0=0|a1_0=1");
+                            hideL('L=="a2_0=0|a2_0=1");
+                            hideL('L=="a3_0=0|a3_0=1");
+                            hideL('L=="a1=0|a1=1");
+                            hideL('L=="a2=0|a2=1");
+                            hideL('L=="a3=0|a3=1");
+                            QE,
+                          "fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG()":
+                            implyR('R=="fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG()");
+                            unfold;
+                            fullSimplify;
+                            QE
+                        )
+                    )
+                )
+            ),
+          "[?\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0);?(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0;]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))":
+            andR('R=="(a1_1=0|a1_1=1)&(a2_1=0|a2_1=1)&(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+              "a1_1=0|a1_1=1":
+                unfold;
+                fullSimplify;
+                QE,
+              "(a2_1=0|a2_1=1)&(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())":
+                andR('R=="(a2_1=0|a2_1=1)&(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+                  "a2_1=0|a2_1=1":
+                    QE,
+                  "(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())":
+                    andR('R=="(a3_1=0|a3_1=1)&(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+                      "a3_1=0|a3_1=1":
+                        QE,
+                      "(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())":
+                        andR('R=="(0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG())"); <(
+                          "0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1)":
+                            unfold;
+                            fullSimplify;
+                            hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(-asup)*TS()>hDEG())");
+                            hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(-asup)*TS()>hMIN())");
+                            andR('R=="0<=(a1_1+a2_1+a3_1)*pRate()&(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()"); <(
+                              "0<=(a1_1+a2_1+a3_1)*pRate()":
+                                QE,
+                              "(a1_1+a2_1+a3_1)*pRate()<=iMAX()&asup_1<=supMAX()":
+                                unfold;
+                                fullSimplify;
+                                QE
+                            ),
+                          "fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG()":
+                            implyR('R=="fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG()");
+                            unfold;
+                            fullSimplify;
+                            cut("\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(-asup)*TS()>hMIN())"); <(
+                              "Use":
+                                hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(-asup)*TS()>hDEG())");
+                                QE,
+                              "Show":
+                                hideR('R=="h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup_1>=supDEG()");
+                                unfold;
+                                existsR("1", 'R=="\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(-asup)*TS()>hMIN())");
+                                existsR("1", 'R=="\exists a2 \exists a3 \exists asup ((1=0|1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(-asup)*TS()>hMIN())");
+                                existsR("1", 'R=="\exists a3 \exists asup ((1=0|1=1)&(1=0|1=1)&(a3=0|a3=1)&asup=supDEG()&h+((1+1+a3)*pRate()-asup)*TS()>hDEG()&h+(-asup)*TS()>hMIN())");
+                                existsR("supDEG()", 'R=="\exists asup ((1=0|1=1)&(1=0|1=1)&(1=0|1=1)&asup=supDEG()&h+((1+1+1)*pRate()-asup)*TS()>hDEG()&h+(-asup)*TS()>hMIN())");
+                                hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supMAX()&h+((a1+a2+a3)*pRate()-asup)*TS()>hMAX()&h+(-asup)*TS()>hDEG())");
+                                hideL('L=="!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=supDEG()&h+((a1+a2+a3)*pRate()-asup)*TS()>hDEG()&h+(-asup)*TS()>hMIN())");
+                                unfold;
+                                fullSimplify;
+                                hideL('L=="a1_0=0|a1_0=1");
+                                hideL('L=="a1_1=0|a1_1=1");
+                                hideL('L=="a2_0=0|a2_0=1");
+                                hideL('L=="a2_1=0|a2_1=1");
+                                hideL('L=="a3_0=0|a3_0=1");
+                                hideL('L=="a3_1=0|a3_1=1");
+                                hideL('L=="a1=0|a1=1");
+                                hideL('L=="a2=0|a2=1");
+                                hideL('L=="a3=0|a3=1");
+                                QE
+                            )
+                        )
+                    )
+                )
+            ),
+          "[?!\exists a1 \exists a2 \exists a3 \exists asup ((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&asup=0);]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))":
+            andR('R=="(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())"); <(
+              "a1=0|a1=1":
+                unfold;
+                fullSimplify;
+                QE,
+              "(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())":
+                andR('R=="(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())"); <(
+                  "a2=0|a2=1":
+                    QE,
+                  "(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())":
+                    andR('R=="(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())"); <(
+                      "a3=0|a3=1":
+                        QE,
+                      "(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())":
+                        andR('R=="(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())"); <(
+                          "0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=0&0>=0&(fail=0|fail=1)":
+                            unfold;
+                            fullSimplify;
+                            QE,
+                          "fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()":
+                            implyR('R=="fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()");
+                            unfold;
+                            fullSimplify;
+                            QE
+                        )
+                    )
+                )
+            )
+        ),
+      "Show [a]Q":
+        composeb('R=="[{failOld:=fail;{fail:=0;p1:=1;p2:=1;p3:=1;++fail:=1;p1:=*;p2:=*;p3:=*;?(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0)&p1+p2+p3 < 3;}{?fail>failOld;ths:=t;hhs:=h;shs:=asup;++?!fail>failOld;}}i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))");
+        MR("(a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())&(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0)", 'R=="[failOld:=fail;{fail:=0;p1:=1;p2:=1;p3:=1;++fail:=1;p1:=*;p2:=*;p3:=*;?(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0)&p1+p2+p3 < 3;}{?fail>failOld;ths:=t;hhs:=h;shs:=asup;++?!fail>failOld;}][i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))"); <(
+          "Use Q->P":
+            unfold; <(
+              "[?0>failOld;ths:=t;hhs:=h;shs:=asup;]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(0=0|0=1))&(0=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())&(1=1|1=0)&(1=1|1=0)&(1=1|1=0))":
+                fullSimplify;
+                QE,
+              "[?1>failOld;ths:=t;hhs:=h;shs:=asup;]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(1=0|1=1))&(1=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())&(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0))":
+                unfold;
+                fullSimplify;
+                QE,
+              "[?!0>failOld;]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(0=0|0=1))&(0=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())&(1=1|1=0)&(1=1|1=0)&(1=1|1=0))":
+                unfold;
+                fullSimplify;
+                QE,
+              "[?!1>failOld;]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(1=0|1=1))&(1=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())&(p1=1|p1=0)&(p2=1|p2=0)&(p3=1|p3=0))":
+                unfold;
+                fullSimplify;
+                QE
+            ),
+          "Show [a]Q":
+            boxAnd('R=="[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a1=0|a1=1)&(a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))");
+            andR('R=="[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](a1=0|a1=1)&[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))"); <(
+              "[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](a1=0|a1=1)":
+                auto,
+              "[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))":
+                boxAnd('R=="[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a2=0|a2=1)&(a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))");
+                andR('R=="[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](a2=0|a2=1)&[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))"); <(
+                  "[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](a2=0|a2=1)":
+                    auto,
+                  "[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))":
+                    boxAnd('R=="[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((a3=0|a3=1)&(0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))");
+                    andR('R=="[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](a3=0|a3=1)&[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))"); <(
+                      "[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](a3=0|a3=1)":
+                        auto,
+                      "[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))":
+                        boxAnd('R=="[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}]((0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()))");
+                        andR('R=="[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))&[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())"); <(
+                          "[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](0<=(a1+a2+a3)*pRate()&(a1+a2+a3)*pRate()<=iMAX()&asup<=supMAX()&TS()>=c&c>=0&(fail=0|fail=1))":
+                            unfold;
+                            fullSimplify;
+                            auto,
+                          "[i:=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate();d:=*;?0<=d;?d<=asup;{t'=1,c'=1,h'=i-d&c<=TS()}](fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())":
+                            unfold;
+                            fullSimplify;
+                            unfold;
+                            cut("fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()|!(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())"); <(
+                              "Use":
+                                orL('L=="fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()|!(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())"); <(
+                                  "fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()":
+                                    unfold;
+                                    fullSimplify;
+                                    unfold;
+                                    fullSimplify;
+                                    dC("h>=hhs-supMAX()*(t-ths)", 'R=="[{t'=1,c'=1,h'=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate()-d&c<=TS()}](fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())"); <(
+                                      "Use":
+                                        hideL('L=="a2=0|a2=1");
+                                        hideL('L=="a1=0|a1=1");
+                                        hideL('L=="a3=0|a3=1");
+                                        hideL('L=="p1=1|p1=0");
+                                        hideL('L=="p2=1|p2=0");
+                                        hideL('L=="p3=1|p3=0");
+                                        auto,
+                                      "Show":
+                                        cut("(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate()-d>=-supMAX()"); <(
+                                          "Use":
+                                            discreteGhost("(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate()-d", "in", 'R=="[{t'=1,c'=1,h'=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate()-d&c<=TS()}]h>=hhs-supMAX()*(t-ths)");
+                                            hideL('L=="in=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate()-d");
+                                            hideL('L=="p2=1|p2=0");
+                                            hideL('L=="p3=1|p3=0");
+                                            hideL('L=="p1=1|p1=0");
+                                            hideL('L=="a3=0|a3=1");
+                                            hideL('L=="a2=0|a2=1");
+                                            hideL('L=="a1=0|a1=1");
+                                            auto,
+                                          "Show":
+                                            hideR('R=="[{t'=1,c'=1,h'=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate()-d&c<=TS()}]h>=hhs-supMAX()*(t-ths)");
+                                            hideL('L=="TS()>=c");
+                                            hideL('L=="c>=0");
+                                            hideL('L=="fail=1");
+                                            hideL('L=="hhs>hMAX()");
+                                            hideL('L=="shs>=supMAX()");
+                                            hideL('L=="t-ths<=(hMAX()-hDEG())/supMAX()");
+                                            hideL('L=="h>=hhs-supMAX()*(t-ths)");
+                                            hideL('L=="h>hDEG()");
+                                            hideL('L=="hDEG()+(-supDEG())*TS()>=hMIN()");
+                                            hideL('L=="hMAX()+(-supMAX())*TS()>=hDEG()");
+                                            QE
+                                        )
+                                    ),
+                                  "!(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())":
+                                    notAnd('L=="!(fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())");
+                                    orL('L=="!fail=1|!(hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())"); <(
+                                      "!fail=1":
+                                        notEqual('L=="!fail=1");
+                                        auto,
+                                      "!(hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())":
+                                        notAnd('L=="!(hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())");
+                                        notGreater('L=="#!hhs>hMAX()#|!(shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())");
+                                        orL('L=="hhs<=hMAX()|!(shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())"); <(
+                                          "hhs<=hMAX()":
+                                            auto,
+                                          "!(shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())":
+                                            notAnd('L=="!(shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX())");
+                                            notGreaterEqual('L=="#!shs>=supMAX()#|!t-ths<=(hMAX()-hDEG())/supMAX()");
+                                            orL('L=="shs < supMAX()|!t-ths<=(hMAX()-hDEG())/supMAX()"); <(
+                                              "shs < supMAX()":
+                                                auto,
+                                              "!t-ths<=(hMAX()-hDEG())/supMAX()":
+                                                notLessEqual('L=="!t-ths<=(hMAX()-hDEG())/supMAX()");
+                                                dC("t-ths>(hMAX()-hDEG())/supMAX()", 'R=="[{t'=1,c'=1,h'=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate()-d&c<=TS()}](fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())"); <(
+                                                  "Use":
+                                                    auto,
+                                                  "Show":
+                                                    hideL('L=="a2=0|a2=1");
+                                                    hideL('L=="a1=0|a1=1");
+                                                    hideL('L=="a3=0|a3=1");
+                                                    hideL('L=="fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG()");
+                                                    hideL('L=="p2=1|p2=0");
+                                                    hideL('L=="p3=1|p3=0");
+                                                    hideL('L=="p1=1|p1=0");
+                                                    auto
+                                                )
+                                            )
+                                        )
+                                    )
+                                ),
+                              "Show":
+                                hideR('R=="[{t'=1,c'=1,h'=(min(a1,p1)+min(a2,p2)+min(a3,p3))*pRate()-d&c<=TS()}](fail=1&hhs>hMAX()&shs>=supMAX()&t-ths<=(hMAX()-hDEG())/supMAX()->h>=hhs-supMAX()*(t-ths)&h>hDEG()&asup>=supDEG())");
+                                QE
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+End.
+
+End.

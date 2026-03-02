@@ -1,0 +1,504 @@
+﻿Lemma "Top Level 6 Opp: Proof".
+"  ==>  (((simTime) = ((0.0)))&(((SMALLSTEPSIZE()) = ((0.01)))&(((smallStep) = ((0.0)))&(((STEPTSRL()) >= ((0)))&(((STEPTSA()) > ((0)))&(((STEPTSB()) > ((0)))&(((STEPTSC()) > ((0)))&(((STEPTSD()) > ((0)))&(((STEPTSE()) > ((0)))&(((STEPTSF()) > ((0)))&(((SAFETYDISTANCEA()) >= ((0.0)))&(((SAFETYDISTANCEB()) >= ((0.0)))&(((SAFETYDISTANCEC()) >= ((0.0)))&(((SAFETYDISTANCED()) >= ((0.0)))&(((SAFETYDISTANCEE()) >= ((0.0)))&(((SAFETYDISTANCEF()) >= ((0.0)))&(((THRESHOLDB()) >= (((VMAXB())*(STEPTSB()))+(SAFETYDISTANCEB())))&(((THRESHOLDA()) >= (((VMAXA())*(STEPTSA()))+(SAFETYDISTANCEA())))&(((THRESHOLDC()) >= (((VMAXC())*(STEPTSC()))+(SAFETYDISTANCEC())))&(((THRESHOLDD()) >= (((VMAXD())*(STEPTSD()))+(SAFETYDISTANCED())))&(((THRESHOLDE()) >= (((VMAXE())*(STEPTSE()))+(SAFETYDISTANCEE())))&(((THRESHOLDF()) >= (((VMAXF())*(STEPTSF()))+(SAFETYDISTANCEF())))&(((VMAXA()) >= ((0.0)))&(((VMAXB()) >= ((0.0)))&(((VMAXC()) >= ((0.0)))&(((VMAXD()) >= ((0.0)))&(((VMAXE()) >= ((0.0)))&(((VMAXF()) >= ((0.0)))&(((((((XA)-(XRL))^((2.0)))+(((YA)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEA()))&(((((((XB)-(XRL))^((2.0)))+(((YB)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEB()))&(((((((XC)-(XRL))^((2.0)))+(((YC)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEC()))&(((((((XD)-(XRL))^((2.0)))+(((YD)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCED()))&(((((((XE)-(XRL))^((2.0)))+(((YE)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEE()))&((((((XF)-(XRL))^((2.0)))+(((YF)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEF())))))))))))))))))))))))))))))))))))->([{{smallStep:=(0.0);};{{{GoalXA:=*;};{GoalYA:=*;}};{{{GoalXRL:=*;};{GoalYRL:=*;}};{{{GoalXB:=*;};{GoalYB:=*;}};{{{GoalXC:=*;};{GoalYC:=*;}};{{{GoalXD:=*;};{GoalYD:=*;}};{{{GoalXE:=*;};{GoalYE:=*;}};{{{GoalXF:=*;};{GoalYF:=*;}};{{XRLOld:=XRL;};{{YRLOld:=YRL;};{{tDiff:=(simTime)-(simTimeOld);};{{simTimeOld:=simTime;};{{XAOld:=XA;};{{YAOld:=YA;};{{XBOld:=XB;};{{YBOld:=YB;};{{XCOld:=XC;};{{YCOld:=YC;};{{XDOld:=XD;};{{YDOld:=YD;};{{XEOld:=XE;};{{YEOld:=YE;};{{XDOld:=XD;};{{YDOld:=YD;};{{XFOld:=XF;};{{YFOld:=YF;};{{XRL:=*;};{{YRL:=*;};{{ArrivedRL:=*;};{{XA:=*;};{{YA:=*;};{{ArrivedA:=*;};{{XB:=*;};{{YB:=*;};{{ArrivedB:=*;};{{XC:=*;};{{YC:=*;};{{ArrivedC:=*;};{{XD:=*;};{{YD:=*;};{{ArrivedD:=*;};{{XE:=*;};{{YE:=*;};{{ArrivedE:=*;};{{XF:=*;};{{YF:=*;};{{ArrivedF:=*;};{{{?((((STEPTSA()) > ((0.0)))&(((SAFETYDISTANCEA()) >= ((0)))&(((THRESHOLDA()) >= (((VMAXA())*(STEPTSA()))+(SAFETYDISTANCEA())))&(((VMAXA()) >= ((0.0)))&((((((((XAOld)-(XRL))^((2.0)))+(((YAOld)-(YRL))^((2.0))))^((0.5))) > (THRESHOLDA()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld))))&((((((XAOld)-(XRL))^((2.0)))+(((YAOld)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEA())))))))->((((((XA)-(XRL))^((2.0)))+(((YA)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEA())));};{?((((THRESHOLDA()) >= ((0)))&(((VMAXA()) >= ((0)))&((STEPTSA()) > ((0)))))->((((((XA)-(XAOld))^((2.0)))+(((YA)-(YAOld))^((2.0))))^((0.5))) <= ((VMAXA())*(tDiff))));}};{{{?((((STEPTSB()) > ((0.0)))&(((SAFETYDISTANCEB()) >= ((0)))&(((THRESHOLDB()) >= (((VMAXB())*(STEPTSB()))+(SAFETYDISTANCEB())))&(((VMAXB()) >= ((0.0)))&((((((((XBOld)-(XRL))^((2.0)))+(((YBOld)-(YRL))^((2.0))))^((0.5))) > (THRESHOLDB()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld))))&((((((XBOld)-(XRL))^((2.0)))+(((YBOld)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEB())))))))->((((((XB)-(XRL))^((2.0)))+(((YB)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEB())));};{?((((THRESHOLDB()) >= ((0)))&(((VMAXB()) >= ((0)))&((STEPTSB()) > ((0)))))->((((((XB)-(XBOld))^((2.0)))+(((YB)-(YBOld))^((2.0))))^((0.5))) <= ((VMAXB())*(tDiff))));}};{{{?((((STEPTSC()) > ((0.0)))&(((SAFETYDISTANCEC()) >= ((0)))&(((THRESHOLDC()) >= (((VMAXC())*(STEPTSC()))+(SAFETYDISTANCEC())))&(((VMAXC()) >= ((0.0)))&((((((((XCOld)-(XRL))^((2.0)))+(((YCOld)-(YRL))^((2.0))))^((0.5))) > (THRESHOLDC()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld))))&((((((XCOld)-(XRL))^((2.0)))+(((YCOld)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEC())))))))->((((((XC)-(XRL))^((2.0)))+(((YC)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEC())));};{?((((THRESHOLDC()) >= ((0)))&(((VMAXC()) >= ((0)))&((STEPTSC()) > ((0)))))->((((((XC)-(XCOld))^((2.0)))+(((YC)-(YCOld))^((2.0))))^((0.5))) <= ((VMAXC())*(tDiff))));}};{{{?((((STEPTSD()) > ((0.0)))&(((SAFETYDISTANCED()) >= ((0)))&(((THRESHOLDD()) >= (((VMAXD())*(STEPTSD()))+(SAFETYDISTANCED())))&(((VMAXD()) >= ((0.0)))&((((((((XDOld)-(XRL))^((2.0)))+(((YDOld)-(YRL))^((2.0))))^((0.5))) > (THRESHOLDD()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld))))&((((((XDOld)-(XRL))^((2.0)))+(((YDOld)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCED())))))))->((((((XD)-(XRL))^((2.0)))+(((YD)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCED())));};{?((((THRESHOLDD()) >= ((0)))&(((VMAXD()) >= ((0)))&((STEPTSD()) > ((0)))))->((((((XD)-(XDOld))^((2.0)))+(((YD)-(YDOld))^((2.0))))^((0.5))) <= ((VMAXD())*(tDiff))));}};{{{?((((STEPTSE()) > ((0.0)))&(((SAFETYDISTANCEE()) >= ((0)))&(((THRESHOLDE()) >= (((VMAXE())*(STEPTSE()))+(SAFETYDISTANCEE())))&(((VMAXE()) >= ((0.0)))&((((((((XEOld)-(XRL))^((2.0)))+(((YEOld)-(YRL))^((2.0))))^((0.5))) > (THRESHOLDE()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld))))&((((((XEOld)-(XRL))^((2.0)))+(((YEOld)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEE())))))))->((((((XE)-(XRL))^((2.0)))+(((YE)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEE())));};{?((((THRESHOLDE()) >= ((0)))&(((VMAXE()) >= ((0)))&((STEPTSE()) > ((0)))))->((((((XE)-(XEOld))^((2.0)))+(((YE)-(YEOld))^((2.0))))^((0.5))) <= ((VMAXE())*(tDiff))));}};{{{?((((STEPTSF()) > ((0.0)))&(((SAFETYDISTANCEF()) >= ((0)))&(((THRESHOLDF()) >= (((VMAXF())*(STEPTSF()))+(SAFETYDISTANCEF())))&(((VMAXF()) >= ((0.0)))&((((((((XFOld)-(XRL))^((2.0)))+(((YFOld)-(YRL))^((2.0))))^((0.5))) > (THRESHOLDF()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld))))&((((((XFOld)-(XRL))^((2.0)))+(((YFOld)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEF())))))))->((((((XF)-(XRL))^((2.0)))+(((YF)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEF())));};{?((((THRESHOLDF()) >= ((0)))&(((VMAXF()) >= ((0)))&((STEPTSF()) > ((0)))))->((((((XF)-(XFOld))^((2.0)))+(((YF)-(YFOld))^((2.0))))^((0.5))) <= ((VMAXF())*(tDiff))));}};{{{?((((VMAXA()) >= ((0.0)))&(((STEPTSRL()) >= ((0.0)))&((((((XA)-(XAOld))^((2.0)))+(((YA)-(YAOld))^((2.0))))^((0.5))) <= ((VMAXA())*(tDiff)))))->(((((((XAOld)-(XRL))^((2.0)))+(((YAOld)-(YRL))^((2.0))))^((0.5))) > (THRESHOLDA()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld)))));};{{?((((VMAXB()) >= ((0.0)))&(((STEPTSRL()) >= ((0.0)))&((((((XB)-(XBOld))^((2.0)))+(((YB)-(YBOld))^((2.0))))^((0.5))) <= ((VMAXB())*(tDiff)))))->(((((((XBOld)-(XRL))^((2.0)))+(((YBOld)-(YRL))^((2.0))))^((0.5))) > (THRESHOLDB()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld)))));};{{?((((VMAXC()) >= ((0.0)))&(((STEPTSRL()) >= ((0.0)))&((((((XC)-(XCOld))^((2.0)))+(((YC)-(YCOld))^((2.0))))^((0.5))) <= ((VMAXC())*(tDiff)))))->(((((((XCOld)-(XRL))^((2.0)))+(((YCOld)-(YRL))^((2.0))))^((0.5))) > (THRESHOLDC()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld)))));};{{?((((VMAXD()) >= ((0.0)))&(((STEPTSRL()) >= ((0.0)))&((((((XD)-(XDOld))^((2.0)))+(((YD)-(YDOld))^((2.0))))^((0.5))) <= ((VMAXD())*(tDiff)))))->(((((((XDOld)-(XRL))^((2.0)))+(((YDOld)-(YRL))^((2.0))))^((0.5))) > (THRESHOLDD()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld)))));};{{?((((VMAXE()) >= ((0.0)))&(((STEPTSRL()) >= ((0.0)))&((((((XE)-(XEOld))^((2.0)))+(((YE)-(YEOld))^((2.0))))^((0.5))) <= ((VMAXE())*(tDiff)))))->(((((((XEOld)-(XRL))^((2.0)))+(((YEOld)-(YRL))^((2.0))))^((0.5))) > (THRESHOLDE()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld)))));};{?((((VMAXF()) >= ((0.0)))&(((STEPTSRL()) >= ((0.0)))&((((((XF)-(XFOld))^((2.0)))+(((YF)-(YFOld))^((2.0))))^((0.5))) <= ((VMAXF())*(tDiff)))))->(((((((XFOld)-(XRL))^((2.0)))+(((YFOld)-(YRL))^((2.0))))^((0.5))) > (THRESHOLDF()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld)))));}}}}}};{{?(true);};{{simTime'=(1.0),smallStep'=(1.0)}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}*](((((((XA)-(XRL))^((2.0)))+(((YA)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEA()))&(((((((XB)-(XRL))^((2.0)))+(((YB)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEB()))&(((((((XC)-(XRL))^((2.0)))+(((YC)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEC()))&(((((((XD)-(XRL))^((2.0)))+(((YD)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCED()))&(((((((XE)-(XRL))^((2.0)))+(((YE)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEE()))&((((((XF)-(XRL))^((2.0)))+(((YF)-(YRL))^((2.0))))^((0.5))) > (SAFETYDISTANCEF()))))))))
+\qed::3d238eea8b21ca0b1499d8210a3f2fb5"
+End.
+Tool.
+  tool """"KeYmaera X""""
+  model """"Theorem "Top Level 6 Opp"
+
+Functions.
+  R SMALLSTEPSIZE.
+  R STEPTSA.
+  R THRESHOLDA.
+  R VMAXA.
+  R SAFETYDISTANCEA.
+  R STEPTSRL.
+  R THRESHOLDB.
+  R STEPTSB.
+  R VMAXB.
+  R SAFETYDISTANCEB.
+  R THRESHOLDC.
+  R STEPTSC.
+  R VMAXC.
+  R SAFETYDISTANCEC.
+  R THRESHOLDD.
+  R STEPTSD.
+  R VMAXD.
+  R SAFETYDISTANCED.
+  R THRESHOLDE.
+  R STEPTSE.
+  R VMAXE.
+  R SAFETYDISTANCEE.
+  R THRESHOLDF.
+  R STEPTSF.
+  R VMAXF.
+  R SAFETYDISTANCEF.
+End.
+
+ProgramVariables.
+  R simTime.
+  R XRLOld.
+  R YRLOld.
+  R XAOld.
+  R YAOld.
+  R tDiff.
+  R simTimeOld.
+  R XA.
+  R YA.
+  R ArrivedA.
+  R ArrivedB. 
+  R ArrivedC.
+  R ArrivedD.
+  R ArrivedE.
+  R ArrivedF.
+  R GoalXA.
+  R GoalYA.
+  R XRL.
+  R YRL.
+  R ArrivedRL.
+  R XBOld.
+  R YBOld.
+  R XCOld.
+  R YCOld.
+  R XDOld.
+  R YDOld.
+  R XEOld.
+  R YEOld.
+  R XFOld.
+  R YFOld.
+  R XB.
+  R YB.
+  R XC.
+  R YC.
+  R XD.
+  R YD.
+  R XE.
+  R YE.
+  R XF.
+  R YF.
+  R GoalXRL.
+  R GoalYRL.
+  R GoalXB.
+  R GoalYB.
+  R GoalXC.
+  R GoalYC.
+  R GoalXD.
+  R GoalYD.
+  R GoalXE.
+  R GoalYE.
+  R GoalXF.
+  R GoalYF.
+  R smallStep.
+End.
+
+Problem.
+(simTime = 0.0) &
+  (SMALLSTEPSIZE = 0.01) &
+  (smallStep = 0.0) &
+    STEPTSRL >=0&
+    STEPTSA >0&
+    STEPTSB >0&
+    STEPTSC >0&
+    STEPTSD >0&
+    STEPTSE >0&
+    STEPTSF >0&
+    SAFETYDISTANCEA >= 0.0&
+    SAFETYDISTANCEB >= 0.0&
+    SAFETYDISTANCEC >= 0.0&
+    SAFETYDISTANCED >= 0.0&
+    SAFETYDISTANCEE >= 0.0&
+    SAFETYDISTANCEF >= 0.0&
+    THRESHOLDB >= ((VMAXB*STEPTSB)+SAFETYDISTANCEB)&
+    THRESHOLDA >= ((VMAXA*STEPTSA)+SAFETYDISTANCEA)&
+    THRESHOLDC >= ((VMAXC*STEPTSC)+SAFETYDISTANCEC)&
+    THRESHOLDD >= ((VMAXD*STEPTSD)+SAFETYDISTANCED)&
+    THRESHOLDE >= ((VMAXE*STEPTSE)+SAFETYDISTANCEE)&
+    THRESHOLDF >= ((VMAXF*STEPTSF)+SAFETYDISTANCEF)&
+    VMAXA >= 0.0&
+    VMAXB >= 0.0&
+    VMAXC >= 0.0&
+    VMAXD >= 0.0&
+    VMAXE >= 0.0&
+    VMAXF >= 0.0&
+    ((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5 > SAFETYDISTANCEA&
+    ((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5 > SAFETYDISTANCEB&
+    ((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5 > SAFETYDISTANCEC&
+    ((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5 > SAFETYDISTANCED&
+    ((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5 > SAFETYDISTANCEE&
+    ((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5 > SAFETYDISTANCEF
+->([
+    {
+      smallStep:=0.0;
+      /* Job-Scheduler Contracts */
+      {
+        GoalXA:= *;
+        GoalYA:= *;
+      }
+      {
+        GoalXRL:= *;
+        GoalYRL:= *;
+      }
+      {
+        GoalXB:= *;
+        GoalYB:= *;
+      }
+      {
+        GoalXC:= *;
+        GoalYC:= *;
+      }
+      {
+        GoalXD:= *;
+        GoalYD:= *;
+      }
+      {
+        GoalXE:= *;
+        GoalYE:= *;
+      }
+      {
+        GoalXF:= *;
+        GoalYF:= *;
+      }
+      XRLOld:=XRL;
+      YRLOld:=YRL;
+      tDiff:=(simTime-simTimeOld);
+      simTimeOld:=simTime;
+      XAOld:=XA;
+      YAOld:=YA;
+      XBOld:=XB;
+      YBOld:=YB;
+      XCOld:=XC;
+      YCOld:=YC;
+      XDOld:=XD;
+      YDOld:=YD;
+      XEOld:=XE;
+      YEOld:=YE;
+      XDOld:=XD;
+      YDOld:=YD;
+      XFOld:=XF;
+      YFOld:=YF;
+      XRL:= *;
+      YRL:= *;
+      ArrivedRL:= *;
+      XA:= *;
+      YA:= *;
+      ArrivedA:= *;
+      XB:= *;
+      YB:= *;
+      ArrivedB:= *;
+      XC:= *;
+      YC:= *;
+      ArrivedC:= *;
+      XD:= *;
+      YD:= *;
+      ArrivedD:= *;
+      XE:= *;
+      YE:= *;
+      ArrivedE:= *;
+      XF:= *;
+      YF:= *;
+      ArrivedF:= *;
+      
+      /* Opponent Contracts */
+      {
+        ?((STEPTSA > 0.0) &
+            (SAFETYDISTANCEA >=0) &
+            (THRESHOLDA >= ((VMAXA*STEPTSA)+SAFETYDISTANCEA)) &
+            (VMAXA >= 0.0) &
+            ((((((XAOld-XRL)^2.0)+((YAOld-YRL)^2.0))^0.5) > THRESHOLDA) |
+              ((XRL = XRLOld) &
+                (YRL = YRLOld))) &
+            (((((XAOld-XRL)^2.0)+((YAOld-YRL)^2.0))^0.5) > SAFETYDISTANCEA)
+          ->((((((XA-XRL)^2.0)+((YA-YRL)^2.0))^0.5) > SAFETYDISTANCEA)));
+        ?(( (THRESHOLDA>=0) &
+            (VMAXA>=0) &
+            (STEPTSA>0))
+          ->((((((XA-XAOld)^2.0)+((YA-YAOld)^2.0))^0.5) <= (VMAXA*tDiff))));
+      }
+      {
+        ?((STEPTSB > 0.0) &
+            (SAFETYDISTANCEB >=0) &
+            (THRESHOLDB >= ((VMAXB*STEPTSB)+SAFETYDISTANCEB)) &
+            (VMAXB >= 0.0) &
+            ((((((XBOld-XRL)^2.0)+((YBOld-YRL)^2.0))^0.5) > THRESHOLDB) |
+              ((XRL = XRLOld) &
+                (YRL = YRLOld))) &
+            (((((XBOld-XRL)^2.0)+((YBOld-YRL)^2.0))^0.5) > SAFETYDISTANCEB)
+          ->((((((XB-XRL)^2.0)+((YB-YRL)^2.0))^0.5) > SAFETYDISTANCEB)));
+        ?(( (THRESHOLDB>=0) &
+            (VMAXB>=0) &
+            (STEPTSB>0))
+          ->((((((XB-XBOld)^2.0)+((YB-YBOld)^2.0))^0.5) <= (VMAXB*tDiff))));
+      }
+      {
+        ?((STEPTSC > 0.0) &
+            (SAFETYDISTANCEC >=0) &
+            (THRESHOLDC >= ((VMAXC*STEPTSC)+SAFETYDISTANCEC)) &
+            (VMAXC >= 0.0) &
+            ((((((XCOld-XRL)^2.0)+((YCOld-YRL)^2.0))^0.5) > THRESHOLDC) |
+              ((XRL = XRLOld) &
+                (YRL = YRLOld))) &
+            (((((XCOld-XRL)^2.0)+((YCOld-YRL)^2.0))^0.5) > SAFETYDISTANCEC)
+          ->((((((XC-XRL)^2.0)+((YC-YRL)^2.0))^0.5) > SAFETYDISTANCEC)));
+        ?(( (THRESHOLDC>=0) &
+            (VMAXC>=0) &
+            (STEPTSC>0))
+          ->((((((XC-XCOld)^2.0)+((YC-YCOld)^2.0))^0.5) <= (VMAXC*tDiff))));
+      }
+      {
+        ?((STEPTSD > 0.0) &
+            (SAFETYDISTANCED >=0) &
+            (THRESHOLDD >= ((VMAXD*STEPTSD)+SAFETYDISTANCED)) &
+            (VMAXD >= 0.0) &
+            ((((((XDOld-XRL)^2.0)+((YDOld-YRL)^2.0))^0.5) > THRESHOLDD) |
+              ((XRL = XRLOld) &
+                (YRL = YRLOld))) &
+            (((((XDOld-XRL)^2.0)+((YDOld-YRL)^2.0))^0.5) > SAFETYDISTANCED)
+          ->((((((XD-XRL)^2.0)+((YD-YRL)^2.0))^0.5) > SAFETYDISTANCED)));
+        ?(( (THRESHOLDD>=0) &
+            (VMAXD>=0) &
+            (STEPTSD>0))
+          ->((((((XD-XDOld)^2.0)+((YD-YDOld)^2.0))^0.5) <= (VMAXD*tDiff))));
+      }
+        {
+        ?((STEPTSE > 0.0) &
+            (SAFETYDISTANCEE >=0) &
+            (THRESHOLDE >= ((VMAXE*STEPTSE)+SAFETYDISTANCEE)) &
+            (VMAXE >= 0.0) &
+            ((((((XEOld-XRL)^2.0)+((YEOld-YRL)^2.0))^0.5) > THRESHOLDE) |
+              ((XRL = XRLOld) &
+                (YRL = YRLOld))) &
+            (((((XEOld-XRL)^2.0)+((YEOld-YRL)^2.0))^0.5) > SAFETYDISTANCEE)
+          ->((((((XE-XRL)^2.0)+((YE-YRL)^2.0))^0.5) > SAFETYDISTANCEE)));
+        ?(( (THRESHOLDE>=0) &
+            (VMAXE>=0) &
+            (STEPTSE>0))
+          ->((((((XE-XEOld)^2.0)+((YE-YEOld)^2.0))^0.5) <= (VMAXE*tDiff))));
+      }
+        {
+        ?((STEPTSF > 0.0) &
+            (SAFETYDISTANCEF >=0) &
+            (THRESHOLDF >= ((VMAXF*STEPTSF)+SAFETYDISTANCEF)) &
+            (VMAXF >= 0.0) &
+            ((((((XFOld-XRL)^2.0)+((YFOld-YRL)^2.0))^0.5) > THRESHOLDF) |
+              ((XRL = XRLOld) &
+                (YRL = YRLOld))) &
+            (((((XFOld-XRL)^2.0)+((YFOld-YRL)^2.0))^0.5) > SAFETYDISTANCEF)
+          ->((((((XF-XRL)^2.0)+((YF-YRL)^2.0))^0.5) > SAFETYDISTANCEF)));
+        ?(( (THRESHOLDF>=0) &
+            (VMAXF>=0) &
+            (STEPTSF>0))
+          ->((((((XF-XFOld)^2.0)+((YF-YFOld)^2.0))^0.5) <= (VMAXF*tDiff))));
+      }
+      /* RL Agent Contracts */
+      {
+        ?((VMAXA >= 0.0) &
+            (STEPTSRL >= 0.0) &
+            (((((XA-XAOld)^2.0)+((YA-YAOld)^2.0))^0.5) <= (VMAXA*tDiff))
+          ->(((((((XAOld-XRL)^2.0)+((YAOld-YRL)^2.0))^0.5) > THRESHOLDA) |
+              ((XRL = XRLOld) &
+                (YRL = YRLOld)))));
+        ?((VMAXB >= 0.0) &
+            (STEPTSRL >= 0.0) &
+            (((((XB-XBOld)^2.0)+((YB-YBOld)^2.0))^0.5) <= (VMAXB*tDiff))
+          ->(((((((XBOld-XRL)^2.0)+((YBOld-YRL)^2.0))^0.5) > THRESHOLDB) |
+              ((XRL = XRLOld) &
+                (YRL = YRLOld)))));
+        ?((VMAXC >= 0.0) &
+            (STEPTSRL >= 0.0) &
+            (((((XC-XCOld)^2.0)+((YC-YCOld)^2.0))^0.5) <= (VMAXC*tDiff))
+          ->(((((((XCOld-XRL)^2.0)+((YCOld-YRL)^2.0))^0.5) > THRESHOLDC) |
+              ((XRL = XRLOld) &
+                (YRL = YRLOld)))));
+        ?((VMAXD >= 0.0) &
+            (STEPTSRL >= 0.0) &
+            (((((XD-XDOld)^2.0)+((YD-YDOld)^2.0))^0.5) <= (VMAXD*tDiff))
+          ->(((((((XDOld-XRL)^2.0)+((YDOld-YRL)^2.0))^0.5) > THRESHOLDD) |
+              ((XRL = XRLOld) &
+                (YRL = YRLOld)))));
+        ?((VMAXE >= 0.0) &
+            (STEPTSRL >= 0.0) &
+            (((((XE-XEOld)^2.0)+((YE-YEOld)^2.0))^0.5) <= (VMAXE*tDiff))
+          ->(((((((XEOld-XRL)^2.0)+((YEOld-YRL)^2.0))^0.5) > THRESHOLDE) |
+              ((XRL = XRLOld) &
+                (YRL = YRLOld)))));
+        ?((VMAXF >= 0.0) &
+            (STEPTSRL >= 0.0) &
+            (((((XF-XFOld)^2.0)+((YF-YFOld)^2.0))^0.5) <= (VMAXF*tDiff))
+          ->(((((((XFOld-XRL)^2.0)+((YFOld-YRL)^2.0))^0.5) > THRESHOLDF) |
+              ((XRL = XRLOld) &
+                (YRL = YRLOld)))));
+      }
+      {
+        ?((true));
+        {
+          simTime' = 1.0,
+          smallStep' = 1.0
+        &(true)
+        }
+      }
+    }*
+  ] ((((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5 > SAFETYDISTANCEA) &
+(((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5 > SAFETYDISTANCEB) &
+(((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5 > SAFETYDISTANCEC) &
+(((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5 > SAFETYDISTANCED) &
+(((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5 > SAFETYDISTANCEE) &
+(((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5 > SAFETYDISTANCEF)))
+End.
+
+Tactic "Top Level 6 Opp: Proof"
+unfold ; loop("((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()&((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()&((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()&((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()&((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()&((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()", 1) ; <(
+  auto,
+  auto,
+  unfold ; andR(1) ; <(
+    hideL(-51=="STEPTSB()>0.0&SAFETYDISTANCEB()>=0&THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()&VMAXB()>=0.0&(((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld)&((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>SAFETYDISTANCEB()->((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-51=="THRESHOLDB()>=0&VMAXB()>=0&STEPTSB()>0->((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff") ; hideL(-51=="STEPTSC()>0.0&SAFETYDISTANCEC()>=0&THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()&VMAXC()>=0.0&(((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld)&((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>SAFETYDISTANCEC()->((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-51=="THRESHOLDC()>=0&VMAXC()>=0&STEPTSC()>0->((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff") ; hideL(-51=="STEPTSD()>0.0&SAFETYDISTANCED()>=0&THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()&VMAXD()>=0.0&(((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld)&((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>SAFETYDISTANCED()->((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-51=="THRESHOLDD()>=0&VMAXD()>=0&STEPTSD()>0->((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff") ; hideL(-51=="STEPTSE()>0.0&SAFETYDISTANCEE()>=0&THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()&VMAXE()>=0.0&(((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld)&((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>SAFETYDISTANCEE()->((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-51=="THRESHOLDE()>=0&VMAXE()>=0&STEPTSE()>0->((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff") ; hideL(-51=="STEPTSF()>0.0&SAFETYDISTANCEF()>=0&THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()&VMAXF()>=0.0&(((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld)&((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>SAFETYDISTANCEF()->((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-51=="THRESHOLDF()>=0&VMAXF()>=0&STEPTSF()>0->((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff") ; hideL(-52=="VMAXB()>=0.0&STEPTSRL()>=0.0&((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff->((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld") ; hideL(-52=="VMAXC()>=0.0&STEPTSRL()>=0.0&((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff->((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld") ; hideL(-52=="VMAXD()>=0.0&STEPTSRL()>=0.0&((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff->((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld") ; hideL(-52=="VMAXE()>=0.0&STEPTSRL()>=0.0&((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff->((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld") ; hideL(-52=="VMAXF()>=0.0&STEPTSRL()>=0.0&((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff->((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld") ; hideL(-29=="((XB_0-XRL_0)^2.0+(YB_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-29=="((XC_0-XRL_0)^2.0+(YC_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-29=="((XD_0-XRL_0)^2.0+(YD_0-YRL_0)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-29=="((XE_0-XRL_0)^2.0+(YE_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-29=="((XF_0-XRL_0)^2.0+(YF_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEF()") ; auto ; hideL(-15=="THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()") ; hideL(-16=="THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()") ; hideL(-16=="THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()") ; hideL(-16=="THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()") ; hideL(-16=="THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()") ; hideL(-10=="SAFETYDISTANCEB()>=0.0") ; hideL(-10=="SAFETYDISTANCEC()>=0.0") ; hideL(-10=="SAFETYDISTANCED()>=0.0") ; hideL(-10=="SAFETYDISTANCEE()>=0.0") ; hideL(-10=="SAFETYDISTANCEF()>=0.0") ; hideL(-4=="STEPTSB()>0") ; hideL(-4=="STEPTSC()>0") ; hideL(-4=="STEPTSD()>0") ; hideL(-4=="STEPTSE()>0") ; hideL(-4=="STEPTSF()>0") ; hideL(-7=="VMAXB()>=0.0") ; hideL(-7=="VMAXC()>=0.0") ; hideL(-7=="VMAXD()>=0.0") ; hideL(-7=="VMAXE()>=0.0") ; hideL(-7=="VMAXF()>=0.0") ; hideL(-7=="smallStep=0.0") ; hideL(-13=="XBOld=XB_0") ; hideL(-13=="YBOld=YB_0") ; hideL(-13=="XCOld=XC_0") ; hideL(-13=="YCOld=YC_0") ; hideL(-13=="XEOld=XE_0") ; hideL(-13=="YEOld=YE_0") ; hideL(-13=="XDOld=XD_0") ; hideL(-13=="YDOld=YD_0") ; hideL(-13=="XFOld=XF_0") ; hideL(-13=="YFOld=YF_0") ; auto ; implyL(-14) ; <(
+      hideR(1=="((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; auto,
+      implyL(-15) ; <(
+        hideR(1=="((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; auto,
+        implyL(-13) ; <(
+          hideR(1=="((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; auto,
+          auto
+          )
+        )
+      ),
+    andR(1) ; <(
+      hideL(-3=="STEPTSA()>0") ; hideL(-4=="STEPTSC()>0") ; hideL(-4=="STEPTSD()>0") ; hideL(-4=="STEPTSE()>0") ; hideL(-4=="STEPTSF()>0") ; hideL(-4=="SAFETYDISTANCEA()>=0.0") ; hideL(-5=="SAFETYDISTANCEC()>=0.0") ; hideL(-5=="SAFETYDISTANCED()>=0.0") ; hideL(-5=="SAFETYDISTANCEE()>=0.0") ; hideL(-5=="SAFETYDISTANCEF()>=0.0") ; hideL(-6=="THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()") ; hideL(-6=="THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()") ; hideL(-6=="THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()") ; hideL(-6=="THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()") ; hideL(-6=="THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()") ; hideL(-6=="VMAXA()>=0.0") ; hideL(-7=="VMAXC()>=0.0") ; hideL(-7=="VMAXD()>=0.0") ; hideL(-7=="VMAXE()>=0.0") ; hideL(-7=="VMAXF()>=0.0") ; hideL(-7=="smallStep=0.0") ; hideL(-7=="((XA_0-XRL_0)^2.0+(YA_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-8=="((XC_0-XRL_0)^2.0+(YC_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-8=="((XD_0-XRL_0)^2.0+(YD_0-YRL_0)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-8=="((XE_0-XRL_0)^2.0+(YE_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-8=="((XF_0-XRL_0)^2.0+(YF_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEF()") ; implyL(-26) ; <(
+        hideR(1=="((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-23=="STEPTSA()>0.0&SAFETYDISTANCEA()>=0&THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()&VMAXA()>=0.0&(((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld)&((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>SAFETYDISTANCEA()->((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-23=="THRESHOLDA()>=0&VMAXA()>=0&STEPTSA()>0->((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff") ; hideL(-24=="STEPTSC()>0.0&SAFETYDISTANCEC()>=0&THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()&VMAXC()>=0.0&(((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld)&((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>SAFETYDISTANCEC()->((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-24=="THRESHOLDC()>=0&VMAXC()>=0&STEPTSC()>0->((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff") ; hideL(-24=="STEPTSD()>0.0&SAFETYDISTANCED()>=0&THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()&VMAXD()>=0.0&(((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld)&((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>SAFETYDISTANCED()->((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-24=="THRESHOLDD()>=0&VMAXD()>=0&STEPTSD()>0->((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff") ; hideL(-24=="STEPTSE()>0.0&SAFETYDISTANCEE()>=0&THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()&VMAXE()>=0.0&(((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld)&((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>SAFETYDISTANCEE()->((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-24=="THRESHOLDE()>=0&VMAXE()>=0&STEPTSE()>0->((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff") ; hideL(-24=="STEPTSF()>0.0&SAFETYDISTANCEF()>=0&THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()&VMAXF()>=0.0&(((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld)&((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>SAFETYDISTANCEF()->((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-24=="THRESHOLDF()>=0&VMAXF()>=0&STEPTSF()>0->((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff") ; hideL(-24=="VMAXA()>=0.0&STEPTSRL()>=0.0&((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff->((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld") ; hideL(-25=="VMAXC()>=0.0&STEPTSRL()>=0.0&((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff->((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld") ; hideL(-25=="VMAXD()>=0.0&STEPTSRL()>=0.0&((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff->((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld") ; hideL(-25=="VMAXE()>=0.0&STEPTSRL()>=0.0&((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff->((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld") ; hideL(-25=="VMAXF()>=0.0&STEPTSRL()>=0.0&((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff->((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld") ; auto,
+        hideL(-23=="STEPTSA()>0.0&SAFETYDISTANCEA()>=0&THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()&VMAXA()>=0.0&(((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld)&((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>SAFETYDISTANCEA()->((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-23=="THRESHOLDA()>=0&VMAXA()>=0&STEPTSA()>0->((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff") ; hideL(-25=="STEPTSC()>0.0&SAFETYDISTANCEC()>=0&THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()&VMAXC()>=0.0&(((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld)&((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>SAFETYDISTANCEC()->((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-25=="THRESHOLDC()>=0&VMAXC()>=0&STEPTSC()>0->((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff") ; hideL(-25=="STEPTSD()>0.0&SAFETYDISTANCED()>=0&THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()&VMAXD()>=0.0&(((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld)&((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>SAFETYDISTANCED()->((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-25=="THRESHOLDD()>=0&VMAXD()>=0&STEPTSD()>0->((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff") ; hideL(-25=="STEPTSE()>0.0&SAFETYDISTANCEE()>=0&THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()&VMAXE()>=0.0&(((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld)&((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>SAFETYDISTANCEE()->((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-25=="THRESHOLDE()>=0&VMAXE()>=0&STEPTSE()>0->((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff") ; hideL(-25=="STEPTSF()>0.0&SAFETYDISTANCEF()>=0&THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()&VMAXF()>=0.0&(((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld)&((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>SAFETYDISTANCEF()->((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-25=="THRESHOLDF()>=0&VMAXF()>=0&STEPTSF()>0->((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff") ; hideL(-25=="VMAXA()>=0.0&STEPTSRL()>=0.0&((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff->((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXC()>=0.0&STEPTSRL()>=0.0&((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff->((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXD()>=0.0&STEPTSRL()>=0.0&((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff->((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXE()>=0.0&STEPTSRL()>=0.0&((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff->((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXF()>=0.0&STEPTSRL()>=0.0&((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff->((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld") ; auto ; implyL(-25) ; <(
+          hideR(1=="((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; auto,
+          implyL(-23) ; <(
+            hideR(1=="((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; auto,
+            auto
+            )
+          )
+        ),
+      andR(1) ; <(
+        hideL(-3=="STEPTSA()>0") ; hideL(-3=="STEPTSB()>0") ; hideL(-4=="STEPTSD()>0") ; hideL(-4=="STEPTSE()>0") ; hideL(-4=="STEPTSF()>0") ; hideL(-4=="SAFETYDISTANCEA()>=0.0") ; hideL(-4=="SAFETYDISTANCEB()>=0.0") ; hideL(-5=="SAFETYDISTANCED()>=0.0") ; hideL(-5=="SAFETYDISTANCEE()>=0.0") ; hideL(-5=="SAFETYDISTANCEF()>=0.0") ; hideL(-5=="THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()") ; hideL(-5=="THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()") ; hideL(-6=="THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()") ; hideL(-6=="THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()") ; hideL(-6=="THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()") ; hideL(-6=="VMAXA()>=0.0") ; hideL(-6=="VMAXB()>=0.0") ; hideL(-7=="VMAXD()>=0.0") ; hideL(-7=="VMAXE()>=0.0") ; hideL(-7=="VMAXF()>=0.0") ; hideL(-7=="smallStep=0.0") ; hideL(-7=="((XA_0-XRL_0)^2.0+(YA_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-7=="((XB_0-XRL_0)^2.0+(YB_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-8=="((XD_0-XRL_0)^2.0+(YD_0-YRL_0)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-8=="((XE_0-XRL_0)^2.0+(YE_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-8=="((XF_0-XRL_0)^2.0+(YF_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-23=="STEPTSA()>0.0&SAFETYDISTANCEA()>=0&THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()&VMAXA()>=0.0&(((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld)&((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>SAFETYDISTANCEA()->((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-23=="THRESHOLDA()>=0&VMAXA()>=0&STEPTSA()>0->((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff") ; hideL(-23=="STEPTSB()>0.0&SAFETYDISTANCEB()>=0&THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()&VMAXB()>=0.0&(((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld)&((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>SAFETYDISTANCEB()->((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-23=="THRESHOLDB()>=0&VMAXB()>=0&STEPTSB()>0->((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff") ; hideL(-25=="STEPTSD()>0.0&SAFETYDISTANCED()>=0&THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()&VMAXD()>=0.0&(((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld)&((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>SAFETYDISTANCED()->((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-25=="THRESHOLDD()>=0&VMAXD()>=0&STEPTSD()>0->((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff") ; hideL(-25=="STEPTSE()>0.0&SAFETYDISTANCEE()>=0&THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()&VMAXE()>=0.0&(((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld)&((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>SAFETYDISTANCEE()->((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-25=="THRESHOLDE()>=0&VMAXE()>=0&STEPTSE()>0->((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff") ; hideL(-25=="STEPTSF()>0.0&SAFETYDISTANCEF()>=0&THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()&VMAXF()>=0.0&(((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld)&((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>SAFETYDISTANCEF()->((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-25=="THRESHOLDF()>=0&VMAXF()>=0&STEPTSF()>0->((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff") ; hideL(-25=="VMAXA()>=0.0&STEPTSRL()>=0.0&((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff->((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld") ; hideL(-25=="VMAXB()>=0.0&STEPTSRL()>=0.0&((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff->((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXD()>=0.0&STEPTSRL()>=0.0&((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff->((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXE()>=0.0&STEPTSRL()>=0.0&((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff->((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXF()>=0.0&STEPTSRL()>=0.0&((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff->((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld") ; implyL(-24) ; <(
+          hideR(1=="((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; auto,
+          implyL(-25) ; <(
+            hideR(1=="((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; auto,
+            implyL(-23) ; <(
+              hideR(1=="((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; auto,
+              auto
+              )
+            )
+          ),
+        andR(1) ; <(
+          hideL(-3=="STEPTSA()>0") ; hideL(-3=="STEPTSB()>0") ; hideL(-3=="STEPTSC()>0") ; hideL(-4=="STEPTSE()>0") ; hideL(-4=="STEPTSF()>0") ; hideL(-4=="SAFETYDISTANCEA()>=0.0") ; hideL(-4=="SAFETYDISTANCEB()>=0.0") ; hideL(-4=="SAFETYDISTANCEC()>=0.0") ; hideL(-5=="SAFETYDISTANCEE()>=0.0") ; hideL(-5=="SAFETYDISTANCEF()>=0.0") ; hideL(-5=="THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()") ; hideL(-5=="THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()") ; hideL(-5=="THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()") ; hideL(-6=="THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()") ; hideL(-6=="THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()") ; hideL(-6=="VMAXA()>=0.0") ; hideL(-6=="VMAXB()>=0.0") ; hideL(-6=="VMAXC()>=0.0") ; hideL(-7=="VMAXE()>=0.0") ; hideL(-7=="VMAXF()>=0.0") ; hideL(-7=="smallStep=0.0") ; hideL(-7=="((XA_0-XRL_0)^2.0+(YA_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-7=="((XB_0-XRL_0)^2.0+(YB_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-7=="((XC_0-XRL_0)^2.0+(YC_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-8=="((XE_0-XRL_0)^2.0+(YE_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-8=="((XF_0-XRL_0)^2.0+(YF_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-23=="STEPTSA()>0.0&SAFETYDISTANCEA()>=0&THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()&VMAXA()>=0.0&(((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld)&((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>SAFETYDISTANCEA()->((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-23=="THRESHOLDA()>=0&VMAXA()>=0&STEPTSA()>0->((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff") ; hideL(-23=="STEPTSB()>0.0&SAFETYDISTANCEB()>=0&THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()&VMAXB()>=0.0&(((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld)&((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>SAFETYDISTANCEB()->((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-23=="THRESHOLDB()>=0&VMAXB()>=0&STEPTSB()>0->((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff") ; hideL(-23=="STEPTSC()>0.0&SAFETYDISTANCEC()>=0&THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()&VMAXC()>=0.0&(((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld)&((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>SAFETYDISTANCEC()->((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-23=="THRESHOLDC()>=0&VMAXC()>=0&STEPTSC()>0->((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff") ; hideL(-25=="STEPTSE()>0.0&SAFETYDISTANCEE()>=0&THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()&VMAXE()>=0.0&(((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld)&((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>SAFETYDISTANCEE()->((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-25=="THRESHOLDE()>=0&VMAXE()>=0&STEPTSE()>0->((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff") ; hideL(-25=="STEPTSF()>0.0&SAFETYDISTANCEF()>=0&THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()&VMAXF()>=0.0&(((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld)&((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>SAFETYDISTANCEF()->((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-25=="THRESHOLDF()>=0&VMAXF()>=0&STEPTSF()>0->((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff") ; hideL(-25=="VMAXA()>=0.0&STEPTSRL()>=0.0&((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff->((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld") ; hideL(-25=="VMAXB()>=0.0&STEPTSRL()>=0.0&((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff->((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld") ; hideL(-25=="VMAXC()>=0.0&STEPTSRL()>=0.0&((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff->((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXE()>=0.0&STEPTSRL()>=0.0&((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff->((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXF()>=0.0&STEPTSRL()>=0.0&((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff->((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld") ; implyL(-24) ; <(
+            hideR(1=="((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; auto,
+            implyL(-25) ; <(
+              hideR(1=="((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; auto,
+              implyL(-23) ; <(
+                hideR(1=="((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; auto,
+                auto
+                )
+              )
+            ),
+          andR(1) ; <(
+            hideL(-3=="STEPTSA()>0") ; hideL(-3=="STEPTSB()>0") ; hideL(-3=="STEPTSC()>0") ; hideL(-3=="STEPTSD()>0") ; hideL(-4=="STEPTSF()>0") ; hideL(-4=="SAFETYDISTANCEA()>=0.0") ; hideL(-4=="SAFETYDISTANCEB()>=0.0") ; hideL(-4=="SAFETYDISTANCEC()>=0.0") ; hideL(-4=="SAFETYDISTANCED()>=0.0") ; hideL(-5=="SAFETYDISTANCEF()>=0.0") ; hideL(-5=="THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()") ; hideL(-5=="THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()") ; hideL(-5=="THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()") ; hideL(-5=="THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()") ; hideL(-6=="THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()") ; hideL(-13=="((XA_0-XRL_0)^2.0+(YA_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-13=="((XB_0-XRL_0)^2.0+(YB_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-13=="((XC_0-XRL_0)^2.0+(YC_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-13=="((XD_0-XRL_0)^2.0+(YD_0-YRL_0)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-14=="((XF_0-XRL_0)^2.0+(YF_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-29=="STEPTSA()>0.0&SAFETYDISTANCEA()>=0&THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()&VMAXA()>=0.0&(((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld)&((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>SAFETYDISTANCEA()->((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-29=="THRESHOLDA()>=0&VMAXA()>=0&STEPTSA()>0->((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff") ; hideL(-29=="STEPTSB()>0.0&SAFETYDISTANCEB()>=0&THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()&VMAXB()>=0.0&(((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld)&((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>SAFETYDISTANCEB()->((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-29=="THRESHOLDB()>=0&VMAXB()>=0&STEPTSB()>0->((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff") ; hideL(-29=="STEPTSC()>0.0&SAFETYDISTANCEC()>=0&THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()&VMAXC()>=0.0&(((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld)&((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>SAFETYDISTANCEC()->((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-29=="THRESHOLDC()>=0&VMAXC()>=0&STEPTSC()>0->((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff") ; hideL(-29=="STEPTSD()>0.0&SAFETYDISTANCED()>=0&THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()&VMAXD()>=0.0&(((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld)&((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>SAFETYDISTANCED()->((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-29=="THRESHOLDD()>=0&VMAXD()>=0&STEPTSD()>0->((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff") ; hideL(-31=="STEPTSF()>0.0&SAFETYDISTANCEF()>=0&THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()&VMAXF()>=0.0&(((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld)&((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>SAFETYDISTANCEF()->((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-31=="THRESHOLDF()>=0&VMAXF()>=0&STEPTSF()>0->((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff") ; hideL(-31=="VMAXA()>=0.0&STEPTSRL()>=0.0&((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff->((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld") ; hideL(-31=="VMAXB()>=0.0&STEPTSRL()>=0.0&((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff->((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld") ; hideL(-31=="VMAXC()>=0.0&STEPTSRL()>=0.0&((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff->((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld") ; hideL(-31=="VMAXD()>=0.0&STEPTSRL()>=0.0&((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff->((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld") ; hideL(-32=="VMAXF()>=0.0&STEPTSRL()>=0.0&((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff->((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld") ; implyL(-30) ; <(
+              hideR(1=="((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; auto,
+              implyL(-31) ; <(
+                hideR(1=="((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; auto,
+                implyL(-29) ; <(
+                  hideR(1=="((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; auto,
+                  auto
+                  )
+                )
+              ),
+            hideL(-3=="STEPTSA()>0") ; hideL(-3=="STEPTSB()>0") ; hideL(-3=="STEPTSC()>0") ; hideL(-3=="STEPTSD()>0") ; hideL(-3=="STEPTSE()>0") ; hideL(-4=="SAFETYDISTANCEA()>=0.0") ; hideL(-4=="SAFETYDISTANCEB()>=0.0") ; hideL(-4=="SAFETYDISTANCEC()>=0.0") ; hideL(-4=="SAFETYDISTANCED()>=0.0") ; hideL(-4=="SAFETYDISTANCEE()>=0.0") ; hideL(-5=="THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()") ; hideL(-5=="THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()") ; hideL(-5=="THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()") ; hideL(-5=="THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()") ; hideL(-5=="THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()") ; hideL(-6=="VMAXA()>=0.0") ; hideL(-6=="VMAXB()>=0.0") ; hideL(-6=="VMAXC()>=0.0") ; hideL(-6=="VMAXD()>=0.0") ; hideL(-6=="VMAXE()>=0.0") ; hideL(-8=="((XA_0-XRL_0)^2.0+(YA_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-8=="((XB_0-XRL_0)^2.0+(YB_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-8=="((XC_0-XRL_0)^2.0+(YC_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-8=="((XD_0-XRL_0)^2.0+(YD_0-YRL_0)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-8=="((XE_0-XRL_0)^2.0+(YE_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-24=="STEPTSA()>0.0&SAFETYDISTANCEA()>=0&THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()&VMAXA()>=0.0&(((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld)&((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>SAFETYDISTANCEA()->((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-24=="THRESHOLDA()>=0&VMAXA()>=0&STEPTSA()>0->((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff") ; hideL(-24=="STEPTSB()>0.0&SAFETYDISTANCEB()>=0&THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()&VMAXB()>=0.0&(((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld)&((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>SAFETYDISTANCEB()->((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-24=="THRESHOLDB()>=0&VMAXB()>=0&STEPTSB()>0->((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff") ; hideL(-24=="STEPTSC()>0.0&SAFETYDISTANCEC()>=0&THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()&VMAXC()>=0.0&(((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld)&((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>SAFETYDISTANCEC()->((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-24=="THRESHOLDC()>=0&VMAXC()>=0&STEPTSC()>0->((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff") ; hideL(-24=="STEPTSD()>0.0&SAFETYDISTANCED()>=0&THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()&VMAXD()>=0.0&(((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld)&((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>SAFETYDISTANCED()->((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-24=="THRESHOLDD()>=0&VMAXD()>=0&STEPTSD()>0->((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff") ; hideL(-24=="STEPTSE()>0.0&SAFETYDISTANCEE()>=0&THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()&VMAXE()>=0.0&(((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld)&((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>SAFETYDISTANCEE()->((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-24=="THRESHOLDE()>=0&VMAXE()>=0&STEPTSE()>0->((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff") ; hideL(-26=="VMAXA()>=0.0&STEPTSRL()>=0.0&((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff->((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXB()>=0.0&STEPTSRL()>=0.0&((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff->((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXC()>=0.0&STEPTSRL()>=0.0&((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff->((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXD()>=0.0&STEPTSRL()>=0.0&((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff->((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXE()>=0.0&STEPTSRL()>=0.0&((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff->((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld") ; implyL(-25) ; <(
+              hideR(1=="((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; auto,
+              implyL(-26) ; <(
+                hideR(1=="((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; auto,
+                implyL(-24) ; <(
+                  hideR(1=="((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; auto,
+                  auto
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+End.
+
+End.""""
+  tactic """"unfold ; loop("((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()&((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()&((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()&((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()&((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()&((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()", 1) ; <(
+  auto,
+  auto,
+  unfold ; andR(1) ; <(
+    hideL(-51=="STEPTSB()>0.0&SAFETYDISTANCEB()>=0&THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()&VMAXB()>=0.0&(((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld)&((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>SAFETYDISTANCEB()->((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-51=="THRESHOLDB()>=0&VMAXB()>=0&STEPTSB()>0->((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff") ; hideL(-51=="STEPTSC()>0.0&SAFETYDISTANCEC()>=0&THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()&VMAXC()>=0.0&(((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld)&((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>SAFETYDISTANCEC()->((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-51=="THRESHOLDC()>=0&VMAXC()>=0&STEPTSC()>0->((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff") ; hideL(-51=="STEPTSD()>0.0&SAFETYDISTANCED()>=0&THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()&VMAXD()>=0.0&(((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld)&((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>SAFETYDISTANCED()->((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-51=="THRESHOLDD()>=0&VMAXD()>=0&STEPTSD()>0->((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff") ; hideL(-51=="STEPTSE()>0.0&SAFETYDISTANCEE()>=0&THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()&VMAXE()>=0.0&(((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld)&((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>SAFETYDISTANCEE()->((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-51=="THRESHOLDE()>=0&VMAXE()>=0&STEPTSE()>0->((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff") ; hideL(-51=="STEPTSF()>0.0&SAFETYDISTANCEF()>=0&THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()&VMAXF()>=0.0&(((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld)&((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>SAFETYDISTANCEF()->((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-51=="THRESHOLDF()>=0&VMAXF()>=0&STEPTSF()>0->((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff") ; hideL(-52=="VMAXB()>=0.0&STEPTSRL()>=0.0&((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff->((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld") ; hideL(-52=="VMAXC()>=0.0&STEPTSRL()>=0.0&((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff->((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld") ; hideL(-52=="VMAXD()>=0.0&STEPTSRL()>=0.0&((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff->((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld") ; hideL(-52=="VMAXE()>=0.0&STEPTSRL()>=0.0&((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff->((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld") ; hideL(-52=="VMAXF()>=0.0&STEPTSRL()>=0.0&((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff->((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld") ; hideL(-29=="((XB_0-XRL_0)^2.0+(YB_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-29=="((XC_0-XRL_0)^2.0+(YC_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-29=="((XD_0-XRL_0)^2.0+(YD_0-YRL_0)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-29=="((XE_0-XRL_0)^2.0+(YE_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-29=="((XF_0-XRL_0)^2.0+(YF_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEF()") ; auto ; hideL(-15=="THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()") ; hideL(-16=="THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()") ; hideL(-16=="THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()") ; hideL(-16=="THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()") ; hideL(-16=="THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()") ; hideL(-10=="SAFETYDISTANCEB()>=0.0") ; hideL(-10=="SAFETYDISTANCEC()>=0.0") ; hideL(-10=="SAFETYDISTANCED()>=0.0") ; hideL(-10=="SAFETYDISTANCEE()>=0.0") ; hideL(-10=="SAFETYDISTANCEF()>=0.0") ; hideL(-4=="STEPTSB()>0") ; hideL(-4=="STEPTSC()>0") ; hideL(-4=="STEPTSD()>0") ; hideL(-4=="STEPTSE()>0") ; hideL(-4=="STEPTSF()>0") ; hideL(-7=="VMAXB()>=0.0") ; hideL(-7=="VMAXC()>=0.0") ; hideL(-7=="VMAXD()>=0.0") ; hideL(-7=="VMAXE()>=0.0") ; hideL(-7=="VMAXF()>=0.0") ; hideL(-7=="smallStep=0.0") ; hideL(-13=="XBOld=XB_0") ; hideL(-13=="YBOld=YB_0") ; hideL(-13=="XCOld=XC_0") ; hideL(-13=="YCOld=YC_0") ; hideL(-13=="XEOld=XE_0") ; hideL(-13=="YEOld=YE_0") ; hideL(-13=="XDOld=XD_0") ; hideL(-13=="YDOld=YD_0") ; hideL(-13=="XFOld=XF_0") ; hideL(-13=="YFOld=YF_0") ; auto ; implyL(-14) ; <(
+      hideR(1=="((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; auto,
+      implyL(-15) ; <(
+        hideR(1=="((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; auto,
+        implyL(-13) ; <(
+          hideR(1=="((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; auto,
+          auto
+          )
+        )
+      ),
+    andR(1) ; <(
+      hideL(-3=="STEPTSA()>0") ; hideL(-4=="STEPTSC()>0") ; hideL(-4=="STEPTSD()>0") ; hideL(-4=="STEPTSE()>0") ; hideL(-4=="STEPTSF()>0") ; hideL(-4=="SAFETYDISTANCEA()>=0.0") ; hideL(-5=="SAFETYDISTANCEC()>=0.0") ; hideL(-5=="SAFETYDISTANCED()>=0.0") ; hideL(-5=="SAFETYDISTANCEE()>=0.0") ; hideL(-5=="SAFETYDISTANCEF()>=0.0") ; hideL(-6=="THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()") ; hideL(-6=="THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()") ; hideL(-6=="THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()") ; hideL(-6=="THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()") ; hideL(-6=="THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()") ; hideL(-6=="VMAXA()>=0.0") ; hideL(-7=="VMAXC()>=0.0") ; hideL(-7=="VMAXD()>=0.0") ; hideL(-7=="VMAXE()>=0.0") ; hideL(-7=="VMAXF()>=0.0") ; hideL(-7=="smallStep=0.0") ; hideL(-7=="((XA_0-XRL_0)^2.0+(YA_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-8=="((XC_0-XRL_0)^2.0+(YC_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-8=="((XD_0-XRL_0)^2.0+(YD_0-YRL_0)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-8=="((XE_0-XRL_0)^2.0+(YE_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-8=="((XF_0-XRL_0)^2.0+(YF_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEF()") ; implyL(-26) ; <(
+        hideR(1=="((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-23=="STEPTSA()>0.0&SAFETYDISTANCEA()>=0&THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()&VMAXA()>=0.0&(((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld)&((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>SAFETYDISTANCEA()->((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-23=="THRESHOLDA()>=0&VMAXA()>=0&STEPTSA()>0->((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff") ; hideL(-24=="STEPTSC()>0.0&SAFETYDISTANCEC()>=0&THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()&VMAXC()>=0.0&(((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld)&((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>SAFETYDISTANCEC()->((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-24=="THRESHOLDC()>=0&VMAXC()>=0&STEPTSC()>0->((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff") ; hideL(-24=="STEPTSD()>0.0&SAFETYDISTANCED()>=0&THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()&VMAXD()>=0.0&(((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld)&((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>SAFETYDISTANCED()->((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-24=="THRESHOLDD()>=0&VMAXD()>=0&STEPTSD()>0->((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff") ; hideL(-24=="STEPTSE()>0.0&SAFETYDISTANCEE()>=0&THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()&VMAXE()>=0.0&(((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld)&((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>SAFETYDISTANCEE()->((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-24=="THRESHOLDE()>=0&VMAXE()>=0&STEPTSE()>0->((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff") ; hideL(-24=="STEPTSF()>0.0&SAFETYDISTANCEF()>=0&THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()&VMAXF()>=0.0&(((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld)&((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>SAFETYDISTANCEF()->((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-24=="THRESHOLDF()>=0&VMAXF()>=0&STEPTSF()>0->((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff") ; hideL(-24=="VMAXA()>=0.0&STEPTSRL()>=0.0&((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff->((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld") ; hideL(-25=="VMAXC()>=0.0&STEPTSRL()>=0.0&((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff->((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld") ; hideL(-25=="VMAXD()>=0.0&STEPTSRL()>=0.0&((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff->((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld") ; hideL(-25=="VMAXE()>=0.0&STEPTSRL()>=0.0&((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff->((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld") ; hideL(-25=="VMAXF()>=0.0&STEPTSRL()>=0.0&((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff->((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld") ; auto,
+        hideL(-23=="STEPTSA()>0.0&SAFETYDISTANCEA()>=0&THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()&VMAXA()>=0.0&(((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld)&((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>SAFETYDISTANCEA()->((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-23=="THRESHOLDA()>=0&VMAXA()>=0&STEPTSA()>0->((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff") ; hideL(-25=="STEPTSC()>0.0&SAFETYDISTANCEC()>=0&THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()&VMAXC()>=0.0&(((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld)&((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>SAFETYDISTANCEC()->((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-25=="THRESHOLDC()>=0&VMAXC()>=0&STEPTSC()>0->((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff") ; hideL(-25=="STEPTSD()>0.0&SAFETYDISTANCED()>=0&THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()&VMAXD()>=0.0&(((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld)&((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>SAFETYDISTANCED()->((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-25=="THRESHOLDD()>=0&VMAXD()>=0&STEPTSD()>0->((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff") ; hideL(-25=="STEPTSE()>0.0&SAFETYDISTANCEE()>=0&THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()&VMAXE()>=0.0&(((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld)&((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>SAFETYDISTANCEE()->((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-25=="THRESHOLDE()>=0&VMAXE()>=0&STEPTSE()>0->((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff") ; hideL(-25=="STEPTSF()>0.0&SAFETYDISTANCEF()>=0&THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()&VMAXF()>=0.0&(((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld)&((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>SAFETYDISTANCEF()->((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-25=="THRESHOLDF()>=0&VMAXF()>=0&STEPTSF()>0->((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff") ; hideL(-25=="VMAXA()>=0.0&STEPTSRL()>=0.0&((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff->((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXC()>=0.0&STEPTSRL()>=0.0&((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff->((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXD()>=0.0&STEPTSRL()>=0.0&((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff->((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXE()>=0.0&STEPTSRL()>=0.0&((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff->((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXF()>=0.0&STEPTSRL()>=0.0&((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff->((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld") ; auto ; implyL(-25) ; <(
+          hideR(1=="((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; auto,
+          implyL(-23) ; <(
+            hideR(1=="((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; auto,
+            auto
+            )
+          )
+        ),
+      andR(1) ; <(
+        hideL(-3=="STEPTSA()>0") ; hideL(-3=="STEPTSB()>0") ; hideL(-4=="STEPTSD()>0") ; hideL(-4=="STEPTSE()>0") ; hideL(-4=="STEPTSF()>0") ; hideL(-4=="SAFETYDISTANCEA()>=0.0") ; hideL(-4=="SAFETYDISTANCEB()>=0.0") ; hideL(-5=="SAFETYDISTANCED()>=0.0") ; hideL(-5=="SAFETYDISTANCEE()>=0.0") ; hideL(-5=="SAFETYDISTANCEF()>=0.0") ; hideL(-5=="THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()") ; hideL(-5=="THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()") ; hideL(-6=="THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()") ; hideL(-6=="THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()") ; hideL(-6=="THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()") ; hideL(-6=="VMAXA()>=0.0") ; hideL(-6=="VMAXB()>=0.0") ; hideL(-7=="VMAXD()>=0.0") ; hideL(-7=="VMAXE()>=0.0") ; hideL(-7=="VMAXF()>=0.0") ; hideL(-7=="smallStep=0.0") ; hideL(-7=="((XA_0-XRL_0)^2.0+(YA_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-7=="((XB_0-XRL_0)^2.0+(YB_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-8=="((XD_0-XRL_0)^2.0+(YD_0-YRL_0)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-8=="((XE_0-XRL_0)^2.0+(YE_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-8=="((XF_0-XRL_0)^2.0+(YF_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-23=="STEPTSA()>0.0&SAFETYDISTANCEA()>=0&THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()&VMAXA()>=0.0&(((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld)&((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>SAFETYDISTANCEA()->((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-23=="THRESHOLDA()>=0&VMAXA()>=0&STEPTSA()>0->((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff") ; hideL(-23=="STEPTSB()>0.0&SAFETYDISTANCEB()>=0&THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()&VMAXB()>=0.0&(((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld)&((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>SAFETYDISTANCEB()->((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-23=="THRESHOLDB()>=0&VMAXB()>=0&STEPTSB()>0->((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff") ; hideL(-25=="STEPTSD()>0.0&SAFETYDISTANCED()>=0&THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()&VMAXD()>=0.0&(((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld)&((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>SAFETYDISTANCED()->((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-25=="THRESHOLDD()>=0&VMAXD()>=0&STEPTSD()>0->((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff") ; hideL(-25=="STEPTSE()>0.0&SAFETYDISTANCEE()>=0&THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()&VMAXE()>=0.0&(((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld)&((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>SAFETYDISTANCEE()->((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-25=="THRESHOLDE()>=0&VMAXE()>=0&STEPTSE()>0->((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff") ; hideL(-25=="STEPTSF()>0.0&SAFETYDISTANCEF()>=0&THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()&VMAXF()>=0.0&(((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld)&((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>SAFETYDISTANCEF()->((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-25=="THRESHOLDF()>=0&VMAXF()>=0&STEPTSF()>0->((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff") ; hideL(-25=="VMAXA()>=0.0&STEPTSRL()>=0.0&((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff->((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld") ; hideL(-25=="VMAXB()>=0.0&STEPTSRL()>=0.0&((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff->((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXD()>=0.0&STEPTSRL()>=0.0&((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff->((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXE()>=0.0&STEPTSRL()>=0.0&((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff->((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXF()>=0.0&STEPTSRL()>=0.0&((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff->((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld") ; implyL(-24) ; <(
+          hideR(1=="((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; auto,
+          implyL(-25) ; <(
+            hideR(1=="((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; auto,
+            implyL(-23) ; <(
+              hideR(1=="((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; auto,
+              auto
+              )
+            )
+          ),
+        andR(1) ; <(
+          hideL(-3=="STEPTSA()>0") ; hideL(-3=="STEPTSB()>0") ; hideL(-3=="STEPTSC()>0") ; hideL(-4=="STEPTSE()>0") ; hideL(-4=="STEPTSF()>0") ; hideL(-4=="SAFETYDISTANCEA()>=0.0") ; hideL(-4=="SAFETYDISTANCEB()>=0.0") ; hideL(-4=="SAFETYDISTANCEC()>=0.0") ; hideL(-5=="SAFETYDISTANCEE()>=0.0") ; hideL(-5=="SAFETYDISTANCEF()>=0.0") ; hideL(-5=="THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()") ; hideL(-5=="THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()") ; hideL(-5=="THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()") ; hideL(-6=="THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()") ; hideL(-6=="THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()") ; hideL(-6=="VMAXA()>=0.0") ; hideL(-6=="VMAXB()>=0.0") ; hideL(-6=="VMAXC()>=0.0") ; hideL(-7=="VMAXE()>=0.0") ; hideL(-7=="VMAXF()>=0.0") ; hideL(-7=="smallStep=0.0") ; hideL(-7=="((XA_0-XRL_0)^2.0+(YA_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-7=="((XB_0-XRL_0)^2.0+(YB_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-7=="((XC_0-XRL_0)^2.0+(YC_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-8=="((XE_0-XRL_0)^2.0+(YE_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-8=="((XF_0-XRL_0)^2.0+(YF_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-23=="STEPTSA()>0.0&SAFETYDISTANCEA()>=0&THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()&VMAXA()>=0.0&(((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld)&((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>SAFETYDISTANCEA()->((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-23=="THRESHOLDA()>=0&VMAXA()>=0&STEPTSA()>0->((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff") ; hideL(-23=="STEPTSB()>0.0&SAFETYDISTANCEB()>=0&THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()&VMAXB()>=0.0&(((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld)&((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>SAFETYDISTANCEB()->((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-23=="THRESHOLDB()>=0&VMAXB()>=0&STEPTSB()>0->((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff") ; hideL(-23=="STEPTSC()>0.0&SAFETYDISTANCEC()>=0&THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()&VMAXC()>=0.0&(((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld)&((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>SAFETYDISTANCEC()->((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-23=="THRESHOLDC()>=0&VMAXC()>=0&STEPTSC()>0->((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff") ; hideL(-25=="STEPTSE()>0.0&SAFETYDISTANCEE()>=0&THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()&VMAXE()>=0.0&(((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld)&((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>SAFETYDISTANCEE()->((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-25=="THRESHOLDE()>=0&VMAXE()>=0&STEPTSE()>0->((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff") ; hideL(-25=="STEPTSF()>0.0&SAFETYDISTANCEF()>=0&THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()&VMAXF()>=0.0&(((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld)&((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>SAFETYDISTANCEF()->((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-25=="THRESHOLDF()>=0&VMAXF()>=0&STEPTSF()>0->((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff") ; hideL(-25=="VMAXA()>=0.0&STEPTSRL()>=0.0&((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff->((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld") ; hideL(-25=="VMAXB()>=0.0&STEPTSRL()>=0.0&((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff->((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld") ; hideL(-25=="VMAXC()>=0.0&STEPTSRL()>=0.0&((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff->((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXE()>=0.0&STEPTSRL()>=0.0&((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff->((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXF()>=0.0&STEPTSRL()>=0.0&((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff->((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld") ; implyL(-24) ; <(
+            hideR(1=="((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; auto,
+            implyL(-25) ; <(
+              hideR(1=="((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; auto,
+              implyL(-23) ; <(
+                hideR(1=="((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; auto,
+                auto
+                )
+              )
+            ),
+          andR(1) ; <(
+            hideL(-3=="STEPTSA()>0") ; hideL(-3=="STEPTSB()>0") ; hideL(-3=="STEPTSC()>0") ; hideL(-3=="STEPTSD()>0") ; hideL(-4=="STEPTSF()>0") ; hideL(-4=="SAFETYDISTANCEA()>=0.0") ; hideL(-4=="SAFETYDISTANCEB()>=0.0") ; hideL(-4=="SAFETYDISTANCEC()>=0.0") ; hideL(-4=="SAFETYDISTANCED()>=0.0") ; hideL(-5=="SAFETYDISTANCEF()>=0.0") ; hideL(-5=="THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()") ; hideL(-5=="THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()") ; hideL(-5=="THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()") ; hideL(-5=="THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()") ; hideL(-6=="THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()") ; hideL(-13=="((XA_0-XRL_0)^2.0+(YA_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-13=="((XB_0-XRL_0)^2.0+(YB_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-13=="((XC_0-XRL_0)^2.0+(YC_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-13=="((XD_0-XRL_0)^2.0+(YD_0-YRL_0)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-14=="((XF_0-XRL_0)^2.0+(YF_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-29=="STEPTSA()>0.0&SAFETYDISTANCEA()>=0&THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()&VMAXA()>=0.0&(((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld)&((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>SAFETYDISTANCEA()->((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-29=="THRESHOLDA()>=0&VMAXA()>=0&STEPTSA()>0->((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff") ; hideL(-29=="STEPTSB()>0.0&SAFETYDISTANCEB()>=0&THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()&VMAXB()>=0.0&(((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld)&((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>SAFETYDISTANCEB()->((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-29=="THRESHOLDB()>=0&VMAXB()>=0&STEPTSB()>0->((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff") ; hideL(-29=="STEPTSC()>0.0&SAFETYDISTANCEC()>=0&THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()&VMAXC()>=0.0&(((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld)&((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>SAFETYDISTANCEC()->((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-29=="THRESHOLDC()>=0&VMAXC()>=0&STEPTSC()>0->((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff") ; hideL(-29=="STEPTSD()>0.0&SAFETYDISTANCED()>=0&THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()&VMAXD()>=0.0&(((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld)&((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>SAFETYDISTANCED()->((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-29=="THRESHOLDD()>=0&VMAXD()>=0&STEPTSD()>0->((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff") ; hideL(-31=="STEPTSF()>0.0&SAFETYDISTANCEF()>=0&THRESHOLDF()>=VMAXF()*STEPTSF()+SAFETYDISTANCEF()&VMAXF()>=0.0&(((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld)&((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>SAFETYDISTANCEF()->((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; hideL(-31=="THRESHOLDF()>=0&VMAXF()>=0&STEPTSF()>0->((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff") ; hideL(-31=="VMAXA()>=0.0&STEPTSRL()>=0.0&((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff->((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld") ; hideL(-31=="VMAXB()>=0.0&STEPTSRL()>=0.0&((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff->((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld") ; hideL(-31=="VMAXC()>=0.0&STEPTSRL()>=0.0&((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff->((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld") ; hideL(-31=="VMAXD()>=0.0&STEPTSRL()>=0.0&((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff->((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld") ; hideL(-32=="VMAXF()>=0.0&STEPTSRL()>=0.0&((XF-XFOld)^2.0+(YF-YFOld)^2.0)^0.5<=VMAXF()*tDiff->((XFOld-XRL)^2.0+(YFOld-YRL)^2.0)^0.5>THRESHOLDF()|XRL=XRLOld&YRL=YRLOld") ; implyL(-30) ; <(
+              hideR(1=="((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; auto,
+              implyL(-31) ; <(
+                hideR(1=="((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; auto,
+                implyL(-29) ; <(
+                  hideR(1=="((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; auto,
+                  auto
+                  )
+                )
+              ),
+            hideL(-3=="STEPTSA()>0") ; hideL(-3=="STEPTSB()>0") ; hideL(-3=="STEPTSC()>0") ; hideL(-3=="STEPTSD()>0") ; hideL(-3=="STEPTSE()>0") ; hideL(-4=="SAFETYDISTANCEA()>=0.0") ; hideL(-4=="SAFETYDISTANCEB()>=0.0") ; hideL(-4=="SAFETYDISTANCEC()>=0.0") ; hideL(-4=="SAFETYDISTANCED()>=0.0") ; hideL(-4=="SAFETYDISTANCEE()>=0.0") ; hideL(-5=="THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()") ; hideL(-5=="THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()") ; hideL(-5=="THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()") ; hideL(-5=="THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()") ; hideL(-5=="THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()") ; hideL(-6=="VMAXA()>=0.0") ; hideL(-6=="VMAXB()>=0.0") ; hideL(-6=="VMAXC()>=0.0") ; hideL(-6=="VMAXD()>=0.0") ; hideL(-6=="VMAXE()>=0.0") ; hideL(-8=="((XA_0-XRL_0)^2.0+(YA_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-8=="((XB_0-XRL_0)^2.0+(YB_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-8=="((XC_0-XRL_0)^2.0+(YC_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-8=="((XD_0-XRL_0)^2.0+(YD_0-YRL_0)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-8=="((XE_0-XRL_0)^2.0+(YE_0-YRL_0)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-24=="STEPTSA()>0.0&SAFETYDISTANCEA()>=0&THRESHOLDA()>=VMAXA()*STEPTSA()+SAFETYDISTANCEA()&VMAXA()>=0.0&(((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld)&((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>SAFETYDISTANCEA()->((XA-XRL)^2.0+(YA-YRL)^2.0)^0.5>SAFETYDISTANCEA()") ; hideL(-24=="THRESHOLDA()>=0&VMAXA()>=0&STEPTSA()>0->((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff") ; hideL(-24=="STEPTSB()>0.0&SAFETYDISTANCEB()>=0&THRESHOLDB()>=VMAXB()*STEPTSB()+SAFETYDISTANCEB()&VMAXB()>=0.0&(((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld)&((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>SAFETYDISTANCEB()->((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>SAFETYDISTANCEB()") ; hideL(-24=="THRESHOLDB()>=0&VMAXB()>=0&STEPTSB()>0->((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff") ; hideL(-24=="STEPTSC()>0.0&SAFETYDISTANCEC()>=0&THRESHOLDC()>=VMAXC()*STEPTSC()+SAFETYDISTANCEC()&VMAXC()>=0.0&(((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld)&((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>SAFETYDISTANCEC()->((XC-XRL)^2.0+(YC-YRL)^2.0)^0.5>SAFETYDISTANCEC()") ; hideL(-24=="THRESHOLDC()>=0&VMAXC()>=0&STEPTSC()>0->((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff") ; hideL(-24=="STEPTSD()>0.0&SAFETYDISTANCED()>=0&THRESHOLDD()>=VMAXD()*STEPTSD()+SAFETYDISTANCED()&VMAXD()>=0.0&(((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld)&((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>SAFETYDISTANCED()->((XD-XRL)^2.0+(YD-YRL)^2.0)^0.5>SAFETYDISTANCED()") ; hideL(-24=="THRESHOLDD()>=0&VMAXD()>=0&STEPTSD()>0->((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff") ; hideL(-24=="STEPTSE()>0.0&SAFETYDISTANCEE()>=0&THRESHOLDE()>=VMAXE()*STEPTSE()+SAFETYDISTANCEE()&VMAXE()>=0.0&(((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld)&((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>SAFETYDISTANCEE()->((XE-XRL)^2.0+(YE-YRL)^2.0)^0.5>SAFETYDISTANCEE()") ; hideL(-24=="THRESHOLDE()>=0&VMAXE()>=0&STEPTSE()>0->((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff") ; hideL(-26=="VMAXA()>=0.0&STEPTSRL()>=0.0&((XA-XAOld)^2.0+(YA-YAOld)^2.0)^0.5<=VMAXA()*tDiff->((XAOld-XRL)^2.0+(YAOld-YRL)^2.0)^0.5>THRESHOLDA()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXB()>=0.0&STEPTSRL()>=0.0&((XB-XBOld)^2.0+(YB-YBOld)^2.0)^0.5<=VMAXB()*tDiff->((XBOld-XRL)^2.0+(YBOld-YRL)^2.0)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXC()>=0.0&STEPTSRL()>=0.0&((XC-XCOld)^2.0+(YC-YCOld)^2.0)^0.5<=VMAXC()*tDiff->((XCOld-XRL)^2.0+(YCOld-YRL)^2.0)^0.5>THRESHOLDC()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXD()>=0.0&STEPTSRL()>=0.0&((XD-XDOld)^2.0+(YD-YDOld)^2.0)^0.5<=VMAXD()*tDiff->((XDOld-XRL)^2.0+(YDOld-YRL)^2.0)^0.5>THRESHOLDD()|XRL=XRLOld&YRL=YRLOld") ; hideL(-26=="VMAXE()>=0.0&STEPTSRL()>=0.0&((XE-XEOld)^2.0+(YE-YEOld)^2.0)^0.5<=VMAXE()*tDiff->((XEOld-XRL)^2.0+(YEOld-YRL)^2.0)^0.5>THRESHOLDE()|XRL=XRLOld&YRL=YRLOld") ; implyL(-25) ; <(
+              hideR(1=="((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; auto,
+              implyL(-26) ; <(
+                hideR(1=="((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; auto,
+                implyL(-24) ; <(
+                  hideR(1=="((XF-XRL)^2.0+(YF-YRL)^2.0)^0.5>SAFETYDISTANCEF()") ; auto,
+                  auto
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )""""
+End.
+
+Tool.
+  kyxversion """"4.9.3""""
+End.

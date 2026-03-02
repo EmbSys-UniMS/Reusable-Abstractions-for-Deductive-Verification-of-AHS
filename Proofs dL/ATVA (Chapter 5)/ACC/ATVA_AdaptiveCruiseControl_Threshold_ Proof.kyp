@@ -1,0 +1,139 @@
+﻿Lemma "ATVA/AdaptiveCruiseControl_Threshold: Proof".
+"  ==>  (((PF) < (PL))&(((t) = ((0.0)))&(((crl) = ((0.0)))&(((TS()) > ((0)))&(((((((PL)-(PF))-(((vF)*(TS()))+(((aFRL)*((TS())^((2))))/((2))))) > ((((vF)+((aFRL)*(TS())))^((2)))/(((2))*(bMAX))))&((aFRL) >= ((0))))|((aFRL) = (-(bMAX))))&(((PF) < ((PL)-(((vF)^((2)))/(((2))*(bMAX)))))&(((bMAX) > ((0)))&((vF) >= ((0))))))))))->([{{aL:=*;};{{{{?((crl) >= (TS()));};{{crl:=(0.0);};{{aFRL:=*;};{?((((((PL)-(PF))-(((vF)*(TS()))+(((aFRL)*((TS())^((2))))/((2))))) > ((((vF)+((aFRL)*(TS())))^((2)))/(((2))*(bMAX))))&((aFRL) >= ((0))))|((aFRL) = (-(bMAX))));}}}}++{?((crl) < (TS()));}};{{{{?(((vF) = ((0)))&((aFRL) < ((0))));};{aFRL:=(0);}}++{?(!(((vF) = ((0)))&((aFRL) < ((0)))));}};{{t'=(1.0),crl'=(1.0),vF'=aFRL,PF'=vF,vL'=aL,PL'=vL&((vL) >= ((0)))&(((vF) >= ((0)))&((crl) <= (TS())))}}}}}*]((PF) < (PL)))
+\qed::1c51c64a0adfd693d4b3b3a7f75d24b8"
+End.
+Tool.
+  tool """" KeYmaera X """"
+  model """" Theorem "ATVA/AdaptiveCruiseControl_Threshold"
+
+Definitions
+  Real TS;
+End.
+
+ProgramVariables
+  Real bMAX;
+  Real t;
+  Real aL;
+  Real vL;
+  Real PL;
+  Real PF;
+  Real aFRL;
+  Real aF;
+  Real crl;  
+  Real vF;
+  Real smallStep;
+End.
+
+Problem
+  /*Init Values of the Cars*/  
+    (PF<PL)
+  /*Clocks Init Values + Contract holds initially*/
+  & (t = 0.0)
+  & (crl = 0.0)
+  & (TS > 0)
+  & (PL-PF-(vF * TS + (aFRL*(TS)^2)/2)  > (vF+aFRL*TS)^2/(2*(bMAX)) & aFRL>=0 |aFRL=-bMAX)
+  & PF  <  PL - vF^2/(2*bMAX)
+  & bMAX>0
+  & vF>=0
+  ->
+  [
+    {
+      {
+        /*Opp chooses Action*/  
+        aL:= *;
+      }
+      {
+        /*Every TS the Agent chooses an Action that is valid under the Hybrid Contract*/  
+        ?(crl >= TS);
+            crl:=0.0;
+            aFRL:= *;
+            /*Central Agent Contract*/
+            ?(PL-PF-(vF * TS + (aFRL*(TS)^2)/2)  > (vF+aFRL*TS)^2/(2*(bMAX)) & aFRL>=0 |aFRL=-bMAX);
+      ++
+        /*Do Nothing - Between Time Steps*/
+        ?(crl < TS);
+        
+      }
+      { /* overwrite aFRL on negative velocity*/
+        {?vF=0&aFRL<0;
+        aFRL:=0;
+        ++
+        ?!(vF=0&aFRL<0);}
+      }
+      {
+        
+        {
+          /*Evolutions*/        
+          t' = 1.0,
+          crl' = 1.0,
+          vF' = aFRL,
+          PF' = vF,
+          vL' = aL,
+          PL' = vL
+          & vL>=0 & vF>=0 & (crl <= TS)
+        }
+      }
+      
+    }*@invariant((TS>=crl&crl>=0&vF>=0)&(PL-PF-(vF * (TS-crl) + (aFRL*(TS-crl)^2)/2)  > (vF+aFRL*(TS-crl))^2/(2*(bMAX)) & aFRL>=0 |aFRL=-bMAX|vF=0&aFRL=0)&PF < PL-vF^2/(2*bMAX))
+  ] (PF<PL)
+End.
+
+Tactic "ATVA/AdaptiveCruiseControl_Threshold: Proof"
+unfold;
+loop("(PF+(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2) < PL-(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX)&PF < PL-vF^2/(2*bMAX)&TS()>=crl&crl>=0&vF>=0", 'R=="[{aL:=*;{?crl>=TS();crl:=0.0;aFRL:=*;?(PF < PL-vF^2/(2*bMAX)->PF+(vF*TS()+aFRL*TS()^2/2) < PL-(vF+aFRL*TS())^2/(2*bMAX)&aFRL>=0)|aFRL=-bMAX;++?crl < TS();}{aF:=*;?vF=0&aFRL < 0->aF=0;?!(vF=0&aFRL < 0)->aF=aFRL;}{t'=1.0,crl'=1.0,vF'=aF,PF'=vF,vL'=aL,PL'=vL&vL>=0&vF>=0&crl<=TS()}}*]PF < PL"); <(
+  "Init":
+    auto,
+  "Post":
+    auto,
+  "Step":
+    composeb('R=="[aL:=*;{?crl>=TS();crl:=0.0;aFRL:=*;?(PF < PL-vF^2/(2*bMAX)->PF+(vF*TS()+aFRL*TS()^2/2) < PL-(vF+aFRL*TS())^2/(2*bMAX)&aFRL>=0)|aFRL=-bMAX;++?crl < TS();}{aF:=*;?vF=0&aFRL < 0->aF=0;?!(vF=0&aFRL < 0)->aF=aFRL;}{t'=1.0,crl'=1.0,vF'=aF,PF'=vF,vL'=aL,PL'=vL&vL>=0&vF>=0&crl<=TS()}]((PF+(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2) < PL-(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX)&PF < PL-vF^2/(2*bMAX)&TS()>=crl&crl>=0&vF>=0)");
+    randomb('R=="[aL:=*;][{?crl>=TS();crl:=0.0;aFRL:=*;?(PF < PL-vF^2/(2*bMAX)->PF+(vF*TS()+aFRL*TS()^2/2) < PL-(vF+aFRL*TS())^2/(2*bMAX)&aFRL>=0)|aFRL=-bMAX;++?crl < TS();}{aF:=*;?vF=0&aFRL < 0->aF=0;?!(vF=0&aFRL < 0)->aF=aFRL;}{t'=1.0,crl'=1.0,vF'=aF,PF'=vF,vL'=aL,PL'=vL&vL>=0&vF>=0&crl<=TS()}]((PF+(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2) < PL-(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX)&PF < PL-vF^2/(2*bMAX)&TS()>=crl&crl>=0&vF>=0)");
+    allR('R=="\forall aL [{?crl>=TS();crl:=0.0;aFRL:=*;?(PF < PL-vF^2/(2*bMAX)->PF+(vF*TS()+aFRL*TS()^2/2) < PL-(vF+aFRL*TS())^2/(2*bMAX)&aFRL>=0)|aFRL=-bMAX;++?crl < TS();}{aF:=*;?vF=0&aFRL < 0->aF=0;?!(vF=0&aFRL < 0)->aF=aFRL;}{t'=1.0,crl'=1.0,vF'=aF,PF'=vF,vL'=aL,PL'=vL&vL>=0&vF>=0&crl<=TS()}]((PF+(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2) < PL-(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX)&PF < PL-vF^2/(2*bMAX)&TS()>=crl&crl>=0&vF>=0)");
+    composeb('R=="[{?crl>=TS();crl:=0.0;aFRL:=*;?(PF < PL-vF^2/(2*bMAX)->PF+(vF*TS()+aFRL*TS()^2/2) < PL-(vF+aFRL*TS())^2/(2*bMAX)&aFRL>=0)|aFRL=-bMAX;++?crl < TS();}{aF:=*;?vF=0&aFRL < 0->aF=0;?!(vF=0&aFRL < 0)->aF=aFRL;}{t'=1.0,crl'=1.0,vF'=aF,PF'=vF,vL'=aL,PL'=vL&vL>=0&vF>=0&crl<=TS()}]((PF+(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2) < PL-(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX)&PF < PL-vF^2/(2*bMAX)&TS()>=crl&crl>=0&vF>=0)");
+    MR("(PF+(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2) < PL-(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX)&PF < PL-vF^2/(2*bMAX)&TS()>=crl&crl>=0&vF>=0", 'R=="[?crl>=TS();crl:=0.0;aFRL:=*;?(PF < PL-vF^2/(2*bMAX)->PF+(vF*TS()+aFRL*TS()^2/2) < PL-(vF+aFRL*TS())^2/(2*bMAX)&aFRL>=0)|aFRL=-bMAX;++?crl < TS();][{aF:=*;?vF=0&aFRL < 0->aF=0;?!(vF=0&aFRL < 0)->aF=aFRL;}{t'=1.0,crl'=1.0,vF'=aF,PF'=vF,vL'=aL,PL'=vL&vL>=0&vF>=0&crl<=TS()}]((PF+(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2) < PL-(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX)&PF < PL-vF^2/(2*bMAX)&TS()>=crl&crl>=0&vF>=0)"); <(
+      "Use Q->P":
+        auto,
+      "Show [a]Q":
+        unfold;
+        auto
+    )
+)
+End.
+
+End. """"
+  tactic """" unfold;
+loop("(TS()>=crl&crl>=0&vF>=0)&(PL-PF-(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2)>(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX|vF=0&aFRL=0)&PF < PL-vF^2/(2*bMAX)", 'R=="[{aL:=*;{?crl>=TS();crl:=0.0;aFRL:=*;?PL-PF-(vF*TS()+aFRL*TS()^2/2)>(vF+aFRL*TS())^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX;++?crl < TS();}{?vF=0&aFRL < 0;aFRL:=0;++?!(vF=0&aFRL < 0);}{t'=1.0,crl'=1.0,vF'=aFRL,PF'=vF,vL'=aL,PL'=vL&vL>=0&vF>=0&crl<=TS()}}*]PF < PL"); <(
+  "Init":
+    QE,
+  "Post":
+    QE,
+  "Step":
+    composeb('R=="[aL:=*;{?crl>=TS();crl:=0.0;aFRL:=*;?PL-PF-(vF*TS()+aFRL*TS()^2/2)>(vF+aFRL*TS())^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX;++?crl < TS();}{?vF=0&aFRL < 0;aFRL:=0;++?!(vF=0&aFRL < 0);}{t'=1.0,crl'=1.0,vF'=aFRL,PF'=vF,vL'=aL,PL'=vL&vL>=0&vF>=0&crl<=TS()}]((TS()>=crl&crl>=0&vF>=0)&(PL-PF-(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2)>(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX|vF=0&aFRL=0)&PF < PL-vF^2/(2*bMAX))");
+    randomb('R=="[aL:=*;][{?crl>=TS();crl:=0.0;aFRL:=*;?PL-PF-(vF*TS()+aFRL*TS()^2/2)>(vF+aFRL*TS())^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX;++?crl < TS();}{?vF=0&aFRL < 0;aFRL:=0;++?!(vF=0&aFRL < 0);}{t'=1.0,crl'=1.0,vF'=aFRL,PF'=vF,vL'=aL,PL'=vL&vL>=0&vF>=0&crl<=TS()}]((TS()>=crl&crl>=0&vF>=0)&(PL-PF-(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2)>(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX|vF=0&aFRL=0)&PF < PL-vF^2/(2*bMAX))");
+    allR('R=="\forall aL [{?crl>=TS();crl:=0.0;aFRL:=*;?PL-PF-(vF*TS()+aFRL*TS()^2/2)>(vF+aFRL*TS())^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX;++?crl < TS();}{?vF=0&aFRL < 0;aFRL:=0;++?!(vF=0&aFRL < 0);}{t'=1.0,crl'=1.0,vF'=aFRL,PF'=vF,vL'=aL,PL'=vL&vL>=0&vF>=0&crl<=TS()}]((TS()>=crl&crl>=0&vF>=0)&(PL-PF-(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2)>(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX|vF=0&aFRL=0)&PF < PL-vF^2/(2*bMAX))");
+    composeb('R=="[{?crl>=TS();crl:=0.0;aFRL:=*;?PL-PF-(vF*TS()+aFRL*TS()^2/2)>(vF+aFRL*TS())^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX;++?crl < TS();}{?vF=0&aFRL < 0;aFRL:=0;++?!(vF=0&aFRL < 0);}{t'=1.0,crl'=1.0,vF'=aFRL,PF'=vF,vL'=aL,PL'=vL&vL>=0&vF>=0&crl<=TS()}]((TS()>=crl&crl>=0&vF>=0)&(PL-PF-(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2)>(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX|vF=0&aFRL=0)&PF < PL-vF^2/(2*bMAX))");
+    MR("(TS()>=crl&crl>=0&vF>=0)&(PL-PF-(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2)>(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX|vF=0&aFRL=0)&PF < PL-vF^2/(2*bMAX)", 'R=="[?crl>=TS();crl:=0.0;aFRL:=*;?PL-PF-(vF*TS()+aFRL*TS()^2/2)>(vF+aFRL*TS())^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX;++?crl < TS();][{?vF=0&aFRL < 0;aFRL:=0;++?!(vF=0&aFRL < 0);}{t'=1.0,crl'=1.0,vF'=aFRL,PF'=vF,vL'=aL,PL'=vL&vL>=0&vF>=0&crl<=TS()}]((TS()>=crl&crl>=0&vF>=0)&(PL-PF-(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2)>(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX|vF=0&aFRL=0)&PF < PL-vF^2/(2*bMAX))"); <(
+      "Use Q->P":
+        auto,
+      "Show [a]Q":
+        unfold; <(
+          "[?vF=0&aFRL < 0;aFRL:=0;][{t'=1.0,crl'=1.0,vF'=aFRL,PF'=vF,vL'=aL,PL'=vL&vL>=0&vF>=0&crl<=TS()}]((TS()>=crl&crl>=0&vF>=0)&(PL-PF-(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2)>(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX|vF=0&aFRL=0)&PF < PL-vF^2/(2*bMAX))":
+            auto,
+          "[?!(vF=0&aFRL < 0);][{t'=1.0,crl'=1.0,vF'=aFRL,PF'=vF,vL'=aL,PL'=vL&vL>=0&vF>=0&crl<=TS()}]((TS()>=crl&crl>=0&vF>=0)&(PL-PF-(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2)>(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX|vF=0&aFRL=0)&PF < PL-vF^2/(2*bMAX))":
+            orL('L=="PL-PF-(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2)>(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0|aFRL=-bMAX|vF=0&aFRL=0"); <(
+              "PL-PF-(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2)>(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0":
+                andL('L=="PL-PF-(vF*(TS()-crl)+aFRL*(TS()-crl)^2/2)>(vF+aFRL*(TS()-crl))^2/(2*bMAX)&aFRL>=0");
+                notAnd('L=="!(vF=0&aFRL < 0)");
+                hideL('L=="!vF=0|!aFRL < 0");
+                auto,
+              "aFRL=-bMAX|vF=0&aFRL=0":
+                auto
+            )
+        )
+    )
+) """"
+End.
+
+Tool.
+  kyxversion """" 5.1.2 """"
+End.

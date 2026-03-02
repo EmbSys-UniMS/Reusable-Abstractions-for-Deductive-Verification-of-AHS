@@ -1,0 +1,181 @@
+﻿Lemma "Sensor Disturbance B: Proof".
+"  ==>  (((simTime) = ((0.0)))&(((SMALLSTEPSIZE()) = ((0.01)))&(((XRL) <= (XRLUPPERLIMIT()))&(((XRL) >= (XRLLOWERLIMIT()))&(((YRL) <= (YRLUPPERLIMIT()))&(((YRL) >= (YRLLOWERLIMIT()))&(((XA) <= (XAUPPERLIMIT()))&(((XA) >= (XALOWERLIMIT()))&(((YA) <= (YAUPPERLIMIT()))&(((YA) >= (YALOWERLIMIT()))&(((XB) <= (XBUPPERLIMIT()))&(((XB) >= (XBLOWERLIMIT()))&(((YB) <= (YBUPPERLIMIT()))&(((YB) >= (YBLOWERLIMIT()))&(((DirYB) = (DirYBSub))&(((DiffXB) = (DiffXBSub))&(((DiffYB) = (DiffYBSub))&(((DirYA) = (DirYASub))&(((DiffXA) = (DiffXASub))&(((DirXB) = (DirXBSub))&(((DiffYA) = (DiffYASub))&(((DirXA) = (DirXASub))&(((smallStep) = ((0.0)))&(((((DMAX()) >= ((0.0)))&(((noiseMIN()) >= ((0.0)))&((noiseMAX()) >= (noiseMIN()))))->(((noiseBSub) >= (noiseMIN()))&(((noiseBSub) <= (noiseMAX()))&(((((((((XB)-(XRL))^((2.0)))+(((YB)-(YRL))^((2.0))))^((0.5)))*(noiseBSub)) <= (DMAX()))->(((((DiffXBSub)^((2.0)))+((DiffYBSub)^((2.0))))^((0.5))) = ((((((XB)-(XRL))^((2.0)))+(((YB)-(YRL))^((2.0))))^((0.5)))*(noiseBSub))))&((((((((XB)-(XRL))^((2.0)))+(((YB)-(YRL))^((2.0))))^((0.5)))*(noiseBSub)) > (DMAX()))->(((((DiffXBSub)^((2.0)))+((DiffYBSub)^((2.0))))^((0.5))) = (DMAX())))))))&(((DMAX()) >= ((0.0)))&(((noiseMIN()) >= ((0.0)))&((noiseMAX()) >= (noiseMIN()))))))))))))))))))))))))))))->([{{smallStep:=(0.0);};{{YB:=*;};{{?(((YB) <= (YBUPPERLIMIT()))&((YB) >= (YBLOWERLIMIT())));};{{XB:=*;};{{?(((XB) <= (XBUPPERLIMIT()))&((XB) >= (XBLOWERLIMIT())));};{{YA:=*;};{{?(((YA) <= (YAUPPERLIMIT()))&((YA) >= (YALOWERLIMIT())));};{{XA:=*;};{{?(((XA) <= (XAUPPERLIMIT()))&((XA) >= (XALOWERLIMIT())));};{{YRL:=*;};{{?(((YRL) <= (YRLUPPERLIMIT()))&((YRL) >= (YRLLOWERLIMIT())));};{{XRL:=*;};{{?(((XRL) <= (XRLUPPERLIMIT()))&((XRL) >= (XRLLOWERLIMIT())));};{{{noiseBSub:=*;};{{DiffXBSub:=*;};{{DiffYBSub:=*;};{{DirXBSub:=*;};{{DirYBSub:=*;};{?((((DMAX()) >= ((0.0)))&(((noiseMIN()) >= ((0.0)))&((noiseMAX()) >= (noiseMIN()))))->(((noiseBSub) >= (noiseMIN()))&(((noiseBSub) <= (noiseMAX()))&(((((((((XB)-(XRL))^((2.0)))+(((YB)-(YRL))^((2.0))))^((0.5)))*(noiseBSub)) <= (DMAX()))->(((((DiffXBSub)^((2.0)))+((DiffYBSub)^((2.0))))^((0.5))) = ((((((XB)-(XRL))^((2.0)))+(((YB)-(YRL))^((2.0))))^((0.5)))*(noiseBSub))))&((((((((XB)-(XRL))^((2.0)))+(((YB)-(YRL))^((2.0))))^((0.5)))*(noiseBSub)) > (DMAX()))->(((((DiffXBSub)^((2.0)))+((DiffYBSub)^((2.0))))^((0.5))) = (DMAX())))))));}}}}}};{{DirYB:=DirYBSub;};{{DirXB:=DirXBSub;};{{DiffXB:=DiffXBSub;};{{DiffYB:=DiffYBSub;};{{{noiseASub:=*;};{{DiffXASub:=*;};{{DiffYASub:=*;};{{DirXASub:=*;};{{DirYASub:=*;};{?((((DMAX()) >= ((0.0)))&(((noiseMIN()) >= ((0.0)))&((noiseMAX()) >= (noiseMIN()))))->(((noiseASub) >= (noiseMIN()))&(((noiseASub) <= (noiseMAX()))&(((((((((XA)-(XRL))^((2.0)))+(((YA)-(YRL))^((2.0))))^((0.5)))*(noiseASub)) <= (DMAX()))->(((((DiffXASub)^((2.0)))+((DiffYASub)^((2.0))))^((0.5))) = ((((((XA)-(XRL))^((2.0)))+(((YA)-(YRL))^((2.0))))^((0.5)))*(noiseASub))))&((((((((XA)-(XRL))^((2.0)))+(((YA)-(YRL))^((2.0))))^((0.5)))*(noiseASub)) > (DMAX()))->(((((DiffXASub)^((2.0)))+((DiffYASub)^((2.0))))^((0.5))) = (DMAX())))))));}}}}}};{{DirYA:=DirYASub;};{{DiffXA:=DiffXASub;};{{DiffYA:=DiffYASub;};{{DirXA:=DirXASub;};{{?(true);};{{simTime'=(1.0),smallStep'=(1.0)}}}}}}}}}}}}}}}}}}}}}}}}}}*](((noiseBSub) >= (noiseMIN()))&(((noiseBSub) <= (noiseMAX()))&(((((((((XB)-(XRL))^((2.0)))+(((YB)-(YRL))^((2.0))))^((0.5)))*(noiseBSub)) <= (DMAX()))->(((((DiffXBSub)^((2.0)))+((DiffYBSub)^((2.0))))^((0.5))) = ((((((XB)-(XRL))^((2.0)))+(((YB)-(YRL))^((2.0))))^((0.5)))*(noiseBSub))))&((((((((XB)-(XRL))^((2.0)))+(((YB)-(YRL))^((2.0))))^((0.5)))*(noiseBSub)) > (DMAX()))->(((((DiffXBSub)^((2.0)))+((DiffYBSub)^((2.0))))^((0.5))) = (DMAX())))))))
+\qed::489bf0a5f285945b5c8e5b40136be180"
+End.
+Tool.
+  tool """"KeYmaera X""""
+  model """"ArchiveEntry "Sensor Disturbance B"
+
+Functions.
+  R SMALLSTEPSIZE.
+  R XRLUPPERLIMIT.
+  R XRLLOWERLIMIT.
+  R YRLUPPERLIMIT.
+  R YRLLOWERLIMIT.
+  R XAUPPERLIMIT.
+  R XALOWERLIMIT.
+  R YAUPPERLIMIT.
+  R YALOWERLIMIT.
+  R XBUPPERLIMIT.
+  R XBLOWERLIMIT.
+  R YBUPPERLIMIT.
+  R YBLOWERLIMIT.
+  R DMAX.
+  R noiseMIN.
+  R noiseMAX.
+End.
+
+ProgramVariables.
+  R simTime.
+  R XRL.
+  R YRL.
+  R XA.
+  R YA.
+  R XB.
+  R YB.
+  R noiseBSub.
+  R DiffXBSub.
+  R DiffYBSub.
+  R DirXBSub.
+  R DirYBSub.
+  R DirYB.
+  R DiffXB.
+  R DiffYB.
+  R noiseASub.
+  R DiffXASub.
+  R DiffYASub.
+  R DirXASub.
+  R DirYASub.
+  R DirYA.
+  R DiffXA.
+  R DirXB.
+  R DiffYA.
+  R DirXA.
+  R smallStep.
+End.
+
+Problem.
+(  simTime = 0.0) &
+  (SMALLSTEPSIZE = 0.01) &
+  (XRL <= XRLUPPERLIMIT) &
+  (XRL >= XRLLOWERLIMIT) &
+  (YRL <= YRLUPPERLIMIT) &
+  (YRL >= YRLLOWERLIMIT) &
+  (XA <= XAUPPERLIMIT) &
+  (XA >= XALOWERLIMIT) &
+  (YA <= YAUPPERLIMIT) &
+  (YA >= YALOWERLIMIT) &
+  (XB <= XBUPPERLIMIT) &
+  (XB >= XBLOWERLIMIT) &
+  (YB <= YBUPPERLIMIT) &
+  (YB >= YBLOWERLIMIT) &
+  (DirYB = DirYBSub) &
+  (DiffXB = DiffXBSub) &
+  (DiffYB = DiffYBSub) &
+  (DirYA = DirYASub) &
+  (DiffXA = DiffXASub) &
+  (DirXB = DirXBSub) &
+  (DiffYA = DiffYASub) &
+  (DirXA = DirXASub) &
+  (smallStep = 0.0) &
+  ( (DMAX >= 0.0) &
+  (noiseMIN >= 0.0) &
+  (noiseMAX >= noiseMIN)
+  ->((noiseBSub >= noiseMIN) &
+  (noiseBSub <= noiseMAX) &
+  ((((((XB-XRL)^2.0)+((YB-YRL)^2.0))^0.5)*noiseBSub) <= DMAX
+    ->((((DiffXBSub^2.0)+(DiffYBSub^2.0))^0.5) = (((((XB-XRL)^2.0)+((YB-YRL)^2.0))^0.5)*noiseBSub))) &
+  ((((((XB-XRL)^2.0)+((YB-YRL)^2.0))^0.5)*noiseBSub) > DMAX
+    ->((((DiffXBSub^2.0)+(DiffYBSub^2.0))^0.5) = DMAX))))&
+  (DMAX >= 0.0) &
+  (noiseMIN >= 0.0) &
+  (noiseMAX >= noiseMIN)
+->(
+  [
+    {
+      smallStep:=0.0;
+      YB:= *;
+      ?((YB <= YBUPPERLIMIT) &
+        (YB >= YBLOWERLIMIT));
+      XB:= *;
+      ?((XB <= XBUPPERLIMIT) &
+        (XB >= XBLOWERLIMIT));
+      YA:= *;
+      ?((YA <= YAUPPERLIMIT) &
+        (YA >= YALOWERLIMIT));
+      XA:= *;
+      ?((XA <= XAUPPERLIMIT) &
+        (XA >= XALOWERLIMIT));
+      YRL:= *;
+      ?((YRL <= YRLUPPERLIMIT) &
+        (YRL >= YRLLOWERLIMIT));
+      XRL:= *;
+      ?((XRL <= XRLUPPERLIMIT) &
+        (XRL >= XRLLOWERLIMIT));
+      {
+        noiseBSub:= *;
+        DiffXBSub:= *;
+        DiffYBSub:= *;
+        DirXBSub:= *;
+        DirYBSub:= *;
+        ?( ( DMAX >= 0.0) &
+            (noiseMIN >= 0.0) &
+            (noiseMAX >= noiseMIN)
+          ->((noiseBSub >= noiseMIN) &
+            (noiseBSub <= noiseMAX) &
+            ((((((XB-XRL)^2.0)+((YB-YRL)^2.0))^0.5)*noiseBSub) <= DMAX
+              ->((((DiffXBSub^2.0)+(DiffYBSub^2.0))^0.5) = (((((XB-XRL)^2.0)+((YB-YRL)^2.0))^0.5)*noiseBSub))) &
+            ((((((XB-XRL)^2.0)+((YB-YRL)^2.0))^0.5)*noiseBSub) > DMAX
+              ->((((DiffXBSub^2.0)+(DiffYBSub^2.0))^0.5) = DMAX))));
+      }
+      DirYB:=DirYBSub;
+    DirXB:=DirXBSub;
+      DiffXB:=DiffXBSub;
+      DiffYB:=DiffYBSub;
+      {
+        noiseASub:= *;
+        DiffXASub:= *;
+        DiffYASub:= *;
+        DirXASub:= *;
+        DirYASub:= *;
+        ?(  (DMAX >= 0.0) &
+            (noiseMIN >= 0.0) &
+            (noiseMAX >= noiseMIN)
+          ->((noiseASub >= noiseMIN) &
+            (noiseASub <= noiseMAX) &
+            ((((((XA-XRL)^2.0)+((YA-YRL)^2.0))^0.5)*noiseASub) <= DMAX
+              ->((((DiffXASub^2.0)+(DiffYASub^2.0))^0.5) = (((((XA-XRL)^2.0)+((YA-YRL)^2.0))^0.5)*noiseASub))) &
+            ((((((XA-XRL)^2.0)+((YA-YRL)^2.0))^0.5)*noiseASub) > DMAX
+              ->((((DiffXASub^2.0)+(DiffYASub^2.0))^0.5) = DMAX))));
+      }
+      DirYA:=DirYASub;
+      DiffXA:=DiffXASub;
+      DiffYA:=DiffYASub;
+      DirXA:=DirXASub;
+      {
+        ?((true));
+        {
+          simTime' = 1.0,
+          smallStep' = 1.0
+        &(true)
+        }
+      }
+    }*
+  ] (((noiseBSub >= noiseMIN) &
+        (noiseBSub <= noiseMAX) &
+        ((((((XB-XRL)^2.0)+((YB-YRL)^2.0))^0.5)*noiseBSub) <= DMAX
+          ->((((DiffXBSub^2.0)+(DiffYBSub^2.0))^0.5) = (((((XB-XRL)^2.0)+((YB-YRL)^2.0))^0.5)*noiseBSub))) &
+        ((((((XB-XRL)^2.0)+((YB-YRL)^2.0))^0.5)*noiseBSub) > DMAX
+          ->((((DiffXBSub^2.0)+(DiffYBSub^2.0))^0.5) = DMAX)))))
+End.
+End.""""
+  tactic """"auto ; unfold ; loop("noiseBSub>=noiseMIN()&noiseBSub<=noiseMAX()&(((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5*noiseBSub<=DMAX()->(DiffXBSub^2.0+DiffYBSub^2.0)^0.5=((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5*noiseBSub)&(((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5*noiseBSub>DMAX()->(DiffXBSub^2.0+DiffYBSub^2.0)^0.5=DMAX())", 1) ; <(
+auto, 
+auto, 
+unfold ; auto
+)""""
+End.
+
+Tool.
+  kyxversion """"4.9.3""""
+End.

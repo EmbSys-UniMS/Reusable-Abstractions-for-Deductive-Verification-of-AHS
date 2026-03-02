@@ -1,0 +1,143 @@
+﻿Lemma "ATVA/RobotThreshold from tactic".
+"  ==>  ((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((xr)-(xa)))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((yr)-(ya)))) > (TEVD()))&(((VMAXa()) >= ((0)))&(((cr) = ((0)))&(((TS()) >= (cr))&(((t) = ((0)))&(((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))) > ((0)))&((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((xr)-(xa)))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((yr)-(ya))))-((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr)))+(VMAXa()))*((TS())-(cr)))) > (TEVD())))|(((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))) = ((0)))))))))->([{{{{?((cr) >= (TS()));};{{cr:=(0);};{{vxr:=*;};{{vyr:=*;};{?(((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))) > ((0)))&((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((xr)-(xa)))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((yr)-(ya))))-((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr)))+(VMAXa()))*(TS()))) > (TEVD())))|(((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))) = ((0))));}}}}}++{?(!((cr) >= (TS())));}};{{{vxa:=*;};{{vya:=*;};{?(((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxa))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vya))) <= (VMAXa()));}}};{{t'=(1.0),cr'=(1.0),xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&(cr) <= (TS())}}}}*]((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((xr)-(xa)))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((yr)-(ya)))) > (TEVD()))|(((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))) = ((0)))))
+\qed::c7cddcfe99a7fc6b6f85e89b7dc940b9"
+End.
+Tool.
+  tool """" KeYmaera X """"
+  model """" Theorem "ATVA/RobotThreshold"
+
+ProgramVariables
+  Real t;
+  Real cr;          /* clock of rob */
+
+  Real vxr;         /* velocity of rob */
+  Real vyr;
+  Real xr;          /* pos of rob */
+  Real yr;
+  
+  Real vxa;         /* velocity of opponent */
+  Real vya;
+  Real xa;          /* Pos of opponent (a) */
+  Real ya;
+End.
+
+
+Definitions
+  Real TS;          /* Sampling-Time r-contract */
+  Real VMAXa;       /* Max. velocity of opponent */
+  Real TEVD;        /* Evasion Threshold */
+  
+  Real n(Real x, Real y) = abs(x)+abs(y); /* L1 Norm */        
+  Real d(Real x1, Real y1, Real x2, Real y2) = n(x1-x2, y1-y2); /* L1 Distance */
+  
+  Bool Contract(Real xr, Real yr, Real xa, Real ya, Real vxr, Real vyr, Real Time) <-> (n(vxr, vyr)>0&d(xr, yr, xa, ya)-(n(vxr, vyr)+VMAXa)*Time>TEVD|n(vxr, vyr)=0);
+End.
+
+Problem
+d(xr, yr, xa, ya) > TEVD &
+VMAXa >=0 & 
+cr=0 & 
+TS>=cr &
+t=0&
+Contract( xr,  yr,  xa,  ya,  vxr,  vyr, TS-cr)
+->
+[ 
+    {
+        /* RL Controller contract */
+        if(cr >= TS) {
+            cr:=0;
+            vxr:= *; vyr:= *;
+            ?Contract( xr,  yr,  xa,  ya,  vxr,  vyr, TS);
+        }
+        /* Opp Ctr */
+        {
+            vxa:= *; vya:= *;
+            ?n(vxa, vya)<=VMAXa;
+        }
+        /* Continuous evolution */
+        {
+            t' = 1.0,
+            cr' = 1.0,
+            xr' = vxr, yr' = vyr,
+            xa'  = vxa,  ya'  = vya &
+            (cr <= TS)
+        }
+    }*@invariant((t>=0 & 0<=cr & cr <= TS) & Contract( xr,  yr,  xa,  ya,  vxr,  vyr, TS-cr))
+] (d(xr, yr, xa, ya) > TEVD|n(vxr, vyr)=0)/* Maintain Threshold Or Stop */
+End.
+
+Tactic "ATVA/RobotThreshold: Proof"
+unfold;
+loop("(t>=0&0<=cr&cr<=TS())&Contract(xr,yr,xa,ya,vxr,vyr,TS()-cr)", 'R=="[{{?cr>=TS();cr:=0;vxr:=*;vyr:=*;?Contract(xr,yr,xa,ya,vxr,vyr,TS());++?!cr>=TS();}{vxa:=*;vya:=*;?n(vxa,vya)<=VMAXa();}{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}}*](d(xr,yr,xa,ya)>TEVD()|n(vxr,vyr)=0)"); <(
+  "Init":
+    QE,
+  "Post":
+    QE,
+  "Step":
+    composeb('R=="[{?cr>=TS();cr:=0;vxr:=*;vyr:=*;?abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*TS()>TEVD()|abs(vxr)+abs(vyr)=0;++?!cr>=TS();}{vxa:=*;vya:=*;?abs(vxa)+abs(vya)<=VMAXa();}{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}]((t>=0&0<=cr&cr<=TS())&(abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()|abs(vxr)+abs(vyr)=0))");
+    MR("(t>=0&0<=cr&cr<=TS())&(abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()|abs(vxr)+abs(vyr)=0)", 'R=="[?cr>=TS();cr:=0;vxr:=*;vyr:=*;?abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*TS()>TEVD()|abs(vxr)+abs(vyr)=0;++?!cr>=TS();][{vxa:=*;vya:=*;?abs(vxa)+abs(vya)<=VMAXa();}{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}]((t>=0&0<=cr&cr<=TS())&(abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()|abs(vxr)+abs(vyr)=0))"); <(
+      "Use Q->P":
+        auto,
+      "Show [a]Q":
+        unfold;
+        boxAnd('R=="[{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}]((t>=0&0<=cr&cr<=TS())&(abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()|abs(vxr)+abs(vyr)=0))");
+        andR('R=="[{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS())&[{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}](abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()|abs(vxr)+abs(vyr)=0)"); <(
+          "[{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS())":
+            auto,
+          "[{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}](abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()|abs(vxr)+abs(vyr)=0)":
+            orL('L=="abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()|abs(vxr)+abs(vyr)=0"); <(
+              "abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()":
+                andL('L=="abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()");
+                dC("abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()", 'R=="[{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}](abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()|abs(vxr)+abs(vyr)=0)"); <(
+                  "Use":
+                    auto,
+                  "Show":
+                    auto
+                ),
+              "abs(vxr)+abs(vyr)=0":
+                auto
+            )
+        )
+    )
+)
+End.
+
+End. """"
+  tactic """" unfold;
+loop("(t>=0&0<=cr&cr<=TS())&Contract(xr,yr,xa,ya,vxr,vyr,TS()-cr)", 'R=="[{{?cr>=TS();cr:=0;vxr:=*;vyr:=*;?Contract(xr,yr,xa,ya,vxr,vyr,TS());++?!cr>=TS();}{vxa:=*;vya:=*;?n(vxa,vya)<=VMAXa();}{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}}*](d(xr,yr,xa,ya)>TEVD()|n(vxr,vyr)=0)"); <(
+  "Init":
+    QE,
+  "Post":
+    QE,
+  "Step":
+    composeb('R=="[{?cr>=TS();cr:=0;vxr:=*;vyr:=*;?abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*TS()>TEVD()|abs(vxr)+abs(vyr)=0;++?!cr>=TS();}{vxa:=*;vya:=*;?abs(vxa)+abs(vya)<=VMAXa();}{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}]((t>=0&0<=cr&cr<=TS())&(abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()|abs(vxr)+abs(vyr)=0))");
+    MR("(t>=0&0<=cr&cr<=TS())&(abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()|abs(vxr)+abs(vyr)=0)", 'R=="[?cr>=TS();cr:=0;vxr:=*;vyr:=*;?abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*TS()>TEVD()|abs(vxr)+abs(vyr)=0;++?!cr>=TS();][{vxa:=*;vya:=*;?abs(vxa)+abs(vya)<=VMAXa();}{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}]((t>=0&0<=cr&cr<=TS())&(abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()|abs(vxr)+abs(vyr)=0))"); <(
+      "Use Q->P":
+        auto,
+      "Show [a]Q":
+        unfold;
+        boxAnd('R=="[{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}]((t>=0&0<=cr&cr<=TS())&(abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()|abs(vxr)+abs(vyr)=0))");
+        andR('R=="[{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS())&[{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}](abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()|abs(vxr)+abs(vyr)=0)"); <(
+          "[{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS())":
+            auto,
+          "[{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}](abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()|abs(vxr)+abs(vyr)=0)":
+            orL('L=="abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()|abs(vxr)+abs(vyr)=0"); <(
+              "abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()":
+                andL('L=="abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()");
+                dC("abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()", 'R=="[{t'=1.0,cr'=1.0,xr'=vxr,yr'=vyr,xa'=vxa,ya'=vya&cr<=TS()}](abs(vxr)+abs(vyr)>0&abs(xr-xa)+abs(yr-ya)-(abs(vxr)+abs(vyr)+VMAXa())*(TS()-cr)>TEVD()|abs(vxr)+abs(vyr)=0)"); <(
+                  "Use":
+                    auto,
+                  "Show":
+                    auto
+                ),
+              "abs(vxr)+abs(vyr)=0":
+                auto
+            )
+        )
+    )
+) """"
+End.
+
+Tool.
+  kyxversion """" 5.0 """"
+End.

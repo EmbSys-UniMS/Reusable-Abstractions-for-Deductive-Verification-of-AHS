@@ -1,0 +1,75 @@
+﻿Lemma "ATVA/IWDSThreshold: Proof".
+"  ==>  (((h) > (hMIN()))&(((iMAX()) > ((0)))&((((h)+((((0))-(asup))*((TS())-(c)))) > (hMIN()))&((((c) = ((0)))&(((TS()) >= (c))&((t) = ((0)))))&(((sMAX()) >= (sDEG()))&(((sDEG()) > ((0)))&((iMAX()) >= (sMAX()))))))))->([{{{{?((c) >= (TS()));};{{c:=(0);};{{asup:=*;};{{ain:=*;};{?(((h)+((((0))-(asup))*(TS()))) > (hMIN()));}}}}}++{?(!((c) >= (TS())));}};{{in:=*;};{{?(((in) >= ((0)))&((in) <= (ain)));};{{d:=*;};{{?(((0)) <= (d));};{{?((d) <= (asup));};{{t'=(1),c'=(1),h'=(in)-(d)&(c) <= (TS())}}}}}}}}*]((hMIN()) < (h)))
+\qed::af84a6a3c423b999ae67d2527e67c1e0"
+End.
+Tool.
+  tool """" KeYmaera X """"
+  model """" ArchiveEntry "ATVA/IWDSThreshold"
+
+ProgramVariables
+    Real c;
+    Real t;
+    
+    Real h;
+    Real d;
+    Real i;
+    
+    Real asup;
+    Real ain;
+    Real in;
+    
+    
+    Real hhs;
+    Real ths;
+    Real shs;
+    Real failOld;
+    Real fail;
+End.
+
+Definitions
+    Real TS;
+    Real iMAX;
+    Bool HC;
+    
+    Real hMAX;
+    Real hDEG;
+    Real hMIN;
+    /* Supply */
+    Real sMAX; 
+    Real sDEG;
+    Real sMIN;
+    /* Recovery Rate */
+    Real RR;   
+    
+    /* Contracts */
+    Bool RLCMIN(Real h, Real ain, Real asup, Real time) <-> h+(0-asup)*time>hMIN;
+    Bool RLCMAX(Real h, Real ain, Real asup, Real time)  <-> h+(ain-0)*time<hMAX;
+End.
+
+
+Problem
+h > hMIN &iMAX>0 & RLCMIN(h, ain, asup, TS-c) &
+(c=0 & TS>=c & t=0) &
+(sMAX>=sDEG & sDEG>0 & iMAX>=sMAX) 
+->
+[
+    {   
+        if(c>=TS)
+        {
+            c:=0;asup:=*;ain:=*;
+            ?RLCMIN(h, ain, asup, TS);
+        }
+        in:=*; ?in>=0&in<=ain; /*inflow less or equal to applied flow to model failures*/
+        d:=*;?0<=d;?d<=asup;   /*demand less or equal to available supply*/
+        {t'=1, c'=1, h'=in-d & c<= TS}
+    }*@invariant(RLCMIN(h, ain, asup, TS-c) & 0<=c & c<=TS & hMIN<h)
+] hMIN<h
+End.
+
+End. """"
+  tactic """" auto """"
+End.
+
+Tool.
+  kyxversion """" 5.1.2 """"
+End.

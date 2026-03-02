@@ -1,0 +1,146 @@
+﻿Lemma "Opponent Velocity: Proof".
+"  ==>  (((simTime) = ((0.0)))&(((SMALLSTEPSIZE()) = ((0.01)))&(((YOpp) = (Y))&(((XOpp) = (X))&((((XOppHold) = (X))&(((YOppHold) = (Y))&(((XRLHold) = (XRL))&((YRLHold) = (YRL)))))&(((stepClockTSOpp) = ((0.0)))&(((smallStep) = ((0.0)))&(((XOpp) = (XOppOld))&(((YOpp) = (YOppOld))&(((((VMAXOpp()) >= ((0.0)))&(((STEPTSOpp()) >= ((0.0)))&((THRESHOLDOpp()) >= ((0.0)))))->((((((VXA)^((2.0)))+((VYA)^((2.0))))^((0.5))) <= (VMAXOpp()))&(((((((XRLHold)-(XOppHold))^((2.0)))+(((YRLHold)-(YOppHold))^((2.0))))^((0.5))) <= (THRESHOLDOpp()))->(((((XRLHold)-(XOppHold))*(VXA))+(((YRLHold)-(YOppHold))*(VYA))) <= ((0.0))))))&(((tDiff) = ((simTime)-(simTimeOld)))&(((simTimeOld) = (simTime))&(((THRESHOLDOpp()) >= ((0)))&(((VMAXOpp()) >= ((0)))&((STEPTSOpp()) > ((0)))))))))))))))))->([{{tDiff:=(simTime)-(simTimeOld);};{{simTimeOld:=simTime;};{{smallStep:=(0.0);};{{XOppOld:=XOpp;};{{YOppOld:=YOpp;};{{XRL:=*;};{{YRL:=*;};{{{{?((stepClockTSOpp) >= (STEPTSOpp()));};{{XOppHold:=X;};{{YOppHold:=Y;};{{XRLHold:=XRL;};{{YRLHold:=YRL;};{{VXA:=*;};{{VYA:=*;};{?((((VMAXOpp()) >= ((0.0)))&(((STEPTSOpp()) > ((0.0)))&((THRESHOLDOpp()) >= ((0.0)))))->((((((VXA)^((2.0)))+((VYA)^((2.0))))^((0.5))) <= (VMAXOpp()))&(((((((XRLHold)-(XOppHold))^((2.0)))+(((YRLHold)-(YOppHold))^((2.0))))^((0.5))) <= (THRESHOLDOpp()))->(((((XRLHold)-(XOppHold))*(VXA))+(((YRLHold)-(YOppHold))*(VYA))) <= ((0.0))))));}}}}}}}}++{?((stepClockTSOpp) < (STEPTSOpp()));}};{{YOpp:=Y;};{{XOpp:=X;};{{{{?((stepClockTSOpp) >= (STEPTSOpp()));};{stepClockTSOpp:=(0.0);}}++{?((stepClockTSOpp) < (STEPTSOpp()));}};{{?(true);};{{simTime'=(1.0),Y'=VYA,X'=VXA,stepClockTSOpp'=(1.0),smallStep'=(1.0)&(true)&((stepClockTSOpp) <= (STEPTSOpp()))}}}}}}}}}}}}}}*]((((((XOpp)-(XOppOld))^((2)))+(((YOpp)-(YOppOld))^((2))))^((0.5))) <= ((VMAXOpp())*(tDiff))))
+\qed::bdaf9f56233e722fa9d04ba6c9744002"
+End.
+Tool.
+  tool """"KeYmaera X""""
+  model """"ArchiveEntry "Opponent Velocity"
+
+Functions.
+  R SMALLSTEPSIZE.
+  R THRESHOLDOpp.
+  R VMAXOpp.
+  R STEPTSOpp.
+  R SAFETYDISTANCEOppA.
+End.
+
+ProgramVariables.
+  R simTime.
+  R XG.
+  R YG.
+  R YRL.
+  R XRL.
+  R VXA.
+  R VYA.
+  R ArrivedA.
+  R YOpp.
+  R XOpp.
+  R Y.
+  R X.
+  R Arrived.
+  R XOppHold.
+  R YOppHold.
+  R XGHold.
+  R YGHold.
+  R XRLHold.
+  R YRLHold.
+  R stepClockTSOpp.
+  R smallStep.
+  R tDiff.
+  R simTimeOld.
+  R XOppOld.
+  R YOppOld.
+End.
+
+Problem.
+(simTime = 0.0) &
+  (SMALLSTEPSIZE = 0.01) &
+  (YOpp = Y) &
+  (XOpp = X) &
+  ((XOppHold = X) &
+    (YOppHold = Y) &
+    (XRLHold = XRL) &
+    (YRLHold = YRL)) &
+  (stepClockTSOpp = 0.0) &
+  (smallStep = 0.0) &
+  (XOpp = XOppOld)&
+  (YOpp = YOppOld)&
+/* controller contract added to initial assumptions */
+  ((VMAXOpp >= 0.0) & 
+      (STEPTSOpp >= 0.0) &
+      (THRESHOLDOpp >= 0.0)
+        ->(((VXA^2.0+VYA^2.0)^0.5 <= VMAXOpp) & 
+        (((XRLHold-XOppHold)^2.0+(YRLHold-YOppHold)^2.0)^0.5 <= THRESHOLDOpp
+            ->(XRLHold-XOppHold)*VXA+(YRLHold-YOppHold)*VYA <= 0.0)))&
+  (tDiff=simTime-simTimeOld)&
+  (simTimeOld=simTime)&
+/* contract assumptions */
+  (THRESHOLDOpp>=0)&
+  (VMAXOpp>=0)&
+  (STEPTSOpp>0)
+->([
+    {
+      tDiff:=simTime-simTimeOld;
+      simTimeOld:=simTime;
+      smallStep:=0.0;
+      XOppOld:=XOpp;
+      YOppOld:=YOpp;
+      XRL:= *;
+      YRL:= *;
+      {
+        ?(stepClockTSOpp >= STEPTSOpp);
+        XOppHold:=X;
+        YOppHold:=Y;
+        XRLHold:=XRL;
+        YRLHold:=YRL;
+        /* controller added to discrete behavior because sampling time is inherited */
+        {
+        VXA:= *;
+        VYA:= *;
+        ?((VMAXOpp >= 0.0) &
+            (STEPTSOpp > 0.0) &
+            (THRESHOLDOpp >= 0.0)
+          ->(((((VXA^2.0)+(VYA^2.0))^0.5) <= VMAXOpp) &
+            (((((XRLHold-XOppHold)^2.0)+((YRLHold-YOppHold)^2.0))^0.5) <= THRESHOLDOpp
+              ->((((XRLHold-XOppHold)*VXA)+((YRLHold-YOppHold)*VYA)) <= 0.0))));
+        }
+      ++
+        ?(stepClockTSOpp < STEPTSOpp);
+      }
+      YOpp:=Y;
+      XOpp:=X;
+      {
+        ?(stepClockTSOpp >= STEPTSOpp);
+        stepClockTSOpp:=0.0;
+      ++
+        ?(stepClockTSOpp < STEPTSOpp);
+      }
+      {
+        ?((true));
+        {
+          simTime' = 1.0,
+          Y' = VYA,
+          X' = VXA,
+          stepClockTSOpp' = 1.0,
+          smallStep' = 1.0
+        &((true)) &
+          (stepClockTSOpp <= STEPTSOpp)
+        }
+      }
+    }*
+    /* contract guarantee */
+  ] ( ((XOpp-XOppOld)^2+(YOpp-YOppOld)^2)^0.5 <=VMAXOpp*(tDiff)))
+End.
+End.""""
+  tactic """"unfold ; loop("(VXA^2+VYA^2)^0.5<=VMAXOpp()&((XOpp-X)^2+(YOpp-Y)^2)^0.5<=VMAXOpp()*(simTime-simTimeOld)&((XOpp-XOppOld)^2+(YOpp-YOppOld)^2)^0.5<=VMAXOpp()*tDiff", 1) ; <(
+master, 
+master, 
+composeb(1) ; assignb(1) ; composeb(1) ; assignb(1) ; composeb(1) ; assignb(1) ; composeb(1) ; assignb(1) ; composeb(1) ; assignb(1) ; composeb(1) ; randomb(1) ; allR(1) ; composeb(1) ; randomb(1) ; allR(1) ; composeb(1) ; MR("(VXA^2+VYA^2)^0.5<=VMAXOpp()", 1) ; <(
+master, 
+  composeb(1) ; assignb(1) ; composeb(1) ; assignb(1) ; composeb(1) ; MR("true", 1) ; <(
+  master, 
+    boxAnd(1) ; andR(1) ; <(
+    master, 
+      boxAnd(1) ; andR(1) ; <(
+      unfold ; hideL(-1=="true") ; hideL(-1=="((XOpp_0-X)^2+(YOpp_0-Y)^2)^0.5<=VMAXOpp()*(simTime-simTimeOld_0)") ; hideL(-1=="((XOpp_0-XOppOld_0)^2+(YOpp_0-YOppOld_0)^2)^0.5<=VMAXOpp()*tDiff_0") ; hideL(-1=="SMALLSTEPSIZE()=0.01") ; hideL(-1=="THRESHOLDOpp()>=0") ; hideL(-1=="VMAXOpp()>=0") ; master, 
+        andL(-1) ; andL(-3) ; andL(-4) ; andL(-5) ; andL(-6) ; andL(-7) ; andL(-8) ; andL(-9) ; andL(-10) ; andL(-11) ; andL(-12) ; allL2R(-8) ; allL2R(-8) ; allL2R(-8) ; allL2R(-9) ; allR2L(-9) ; allL2R(-8) ; allR2L(-11) ; allR2L(-12) ; hideL(-3=="((XOppOld-XOppOld_0)^2+(YOppOld-YOppOld_0)^2)^0.5<=VMAXOpp()*tDiff_0") ; hideL(-1=="true") ; master
+      )
+    )
+  )
+)
+)""""
+End.
+
+Tool.
+  kyxversion """"4.9.3""""
+End.

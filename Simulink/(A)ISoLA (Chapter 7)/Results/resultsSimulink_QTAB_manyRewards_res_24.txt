@@ -1,0 +1,14 @@
+key,value
+tmax,24
+trainruns,1152
+traintime,402.886936
+safetylow,0.000000
+safetymid,0.000384
+safetyhigh,0.000768
+resiliencelow,0.015569
+resiliencemid,0.019369
+resiliencehigh,0.023170
+performancelow,0.017015
+performancemid,0.020968
+performancehigh,0.024921
+simtime,740.461594

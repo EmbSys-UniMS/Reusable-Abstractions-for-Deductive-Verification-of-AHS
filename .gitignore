@@ -1,0 +1,43 @@
+############################
+# MATLAB autosave / backups
+############################
+*.asv
+*.m~
+*.autosave
+*.mlx.autosave
+
+############################
+# Simulink cache (rebuildable)
+############################
+*.slxc
+slprj/
+simulinkcache/
+
+############################
+# Code generation artifacts
+############################
+codegen/
+*_rtw/
+*_grt_rtw/
+*_ert_rtw/
+
+############################
+# OS / editor junk
+############################
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+
+############################
+# IDE settings 
+############################
+.vscode/
+.idea/
+
+############################
+# Logs
+############################
+*.log
+

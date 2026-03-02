@@ -1,0 +1,358 @@
+﻿Lemma "RL Robot 2 Opp B: Proof".
+"  ==>  (((simTime) = ((0.0)))&(((SMALLSTEPSIZE()) = ((0.01)))&(((YRL) = (Y))&(((XRL) = (X))&(((stepClockTSRL) = ((0.0)))&(((smallStep) = ((0.0)))&((((STEPTSRL()) >= ((0)))&(((VMAXRL()) >= ((0)))&(((VMAXB()) >= ((0)))&((((((XB)-(XBOld))^((2)))+(((YB)-(YBOld))^((2))))^((0.5))) <= ((VMAXB())*(TDiff))))))&(((YRLOld) = (YRL))&(((XRLOld) = (XRL))&(((simTimeOld) = (simTime))&(((TDiff) = ((simTime)-(simTimeOld)))&(((((VRL) >= ((0.0)))&(((DirXRL) != ((0.0)))|((DirYRL) != ((0.0)))))->(((((VXRL)^((2.0)))+((VYRL)^((2.0))))^((0.5))) = (VRL)))&(((((DirXRL) = ((0.0)))&((DirYRL) = ((0.0))))->(((((VXRL)^((2.0)))+((VYRL)^((2.0))))^((0.5))) = ((0.0))))&(((true)->(((DiffXB) = ((XB)-(X)))&((DiffYB) = ((YB)-(Y)))))&((true)->(((VRL) >= ((0.0)))&(((VMAXRL()) >= (VRL))&((((VRL) = ((0.0)))<->(((DirXRL) = ((0.0)))&((DirYRL) = ((0.0)))))&(((((((((DiffXA)^((2.0)))+((DiffYA)^((2.0))))^((0.5)))-((VRL)*(STEPTSRL())))-((VMAXA())*(STEPTSRL()))) > (THRESHOLDA()))|((VRL) = ((0.0))))&((((((((DiffXB)^((2.0)))+((DiffYB)^((2.0))))^((0.5)))-((VRL)*(STEPTSRL())))-((VMAXB())*(STEPTSRL()))) > (THRESHOLDB()))|((VRL) = ((0.0)))))))))))))))))))))))->([{{{smallStep:=(0.0);};{{TDiff:=(simTime)-(simTimeOld);};{{simTimeOld:=simTime;};{{YA:=*;};{{XA:=*;};{{YBOld:=YB;};{{XBOld:=XB;};{{YB:=*;};{{XB:=*;};{{?((((((XB)-(XBOld))^((2)))+(((YB)-(YBOld))^((2))))^((0.5))) <= ((VMAXB())*(TDiff)));};{{YRLOld:=YRL;};{{XRLOld:=XRL;};{{YRL:=Y;};{XRL:=X;}}}}}}}}}}}}}};{{{DiffXA:=*;};{{DiffYA:=*;};{{DirXA:=*;};{{DirYA:=*;};{{DiffXB:=*;};{{DiffYB:=*;};{{DirXB:=*;};{{DirYB:=*;};{{?((true)->(((DiffXA) = ((XA)-(X)))&((DiffYA) = ((YA)-(Y)))));};{?((true)->(((DiffXB) = ((XB)-(X)))&((DiffYB) = ((YB)-(Y)))));}}}}}}}}}};{{{{?((stepClockTSRL) >= (STEPTSRL()));};{{stepClockTSRL:=(0.0);};{{DirXRL:=*;};{{DirYRL:=*;};{{VRL:=*;};{?((true)->(((VRL) >= ((0.0)))&(((VMAXRL()) >= (VRL))&((((VRL) = ((0.0)))<->(((DirXRL) = ((0.0)))&((DirYRL) = ((0.0)))))&(((((((((DiffXA)^((2.0)))+((DiffYA)^((2.0))))^((0.5)))-((VRL)*(STEPTSRL())))-((VMAXA())*(STEPTSRL()))) > (THRESHOLDA()))|((VRL) = ((0.0))))&((((((((DiffXB)^((2.0)))+((DiffYB)^((2.0))))^((0.5)))-((VRL)*(STEPTSRL())))-((VMAXB())*(STEPTSRL()))) > (THRESHOLDB()))|((VRL) = ((0.0)))))))));}}}}}}++{?((stepClockTSRL) < (STEPTSRL()));}};{{{VXRL:=*;};{{VYRL:=*;};{{?((((VRL) >= ((0.0)))&(((DirXRL) != ((0.0)))|((DirYRL) != ((0.0)))))->(((((VXRL)^((2.0)))+((VYRL)^((2.0))))^((0.5))) = (VRL)));};{?((((DirXRL) = ((0.0)))&((DirYRL) = ((0.0))))->(((((VXRL)^((2.0)))+((VYRL)^((2.0))))^((0.5))) = ((0.0))));}}}};{{?(true);};{{simTime'=(1.0),stepClockTSRL'=(1.0),X'=VXRL,Y'=VYRL,smallStep'=(1.0)&(true)&((stepClockTSRL) <= (STEPTSRL()))}}}}}}}*](((((((XBOld)-(XRL))^((2)))+(((YBOld)-(YRL))^((2))))^((0.5))) > (THRESHOLDB()))|(((XRL) = (XRLOld))&((YRL) = (YRLOld)))))
+\qed::7346f2e1071597e67ae7cbd1867a89cf"
+End.
+Tool.
+  tool """"KeYmaera X""""
+  model """"ArchiveEntry "RL Robot 2 Opp B"
+
+Functions.
+  R SMALLSTEPSIZE.
+  R XBUPPERLIMIT.
+  R XBLOWERLIMIT.
+  R YBUPPERLIMIT.
+  R YBLOWERLIMIT.
+  R GoalXUPPERLIMIT.
+  R GoalXLOWERLIMIT.
+  R GoalYUPPERLIMIT.
+  R GoalYLOWERLIMIT.
+  R XAUPPERLIMIT.
+  R XALOWERLIMIT.
+  R YAUPPERLIMIT.
+  R YALOWERLIMIT.
+  R THRESHOLDRL.
+  R VMAXRL.
+  R STEPTSRL.
+  R VMAXA.
+  R VMAXB.
+  R THRESHOLDA.
+  R THRESHOLDB.
+End.
+
+ProgramVariables.
+  R simTime.
+  R XB.
+  R YB.
+  R GoalX.
+  R GoalY.
+  R XA.
+  R YA.
+  R YRL.
+  R XRL.
+  R DistToGoal.
+  R ArrivedAtGoal.
+  R Arrived.
+  R Crash.
+  R DiffXA.
+  R DiffYA.
+  R DirXA.
+  R DirYA.
+  R DiffXB.
+  R DiffYB.
+  R DirXB.
+  R DirYB.
+  R Reward.
+  R DirXRL.
+  R DirYRL.
+  R VRL.
+  R stepClockTSRL.
+  R VXRL.
+  R VYRL.
+  R X.
+  R Y.
+  R smallStep.
+  R simTimeOld.
+  R TDiff.
+  R XRLOld.
+  R YRLOld.
+  R XBOld.
+  R YBOld.
+End.
+
+Problem.
+(simTime = 0.0) &
+  (SMALLSTEPSIZE = 0.01) &
+  (YRL = Y) &
+  (XRL = X) &
+  (stepClockTSRL = 0.0) &
+  (smallStep = 0.0)&
+  /*contract assumptions*/
+  ((STEPTSRL>=0)&
+    (VMAXRL>=0)&
+    (VMAXB>=0)&
+    (((XB-XBOld)^2+(YB-YBOld)^2)^0.5<=VMAXB*TDiff))&
+  /*init ghost observers*/
+  (YRLOld = YRL)&
+  (XRLOld = XRL)&
+  (simTimeOld=simTime)&
+  (TDiff=simTime-simTimeOld)&
+  /*contracts moved to init conditions*/
+  ((VRL >= 0.0) &
+    ((DirXRL != 0.0) |
+      (DirYRL != 0.0))
+  ->(((((VXRL^2.0)+(VYRL^2.0))^0.5) = VRL)))&
+  ((DirXRL = 0.0) &
+    (DirYRL = 0.0)
+  ->(((((VXRL^2.0)+(VYRL^2.0))^0.5) = 0.0)))&
+  /*we only added contracts relevant for the corresponding opponent (in this case B) to the initial conditions.
+  This allows eases textual replacement in the resulting tactic and eases verifying the same property for other opponents.
+  Note that additional initial conditions could by removed in the very first proof steps by the hide operator, thus validating the approach*/
+  ((true)->((DiffXB = (XB-X)) &(DiffYB = (YB-Y))))&
+  ((true)
+    ->((VRL >= 0.0) &
+      (VMAXRL >= VRL) &
+      (VRL = 0.0
+        <->(DirXRL = 0.0) &
+          (DirYRL = 0.0)) &
+      ((((((DiffXA^2.0)+(DiffYA^2.0))^0.5)-(VRL*STEPTSRL)-(VMAXA*STEPTSRL)) > THRESHOLDA) |
+        (VRL = 0.0)) &
+      ((((((DiffXB^2.0)+(DiffYB^2.0))^0.5)-(VRL*STEPTSRL)-(VMAXB*STEPTSRL)) > THRESHOLDB) |
+        (VRL = 0.0))))
+->([
+    {
+    /*To ease the proof, we removed all usused assumptions on inputs, i.e. Lower and Upper bounds, as well as non deterministic assignments from empty contracts (such as goals).
+    Alternatively these could be removed during the proof by first adding them to the premises and then hiding unwanted relations*/
+      {
+        /*We encased in- and ouputs with braces.
+        This allowed us to confirm assumptions on the in and outputs using Monotonocity, which also eases textual replacement in the tactic*/
+        smallStep:=0.0;
+        TDiff:=simTime-simTimeOld;
+        simTimeOld:=simTime;
+        YA:= *;
+        XA:= *;
+        YBOld := YB;
+        XBOld := XB;
+        YB:= *;
+        XB:= *;
+        ?(((XB-XBOld)^2+(YB-YBOld)^2)^0.5<=VMAXB*TDiff);
+        YRLOld := YRL;
+        XRLOld := XRL;
+        YRL:=Y;
+        XRL:=X;
+      }
+      /* Sensor contract */
+      {
+        DiffXA:= *;
+        DiffYA:= *;
+        DirXA:= *;
+        DirYA:= *;
+        DiffXB:= *;
+        DiffYB:= *;
+        DirXB:= *;
+        DirYB:= *;
+        ?((true)
+          ->((DiffXA = (XA-X)) &
+            (DiffYA = (YA-Y))));
+        ?((true)
+          ->((DiffXB = (XB-X)) &
+            (DiffYB = (YB-Y))));
+      }
+      /* Controller contract */
+      {
+        ?(stepClockTSRL >= STEPTSRL);
+        stepClockTSRL:=0.0;
+        {
+          DirXRL:= *;
+          DirYRL:= *;
+          VRL:= *;
+          ?((true)
+            ->((VRL >= 0.0) &
+              (VMAXRL >= VRL) &
+              (VRL = 0.0
+                <->(DirXRL = 0.0) &
+                  (DirYRL = 0.0)) &
+              ((((((DiffXA^2.0)+(DiffYA^2.0))^0.5)-(VRL*STEPTSRL)-(VMAXA*STEPTSRL)) > THRESHOLDA) |
+                (VRL = 0.0)) &
+              ((((((DiffXB^2.0)+(DiffYB^2.0))^0.5)-(VRL*STEPTSRL)-(VMAXB*STEPTSRL)) > THRESHOLDB) |
+                (VRL = 0.0))));
+        }
+      ++
+        ?(stepClockTSRL < STEPTSRL);
+      }
+      /* Motor control contract */
+      {
+        VXRL:= *;
+        VYRL:= *;
+        ?((VRL >= 0.0) &
+            ((DirXRL != 0.0) |
+              (DirYRL != 0.0))
+          ->(((((VXRL^2.0)+(VYRL^2.0))^0.5) = VRL)));
+        ?((DirXRL = 0.0) &
+            (DirYRL = 0.0)
+          ->(((((VXRL^2.0)+(VYRL^2.0))^0.5) = 0.0)));
+      }
+      {
+        /* smallStep is not added when using discrete sampling time */
+        ?((true));
+        {
+          simTime' = 1.0,
+          stepClockTSRL' = 1.0,
+          X' = VXRL,
+          Y' = VYRL,
+          smallStep' = 1.0
+        &((true)) &
+          (stepClockTSRL <= STEPTSRL)
+        }
+      }
+    }*
+    /* The robot either maintains a distance > THRESHOLD to the old position of the opponent or stopps */
+  ] ((((XBOld-XRL)^2+(YBOld-YRL)^2)^0.5>THRESHOLDB)|(XRL=XRLOld&YRL=YRLOld)))
+End.
+End.""""
+  tactic """"unfold ; ((loop("(((XB-X)^2+(YB-Y)^2)^0.5-VRL*(STEPTSRL()-stepClockTSRL)-VMAXB()*(STEPTSRL()-(stepClockTSRL-(simTime-simTimeOld)))>THRESHOLDB()|VRL=0)&(VRL=0<->DirXRL=0&DirYRL=0)&(VRL=0->VXRL=0&VYRL=0)&((XRL-X)^2.0+(YRL-Y)^2.0)^0.5=VRL*(simTime-simTimeOld)&VRL=(VXRL^2+VYRL^2)^0.5&(((XBOld-XRL)^2+(YBOld-YRL)^2)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld)&(VRL>=0&VMAXRL()>=VRL)&STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0&simTime>=simTimeOld&simTimeOld>=0&stepClockTSRL>=simTime-simTimeOld", 1) ; <(
+nil, 
+master, 
+discreteGhost("simTimeOld", "simTimeOldPrev", 'R) ; discreteGhost("XBOld", "XBOldPrev", 'R) ; discreteGhost("YBOld", "YBOldPrev", 'R) ; discreteGhost("XRLOld", "XRLOldPrev", 'R) ; discreteGhost("YRLOld", "YRLOldPrev", 'R) ; discreteGhost("XB", "XBPrev", 'R) ; discreteGhost("YB", "YBPrev", 'R) ; discreteGhost("XRL", "XRLPrev", 'R) ; discreteGhost("YRL", "YRLPrev", 'R) ; composeb(1) ; MR("simTimeOld=simTime&XBOld=XBPrev&YBOld=YBPrev&XRLOld=XRLPrev&YRLOld=YRLPrev&XRL=X&YRL=Y&((XB-XBOld)^2+(YB-YBOld)^2)^0.5<=VMAXB()*(simTimeOld-simTimeOldPrev)", 1) ; <(
+master, 
+  andL(-2) ; andL(-3) ; andL(-4) ; andL(-5) ; andL(-6) ; allR2L(-3) ; allR2L(-4) ; allR2L(-5) ; allR2L(-6) ; allR2L(-2) ; allR2L(-2) ; allR2L(-3) ; allR2L(-4) ; allR2L(-5) ; allR2L(-6) ; hideL(-3=="XBOld=XBPrev") ; hideL(-3=="YBOld=YBPrev") ; hideL(-3=="XRLOld=XRLPrev") ; hideL(-3=="YRLOld=YRLPrev") ; composeb(1) ; MR("DiffXB=XB-X&DiffYB=YB-Y", 1) ; <(
+  hideL(-1=="(((XBOld-X)^2+(YBOld-Y)^2)^0.5-VRL*(STEPTSRL()-stepClockTSRL)-VMAXB()*(STEPTSRL()-(stepClockTSRL-(simTimeOld-simTimeOldPrev)))>THRESHOLDB()|VRL=0)&(VRL=0<->DirXRL=0&DirYRL=0)&(VRL=0->VXRL=0&VYRL=0)&((XRLOld-X)^2.0+(YRLOld-Y)^2.0)^0.5=VRL*(simTimeOld-simTimeOldPrev)&VRL=(VXRL^2+VYRL^2)^0.5&(((XBOldPrev-XRLOld)^2+(YBOldPrev-YRLOld)^2)^0.5>THRESHOLDB()|XRLOld=XRLOldPrev&YRLOld=YRLOldPrev)&VRL>=0&VMAXRL()>=VRL&STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0&simTimeOld>=simTimeOldPrev&simTimeOldPrev>=0&stepClockTSRL>=simTimeOld-simTimeOldPrev&SMALLSTEPSIZE()=0.01&STEPTSRL()>=0&VMAXRL()>=0&VMAXB()>=0") ; master, 
+    discreteGhost("stepClockTSRL", "stepClockTSRLOld", 'R) ; discreteGhost("VRL", "VRLOld", 'R) ; discreteGhost("DirXRL", "DirXRLOld", 'R) ; discreteGhost("DirYRL", "DirYRLOld", 'R) ; discreteGhost("VXRL", "VXRLOld", 'R) ; discreteGhost("VYRL", "VYRLOld", 'R) ; composeb(1) ; MR("(stepClockTSRLOld>=STEPTSRL()->(VRL>=0.0&VMAXRL()>=VRL&(VRL=0.0<->DirXRL=0.0&DirYRL=0.0)&((DiffXB^2.0+DiffYB^2.0)^0.5-VRL*STEPTSRL()-VMAXB()*STEPTSRL()>THRESHOLDB()|VRL=0.0))&stepClockTSRL=0)&(stepClockTSRLOld < STEPTSRL()->stepClockTSRL=stepClockTSRLOld&VRL=VRLOld&DirXRL=DirXRLOld&DirYRL=DirYRLOld)", 1) ; <(
+    hideL(-1=="(((XBOld-X)^2+(YBOld-Y)^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-(stepClockTSRLOld-(simTimeOld-simTimeOldPrev)))>THRESHOLDB()|VRLOld=0)&(VRLOld=0<->DirXRLOld=0&DirYRLOld=0)&(VRLOld=0->VXRLOld=0&VYRLOld=0)&((XRLOld-X)^2.0+(YRLOld-Y)^2.0)^0.5=VRLOld*(simTimeOld-simTimeOldPrev)&VRLOld=(VXRLOld^2+VYRLOld^2)^0.5&(((XBOldPrev-XRLOld)^2+(YBOldPrev-YRLOld)^2)^0.5>THRESHOLDB()|XRLOld=XRLOldPrev&YRLOld=YRLOldPrev)&VRLOld>=0&VMAXRL()>=VRLOld&STEPTSRL()>=stepClockTSRLOld&stepClockTSRLOld>=0&simTimeOld>=simTimeOldPrev&simTimeOldPrev>=0&stepClockTSRLOld>=simTimeOld-simTimeOldPrev&SMALLSTEPSIZE()=0.01&STEPTSRL()>=0&VMAXRL()>=0&VMAXB()>=0&simTimeOld=simTime&XRL=X&YRL=Y&((XB-XBOld)^2+(YB-YBOld)^2)^0.5<=VMAXB()*(simTimeOld-simTimeOldPrev)") ; master, 
+      composeb(1) ; MR("(VXRL^2+VYRL^2)^0.5=VRL&(VRL=0->VXRL=0&VYRL=0)", 1) ; <(
+      unfold ; hideL(-3=="((XBOld-X)^2+(YBOld-Y)^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-(stepClockTSRLOld-(simTimeOld-simTimeOldPrev)))>THRESHOLDB()|VRLOld=0") ; hideL(-5=="((XRLOld-X)^2.0+(YRLOld-Y)^2.0)^0.5=VRLOld*(simTimeOld-simTimeOldPrev)") ; hideL(-6=="((XBOldPrev-XRLOld)^2+(YBOldPrev-YRLOld)^2)^0.5>THRESHOLDB()|XRLOld=XRLOldPrev&YRLOld=YRLOldPrev") ; hideL(-9=="stepClockTSRLOld>=0") ; hideL(-9=="simTimeOld>=simTimeOldPrev") ; hideL(-9=="simTimeOldPrev>=0") ; hideL(-9=="stepClockTSRLOld>=simTimeOld-simTimeOldPrev") ; hideL(-9=="SMALLSTEPSIZE()=0.01") ; hideL(-12=="simTimeOld=simTime") ; hideL(-14=="((XB-XBOld)^2+(YB-YBOld)^2)^0.5<=VMAXB()*(simTimeOld-simTimeOldPrev)") ; hideL(-14=="DiffXB=XB-X") ; hideL(-14=="DiffYB=YB-Y") ; hideL(-12=="XRL=X") ; hideL(-12=="YRL=Y") ; cut("stepClockTSRLOld>=STEPTSRL()|stepClockTSRLOld < STEPTSRL()") ; <(
+        orL(-16) ; <(
+          hideL(-15=="stepClockTSRLOld < STEPTSRL()->stepClockTSRL=stepClockTSRLOld&VRL=VRLOld&DirXRL=DirXRLOld&DirYRL=DirYRLOld") ; implyL(-14) ; <(
+            master, 
+              hideL(-3=="VRLOld=0<->DirXRLOld=0&DirYRLOld=0") ; hideL(-3=="VRLOld=0->VXRLOld=0&VYRLOld=0") ; hideL(-3=="VRLOld=(VXRLOld^2+VYRLOld^2)^0.5") ; hideL(-3=="VRLOld>=0") ; hideL(-3=="VMAXRL()>=VRLOld") ; hideL(-3=="STEPTSRL()>=stepClockTSRLOld") ; hideL(-3=="STEPTSRL()>=0") ; hideL(-3=="VMAXRL()>=0") ; hideL(-3=="VMAXB()>=0") ; hideL(-3=="VXRLOld=VXRL_0") ; hideL(-3=="VYRLOld=VYRL_0") ; unfold ; hideL(-8=="(DiffXB^2.0+DiffYB^2.0)^0.5-VRL*STEPTSRL()-VMAXB()*STEPTSRL()>THRESHOLDB()|VRL=0.0") ; master
+            ), 
+            implyL(-15) ; <(
+            master, 
+              hideL(-14=="stepClockTSRLOld>=STEPTSRL()->(VRL>=0.0&VMAXRL()>=VRL&(VRL=0.0<->DirXRL=0.0&DirYRL=0.0)&((DiffXB^2.0+DiffYB^2.0)^0.5-VRL*STEPTSRL()-VMAXB()*STEPTSRL()>THRESHOLDB()|VRL=0.0))&stepClockTSRL=0") ; unfold ; master
+            )
+          ), 
+          master
+        ), 
+        unfold ; discreteGhost("stepClockTSRL", "stepClockTSRLBef", 'R) ; cut("VRL>=0&VMAXRL()>=VRL&stepClockTSRLBef<=STEPTSRL()&stepClockTSRLBef>=0&(VRL=0<->DirXRL=0&DirYRL=0)") ; <(
+        dC("stepClockTSRL>=stepClockTSRLBef&stepClockTSRL>=simTime-simTimeOld&simTime-simTimeOld>=0&simTime-simTimeOld=stepClockTSRL-stepClockTSRLBef&((XRL-X)^2+(YRL-Y)^2)^0.5=VRL*(simTime-simTimeOld)", 1) ; <(
+          nil, 
+            hideL(-1=="((XBOld-X)^2+(YBOld-Y)^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-(stepClockTSRLOld-(simTimeOld-simTimeOldPrev)))>THRESHOLDB()|VRLOld=0") ; hideL(-1=="VRLOld=0<->DirXRLOld=0&DirYRLOld=0") ; hideL(-1=="VRLOld=0->VXRLOld=0&VYRLOld=0") ; hideL(-1=="((XRLOld-X)^2.0+(YRLOld-Y)^2.0)^0.5=VRLOld*(simTimeOld-simTimeOldPrev)") ; hideL(-1=="VRLOld=(VXRLOld^2+VYRLOld^2)^0.5") ; hideL(-1=="((XBOldPrev-XRLOld)^2+(YBOldPrev-YRLOld)^2)^0.5>THRESHOLDB()|XRLOld=XRLOldPrev&YRLOld=YRLOldPrev") ; hideL(-1=="VRLOld>=0") ; hideL(-1=="VMAXRL()>=VRLOld") ; hideL(-1=="STEPTSRL()>=stepClockTSRLOld") ; hideL(-1=="stepClockTSRLOld>=0") ; hideL(-11=="((XB-XBOld)^2+(YB-YBOld)^2)^0.5<=VMAXB()*(simTimeOld-simTimeOldPrev)") ; hideL(-11=="DiffXB=XB-X") ; hideL(-11=="DiffYB=YB-Y") ; hideL(-11=="stepClockTSRLOld>=STEPTSRL()->(VRL>=0.0&VMAXRL()>=VRL&(VRL=0.0<->DirXRL=0.0&DirYRL=0.0)&((DiffXB^2.0+DiffYB^2.0)^0.5-VRL*STEPTSRL()-VMAXB()*STEPTSRL()>THRESHOLDB()|VRL=0.0))&stepClockTSRLBef=0") ; hideL(-11=="stepClockTSRLOld < STEPTSRL()->stepClockTSRLBef=stepClockTSRLOld&VRL=VRLOld&DirXRL=DirXRLOld&DirYRL=DirYRLOld") ; hideL(-12=="VRL=0->VXRL=0&VYRL=0") ; unfold ; boxAnd(1) ; andR(1) ; <(
+            master, 
+              boxAnd(1) ; andR(1) ; <(
+              master, 
+                boxAnd(1) ; andR(1) ; <(
+                master, 
+                  boxAnd(1) ; andR(1) ; <(
+                  master, 
+                    hideL(-1=="simTimeOld>=simTimeOldPrev") ; hideL(-1=="simTimeOldPrev>=0") ; hideL(-1=="stepClockTSRLOld>=simTimeOld-simTimeOldPrev") ; hideL(-1=="SMALLSTEPSIZE()=0.01") ; hideL(-1=="STEPTSRL()>=0") ; hideL(-1=="VMAXRL()>=0") ; hideL(-1=="VMAXB()>=0") ; hideL(-5=="stepClockTSRLBef=stepClockTSRL") ; hideL(-5=="VRL>=0") ; hideL(-5=="VMAXRL()>=VRL") ; hideL(-5=="stepClockTSRLBef<=STEPTSRL()") ; hideL(-5=="stepClockTSRLBef>=0") ; hideL(-5=="VRL=0<->DirXRL=0&DirYRL=0") ; master
+                  )
+                )
+              )
+            )
+          ), 
+          hideR(1=="[{simTime'=1.0,stepClockTSRL'=1.0,X'=VXRL,Y'=VYRL,smallStep'=1.0&true&stepClockTSRL<=STEPTSRL()}]((((XB-X)^2+(YB-Y)^2)^0.5-VRL*(STEPTSRL()-stepClockTSRL)-VMAXB()*(STEPTSRL()-(stepClockTSRL-(simTime-simTimeOld)))>THRESHOLDB()|VRL=0)&(VRL=0<->DirXRL=0&DirYRL=0)&(VRL=0->VXRL=0&VYRL=0)&((XRL-X)^2.0+(YRL-Y)^2.0)^0.5=VRL*(simTime-simTimeOld)&VRL=(VXRL^2+VYRL^2)^0.5&(((XBOld-XRL)^2+(YBOld-YRL)^2)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld)&(VRL>=0&VMAXRL()>=VRL)&STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0&simTime>=simTimeOld&simTimeOld>=0&stepClockTSRL>=simTime-simTimeOld)") ; hideL(-1=="((XBOld-X)^2+(YBOld-Y)^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-(stepClockTSRLOld-(simTimeOld-simTimeOldPrev)))>THRESHOLDB()|VRLOld=0") ; hideL(-3=="((XRLOld-X)^2.0+(YRLOld-Y)^2.0)^0.5=VRLOld*(simTimeOld-simTimeOldPrev)") ; hideL(-3=="VRLOld=(VXRLOld^2+VYRLOld^2)^0.5") ; hideL(-3=="((XBOldPrev-XRLOld)^2+(YBOldPrev-YRLOld)^2)^0.5>THRESHOLDB()|XRLOld=XRLOldPrev&YRLOld=YRLOldPrev") ; hideL(-15=="XRL=X") ; hideL(-15=="YRL=Y") ; hideL(-15=="((XB-XBOld)^2+(YB-YBOld)^2)^0.5<=VMAXB()*(simTimeOld-simTimeOldPrev)") ; hideL(-15=="DiffXB=XB-X") ; hideL(-15=="DiffYB=YB-Y") ; cut("stepClockTSRLOld>=STEPTSRL()|stepClockTSRLOld < STEPTSRL()") ; <(
+          orL(-20) ; <(
+            implyL(-15) ; <(
+              master, 
+                hideL(-16=="stepClockTSRLOld < STEPTSRL()->stepClockTSRLBef=stepClockTSRLOld&VRL=VRLOld&DirXRL=DirXRLOld&DirYRL=DirYRLOld") ; unfold ; master
+              ), 
+              implyL(-16) ; <(
+              master, 
+                hideL(-15=="stepClockTSRLOld>=STEPTSRL()->(VRL>=0.0&VMAXRL()>=VRL&(VRL=0.0<->DirXRL=0.0&DirYRL=0.0)&((DiffXB^2.0+DiffYB^2.0)^0.5-VRL*STEPTSRL()-VMAXB()*STEPTSRL()>THRESHOLDB()|VRL=0.0))&stepClockTSRLBef=0") ; unfold ; master
+              )
+            ), 
+            master
+          )
+        )
+      )
+    )
+  )
+)
+)) ; <(
+nil, 
+cut("((XBOld-XRL)^2+(YBOld-YRL)^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-(stepClockTSRLOld-(simTimeOld-simTimeOldPrev)))>THRESHOLDB()->((XB-XRL)^2+(YB-YRL)^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-stepClockTSRLOld)>THRESHOLDB()") ; <(
+nil, 
+  hideR(1=="[{simTime'=1.0,stepClockTSRL'=1.0,X'=VXRL,Y'=VYRL,smallStep'=1.0&(true&stepClockTSRL<=STEPTSRL())&stepClockTSRL>=stepClockTSRLBef&stepClockTSRL>=simTime-simTimeOld&simTime-simTimeOld>=0&simTime-simTimeOld=stepClockTSRL-stepClockTSRLBef&((XRL-X)^2+(YRL-Y)^2)^0.5=VRL*(simTime-simTimeOld)}]((((XB-X)^2+(YB-Y)^2)^0.5-VRL*(STEPTSRL()-stepClockTSRL)-VMAXB()*(STEPTSRL()-(stepClockTSRL-(simTime-simTimeOld)))>THRESHOLDB()|VRL=0)&(VRL=0<->DirXRL=0&DirYRL=0)&(VRL=0->VXRL=0&VYRL=0)&((XRL-X)^2.0+(YRL-Y)^2.0)^0.5=VRL*(simTime-simTimeOld)&VRL=(VXRL^2+VYRL^2)^0.5&(((XBOld-XRL)^2+(YBOld-YRL)^2)^0.5>THRESHOLDB()|XRL=XRLOld&YRL=YRLOld)&(VRL>=0&VMAXRL()>=VRL)&STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0&simTime>=simTimeOld&simTimeOld>=0&stepClockTSRL>=simTime-simTimeOld)") ; hideL(-1=="((XBOld-X)^2+(YBOld-Y)^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-(stepClockTSRLOld-(simTimeOld-simTimeOldPrev)))>THRESHOLDB()|VRLOld=0") ; hideL(-1=="VRLOld=0<->DirXRLOld=0&DirYRLOld=0") ; hideL(-1=="VRLOld=0->VXRLOld=0&VYRLOld=0") ; hideL(-1=="((XRLOld-X)^2.0+(YRLOld-Y)^2.0)^0.5=VRLOld*(simTimeOld-simTimeOldPrev)") ; hideL(-1=="VRLOld=(VXRLOld^2+VYRLOld^2)^0.5") ; hideL(-1=="((XBOldPrev-XRLOld)^2+(YBOldPrev-YRLOld)^2)^0.5>THRESHOLDB()|XRLOld=XRLOldPrev&YRLOld=YRLOldPrev") ; hideL(-1=="VRLOld>=0") ; hideL(-1=="VMAXRL()>=VRLOld") ; hideL(-6=="SMALLSTEPSIZE()=0.01") ; hideL(-1=="STEPTSRL()>=stepClockTSRLOld") ; hideL(-1=="stepClockTSRLOld>=0") ; hideL(-5=="VMAXRL()>=0") ; hideL(-7=="XRL=X") ; hideL(-7=="YRL=Y") ; hideL(-6=="simTimeOld=simTime") ; hideL(-7=="DiffXB=XB-X") ; hideL(-7=="DiffYB=YB-Y") ; hideL(-7=="stepClockTSRLOld>=STEPTSRL()->(VRL>=0.0&VMAXRL()>=VRL&(VRL=0.0<->DirXRL=0.0&DirYRL=0.0)&((DiffXB^2.0+DiffYB^2.0)^0.5-VRL*STEPTSRL()-VMAXB()*STEPTSRL()>THRESHOLDB()|VRL=0.0))&stepClockTSRLBef=0") ; hideL(-7=="stepClockTSRLOld < STEPTSRL()->stepClockTSRLBef=stepClockTSRLOld&VRL=VRLOld&DirXRL=DirXRLOld&DirYRL=DirYRLOld") ; hideL(-7=="(VXRL^2+VYRL^2)^0.5=VRL") ; hideL(-7=="VRL=0->VXRL=0&VYRL=0") ; hideL(-7=="stepClockTSRLBef=stepClockTSRL") ; hideL(-7=="VRL>=0&VMAXRL()>=VRL&stepClockTSRLBef<=STEPTSRL()&stepClockTSRLBef>=0&(VRL=0<->DirXRL=0&DirYRL=0)") ; implyR(1) ; discreteGhost("XB-XBOld", "changeX", 'R) ; discreteGhost("YB-YBOld", "changeY", 'R) ; edit("((XBOld-XRL+changeX)^2+(YBOld-YRL+changeY)^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-stepClockTSRLOld)>THRESHOLDB()", 1) ; discreteGhost("XBOld-XRL", "DiffX", 'R) ; discreteGhost("YBOld-YRL", "DiffY", 'R) ; edit("(DiffX^2+DiffY^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(simTimeOld-simTimeOldPrev)>THRESHOLDB()", -7) ; hideL(-8=="changeX=XB-XBOld") ; hideL(-8=="changeY=YB-YBOld") ; hideL(-8=="DiffX=XBOld-XRL") ; hideL(-8=="DiffY=YBOld-YRL") ; edit("((DiffX+changeX)^2+(DiffY+changeY)^2)^0.5>THRESHOLDB()+VRLOld*(STEPTSRL()-stepClockTSRLOld)+VMAXB()*(STEPTSRL()-stepClockTSRLOld)", 1) ; edit("(DiffX^2+DiffY^2)^0.5>THRESHOLDB()+VRLOld*(STEPTSRL()-stepClockTSRLOld)+VMAXB()*(STEPTSRL()-stepClockTSRLOld)+VMAXB()*(simTimeOld-simTimeOldPrev)", -7) ; discreteGhost("THRESHOLDB()+VRLOld*(STEPTSRL()-stepClockTSRLOld)+VMAXB()*(STEPTSRL()-stepClockTSRLOld)", "Bef", 'R) ; discreteGhost("VMAXB()*(simTimeOld-simTimeOldPrev)", "Diff", 'R) ; cut("Diff>=0") ; <(
+  hideL(-9=="Diff=VMAXB()*(simTimeOld-simTimeOldPrev)") ; hideL(-8=="Bef=THRESHOLDB()+VRLOld*(STEPTSRL()-stepClockTSRLOld)+VMAXB()*(STEPTSRL()-stepClockTSRLOld)") ; hideL(-1=="simTimeOld>=simTimeOldPrev") ; hideL(-1=="simTimeOldPrev>=0") ; hideL(-1=="stepClockTSRLOld>=simTimeOld-simTimeOldPrev") ; hideL(-1=="STEPTSRL()>=0") ; hideL(-1=="VMAXB()>=0") ; master, 
+    hideR(1=="((DiffX+changeX)^2+(DiffY+changeY)^2)^0.5>Bef") ; allL2R(-9) ; master
+  )
+)
+)) ; <(
+unfold ; trueImply(-13) ; trueImply(-14) ; allL2R(-1) ; allL2R(-9) ; allL2R(-10) ; allL2R(-7) ; allL2R(-8) ; allL2R(-3) ; allL2R(-4) ; andR(1) ; <(
+unfold ; master, 
+  andR(1) ; <(
+  master, 
+    andR(1) ; <(
+    master, 
+      andR(1) ; <(
+      master, 
+        andR(1) ; <(
+        unfold ; cut("VRL>0|VRL=0") ; <(
+          orL(-24) ; <(
+            implyL(-11) ; <(
+              master, 
+                discreteGhost("(VXRL^2.0+VYRL^2.0)^0.5", "a", 'R) ; allL2R(-11) ; master
+              ), 
+              equivL(-21) ; <(
+              master, 
+                fullSimplify ; master
+              )
+            ), 
+            master
+          ), 
+          andR(1) ; <(
+          master, 
+            andR(1) ; <(
+            master, 
+              master
+            )
+          )
+        )
+      )
+    )
+  )
+), 
+allR2L(-18) ; allR2L(-19) ; allR2L(-20) ; allR2L(-28) ; dW(1) ; unfold ; andR(1) ; <(
+cut("stepClockTSRLOld>=STEPTSRL()|stepClockTSRLOld < STEPTSRL()") ; <(
+  orL(-38) ; <(
+    implyL(-21) ; <(
+      master, 
+        unfold ; hideL(-1=="((XBOld-XRL)^2+(YBOld-YRL)^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-(stepClockTSRLOld-(simTimeOld-simTimeOldPrev)))>THRESHOLDB()|VRLOld=0") ; hideL(-1=="VRLOld=0<->DirXRLOld=0&DirYRLOld=0") ; hideL(-1=="VRLOld=0->VXRLOld=0&VYRLOld=0") ; hideL(-1=="((XRLOld-XRL)^2.0+(YRLOld-YRL)^2.0)^0.5=VRLOld*(simTimeOld-simTimeOldPrev)") ; hideL(-1=="VRLOld=(VXRLOld^2+VYRLOld^2)^0.5") ; hideL(-1=="((XBOldPrev-XRLOld)^2+(YBOldPrev-YRLOld)^2)^0.5>THRESHOLDB()|XRLOld=XRLOldPrev&YRLOld=YRLOldPrev") ; hideL(-1=="VRLOld>=0") ; hideL(-1=="VMAXRL()>=VRLOld") ; hideL(-10=="((XB-XBOld)^2+(YB-YBOld)^2)^0.5<=VMAXB()*(simTimeOld-simTimeOldPrev)") ; allL2R(-10) ; allL2R(-11) ; hideL(-10=="DiffXB=XB-XRL") ; hideL(-10=="DiffYB=YB-YRL") ; hideL(-10=="stepClockTSRLOld < STEPTSRL()->stepClockTSRLBef=stepClockTSRLOld&VRL=VRLOld&DirXRL=DirXRLOld&DirYRL=DirYRLOld") ; hideL(-17=="((XBOld-XRL)^2+(YBOld-YRL)^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-(stepClockTSRLOld-(simTimeOld-simTimeOldPrev)))>THRESHOLDB()->((XB-XRL)^2+(YB-YRL)^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-stepClockTSRLOld)>THRESHOLDB()") ; orL(-29) ; <(
+        allL2R(-25) ; edit("stepClockTSRL=simTime-simTimeOld", -20) ; allL2R(-20) ; edit("((XB-X)^2+(YB-Y)^2)^0.5-VRL*(STEPTSRL()-(simTime-simTimeOld))-VMAXB()*STEPTSRL()>THRESHOLDB()", 1) ; edit("((XB-X)^2+(YB-Y)^2)^0.5>THRESHOLDB()+VRL*STEPTSRL()+VMAXB()*STEPTSRL()-VRL*(simTime-simTimeOld)", 1) ; edit("((XB-XRL)^2.0+(YB-YRL)^2.0)^0.5>THRESHOLDB()+VRL*STEPTSRL()+VMAXB()*STEPTSRL()", -29) ; hideR(2=="VRL=0") ; discreteGhost("XRL-X", "changeX", 'R) ; discreteGhost("YRL-Y", "changeY", 'R) ; edit("((XB-XRL+changeX)^2+(YB-YRL+changeY)^2)^0.5>THRESHOLDB()+VRL*STEPTSRL()+VMAXB()*STEPTSRL()-VRL*(simTime-simTimeOld)", 1) ; discreteGhost("XB-XRL", "DiffX", 'R) ; discreteGhost("YB-YRL", "DiffY", 'R) ; discreteGhost("THRESHOLDB()+VRL*STEPTSRL()+VMAXB()*STEPTSRL()", "Bef", 'R) ; discreteGhost("VRL*(simTime-simTimeOld)", "Diff", 'R) ; hideL(-34=="Bef=THRESHOLDB()+VRL*STEPTSRL()+VMAXB()*STEPTSRL()") ; hideL(-30=="changeX=XRL-X") ; hideL(-30=="changeY=YRL-Y") ; hideL(-30=="DiffX=XB-XRL") ; hideL(-30=="DiffY=YB-YRL") ; hideL(-28=="VRL=0.0<->DirXRL=0.0&DirYRL=0.0") ; hideL(-27=="VMAXRL()>=VRL") ; hideL(-24=="stepClockTSRLOld>=STEPTSRL()") ; hideL(-24=="stepClockTSRLBef=0") ; hideL(-23=="simTime-simTimeOld<=STEPTSRL()") ; hideL(-22=="true") ; hideL(-1=="STEPTSRL()>=stepClockTSRLOld") ; hideL(-1=="stepClockTSRLOld>=0") ; hideL(-1=="simTimeOld>=simTimeOldPrev") ; hideL(-1=="simTimeOldPrev>=0") ; hideL(-1=="stepClockTSRLOld>=simTimeOld-simTimeOldPrev") ; hideL(-1=="SMALLSTEPSIZE()=0.01") ; hideL(-1=="STEPTSRL()>=0") ; hideL(-1=="VMAXRL()>=0") ; hideL(-1=="VMAXB()>=0") ; hideL(-1=="(VXRL^2+VYRL^2)^0.5=VRL") ; hideL(-1=="VRL=0->VXRL=0&VYRL=0") ; hideL(-1=="VRL>=0") ; hideL(-1=="VMAXRL()>=VRL") ; hideL(-1=="0<=STEPTSRL()") ; hideL(-1=="0>=0") ; hideL(-1=="VRL=0<->DirXRL=0&DirYRL=0") ; hideL(-2=="simTime-simTimeOld>=simTime-simTimeOld") ; hideL(-2=="simTime-simTimeOld>=0") ; hideL(-2=="stepClockTSRL=simTime-simTimeOld") ; cut("Diff>=0") ; <(
+          hideL(-5=="Diff=VRL*(simTime-simTimeOld)") ; hideL(-1=="simTime-simTimeOld>=0") ; master, 
+            hideR(1=="((DiffX+changeX)^2+(DiffY+changeY)^2)^0.5>Bef-Diff") ; allL2R(-5) ; master
+          ), 
+          hideR(1=="((XB-X)^2+(YB-Y)^2)^0.5-VRL*(STEPTSRL()-stepClockTSRL)-VMAXB()*(STEPTSRL()-(stepClockTSRL-(simTime-simTimeOld)))>THRESHOLDB()") ; master
+        )
+      ), 
+      implyL(-22) ; <(
+      master, 
+        hideL(-21=="stepClockTSRLOld>=STEPTSRL()->(VRL>=0.0&VMAXRL()>=VRL&(VRL=0.0<->DirXRL=0.0&DirYRL=0.0)&((DiffXB^2.0+DiffYB^2.0)^0.5-VRL*STEPTSRL()-VMAXB()*STEPTSRL()>THRESHOLDB()|VRL=0.0))&stepClockTSRLBef=0") ; unfold ; allR2L(-39) ; allR2L(-40) ; allR2L(-38) ; orL(-1) ; <(
+        implyL(-28) ; <(
+          master, 
+            hideR(2=="VRL=0") ; hideL(-1=="((XBOld-XRL)^2+(YBOld-YRL)^2)^0.5-VRL*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-(stepClockTSRLOld-(simTimeOld-simTimeOldPrev)))>THRESHOLDB()") ; edit("((XB-XRL)^2+(YB-YRL)^2)^0.5>THRESHOLDB()+VRL*(STEPTSRL()-stepClockTSRLOld)+VMAXB()*(STEPTSRL()-stepClockTSRLOld)", -27) ; edit("((XB-X)^2+(YB-Y)^2)^0.5>THRESHOLDB()+VRL*(STEPTSRL()-stepClockTSRL)+VMAXB()*(STEPTSRL()-(stepClockTSRL-(simTime-simTimeOld)))", 1) ; allL2R(-36) ; edit("stepClockTSRL=stepClockTSRLOld+(simTime-simTimeOld)", -31) ; allL2R(-31) ; edit("((XB-X)^2+(YB-Y)^2)^0.5>THRESHOLDB()+VRL*(STEPTSRL()-(stepClockTSRLOld+(simTime-simTimeOld)))+VMAXB()*(STEPTSRL()-stepClockTSRLOld)", 1) ; edit("((XB-X)^2+(YB-Y)^2)^0.5>THRESHOLDB()+VRL*(STEPTSRL()-stepClockTSRLOld)+VMAXB()*(STEPTSRL()-stepClockTSRLOld)-VRL*(simTime-simTimeOld)", 1) ; hideL(-1=="VRL=0<->DirXRL=0&DirYRL=0") ; hideL(-1=="VRL=0->VXRLOld=0&VYRLOld=0") ; hideL(-1=="((XRLOld-XRL)^2.0+(YRLOld-YRL)^2.0)^0.5=VRL*(simTimeOld-simTimeOldPrev)") ; hideL(-1=="VRL=(VXRLOld^2+VYRLOld^2)^0.5") ; hideL(-1=="((XBOldPrev-XRLOld)^2+(YBOldPrev-YRLOld)^2)^0.5>THRESHOLDB()|XRLOld=XRLOldPrev&YRLOld=YRLOldPrev") ; hideL(-12=="((XB-XBOld)^2+(YB-YBOld)^2)^0.5<=VMAXB()*(simTimeOld-simTimeOldPrev)") ; hideL(-12=="DiffXB=XB-XRL") ; hideL(-12=="DiffYB=YB-YRL") ; hideL(-13=="VRL=0->VXRL=0&VYRL=0") ; hideL(-14=="VMAXRL()>=VRL") ; hideL(-14=="stepClockTSRLOld<=STEPTSRL()") ; hideL(-15=="VRL=0<->DirXRL=0&DirYRL=0") ; hideL(-16=="stepClockTSRLOld+(simTime-simTimeOld)>=stepClockTSRLOld") ; hideL(-20=="true") ; hideL(-20=="stepClockTSRLOld+(simTime-simTimeOld)<=STEPTSRL()") ; hideL(-20=="stepClockTSRLOld < STEPTSRL()") ; hideL(-20=="stepClockTSRLBef=stepClockTSRLOld") ; hideL(-20=="VRL=VRLOld") ; hideL(-20=="DirXRL=DirXRLOld") ; hideL(-20=="DirYRL=DirYRLOld") ; discreteGhost("XRL-X", "changeX", 'R) ; discreteGhost("YRL-Y", "changeY", 'R) ; edit("((XB-XRL+changeX)^2+(YB-YRL+changeY)^2)^0.5>THRESHOLDB()+VRL*(STEPTSRL()-stepClockTSRLOld)+VMAXB()*(STEPTSRL()-stepClockTSRLOld)-VRL*(simTime-simTimeOld)", 1) ; discreteGhost("XB-XRL", "DiffX", 'R) ; discreteGhost("YB-YRL", "DiffY", 'R) ; hideL(-20=="changeX=XRL-X") ; hideL(-20=="changeY=YRL-Y") ; hideL(-20=="DiffX=XB-XRL") ; hideL(-20=="DiffY=YB-YRL") ; discreteGhost("THRESHOLDB()+VRL*(STEPTSRL()-stepClockTSRLOld)+VMAXB()*(STEPTSRL()-stepClockTSRLOld)", "Bef", 'R) ; discreteGhost("VRL*(simTime-simTimeOld)", "Diff", 'R) ; hideL(-20=="Bef=THRESHOLDB()+VRL*(STEPTSRL()-stepClockTSRLOld)+VMAXB()*(STEPTSRL()-stepClockTSRLOld)") ; cut("Diff>=0") ; <(
+            hideL(-20=="Diff=VRL*(simTime-simTimeOld)") ; hideL(-1=="VRL>=0") ; hideL(-1=="VMAXRL()>=VRL") ; hideL(-1=="STEPTSRL()>=stepClockTSRLOld") ; hideL(-1=="stepClockTSRLOld>=0") ; hideL(-1=="simTimeOld>=simTimeOldPrev") ; hideL(-1=="simTimeOldPrev>=0") ; hideL(-1=="stepClockTSRLOld>=simTimeOld-simTimeOldPrev") ; hideL(-1=="SMALLSTEPSIZE()=0.01") ; hideL(-1=="STEPTSRL()>=0") ; hideL(-1=="VMAXRL()>=0") ; hideL(-1=="VMAXB()>=0") ; hideL(-1=="(VXRL^2+VYRL^2)^0.5=VRL") ; hideL(-1=="VRL>=0") ; hideL(-1=="stepClockTSRLOld>=0") ; hideL(-2=="stepClockTSRLOld+(simTime-simTimeOld)>=simTime-simTimeOld") ; hideL(-2=="simTime-simTimeOld>=0") ; hideL(-2=="stepClockTSRL=stepClockTSRLOld+(simTime-simTimeOld)") ; master, 
+              hideR(1=="((DiffX+changeX)^2+(DiffY+changeY)^2)^0.5>Bef-Diff") ; allL2R(-20) ; hideL(-20=="Diff=VRL*(simTime-simTimeOld)") ; hideL(-19=="(changeX^2+changeY^2)^0.5=VRL*(simTime-simTimeOld)") ; hideL(-15=="(DiffX^2+DiffY^2)^0.5>Bef") ; hideL(-12=="(VXRL^2+VYRL^2)^0.5=VRL") ; master
+            )
+          ), 
+          hideR(1=="((XB-X)^2+(YB-Y)^2)^0.5-VRL*(STEPTSRL()-stepClockTSRL)-VMAXB()*(STEPTSRL()-(stepClockTSRL-(simTime-simTimeOld)))>THRESHOLDB()") ; master
+        )
+      )
+    ), 
+    master
+  ), 
+  andR(1) ; <(
+  master, 
+    andR(1) ; <(
+    master, 
+      andR(1) ; <(
+      master, 
+        andR(1) ; <(
+        discreteGhost("(VXRL^2.0+VYRL^2.0)^0.5", "a", 'R) ; allL2R(-23) ; master, 
+          andR(1) ; <(
+          orR(1) ; orL(-1) ; <(
+            hideL(-2=="VRLOld=0<->DirXRLOld=0&DirYRLOld=0") ; hideL(-2=="VRLOld=0->VXRLOld=0&VYRLOld=0") ; hideL(-2=="((XRLOld-XRL)^2.0+(YRLOld-YRL)^2.0)^0.5=VRLOld*(simTimeOld-simTimeOldPrev)") ; hideL(-2=="VRLOld=(VXRLOld^2+VYRLOld^2)^0.5") ; hideL(-2=="((XBOldPrev-XRLOld)^2+(YBOldPrev-YRLOld)^2)^0.5>THRESHOLDB()|XRLOld=XRLOldPrev&YRLOld=YRLOldPrev") ; hideL(-3=="VMAXRL()>=VRLOld") ; hideL(-8=="SMALLSTEPSIZE()=0.01") ; hideL(-11=="((XB-XBOld)^2+(YB-YBOld)^2)^0.5<=VMAXB()*(simTimeOld-simTimeOldPrev)") ; hideL(-11=="DiffXB=XB-XRL") ; hideL(-11=="DiffYB=YB-YRL") ; hideL(-11=="stepClockTSRLOld>=STEPTSRL()->(VRL>=0.0&VMAXRL()>=VRL&(VRL=0.0<->DirXRL=0.0&DirYRL=0.0)&((DiffXB^2.0+DiffYB^2.0)^0.5-VRL*STEPTSRL()-VMAXB()*STEPTSRL()>THRESHOLDB()|VRL=0.0))&stepClockTSRLBef=0") ; hideL(-11=="stepClockTSRLOld < STEPTSRL()->stepClockTSRLBef=stepClockTSRLOld&VRL=VRLOld&DirXRL=DirXRLOld&DirYRL=DirYRLOld") ; hideL(-11=="(VXRL^2+VYRL^2)^0.5=VRL") ; hideL(-11=="VRL=0->VXRL=0&VYRL=0") ; hideL(-11=="VRL>=0") ; hideL(-11=="VMAXRL()>=VRL") ; hideL(-11=="stepClockTSRLBef<=STEPTSRL()") ; hideL(-11=="stepClockTSRLBef>=0") ; hideL(-11=="VRL=0<->DirXRL=0&DirYRL=0") ; hideL(-11=="((XBOld-XRL)^2+(YBOld-YRL)^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-(stepClockTSRLOld-(simTimeOld-simTimeOldPrev)))>THRESHOLDB()->((XB-XRL)^2+(YB-YRL)^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-stepClockTSRLOld)>THRESHOLDB()") ; hideL(-11=="stepClockTSRL>=stepClockTSRLBef") ; hideL(-11=="stepClockTSRL>=simTime-simTimeOld") ; hideL(-11=="simTime-simTimeOld>=0") ; hideL(-11=="simTime-simTimeOld=stepClockTSRL-stepClockTSRLBef") ; hideL(-11=="((XRL-X)^2+(YRL-Y)^2)^0.5=VRL*(simTime-simTimeOld)") ; hideL(-11=="true") ; hideL(-11=="stepClockTSRL<=STEPTSRL()") ; discreteGhost("((XBOld-XRL)^2+(YBOld-YRL)^2)^0.5", "a", 'R) ; hideL(-11=="a=((XBOld-XRL)^2+(YBOld-YRL)^2)^0.5") ; master, 
+              hideR(1=="((XBOld-XRL)^2+(YBOld-YRL)^2)^0.5>THRESHOLDB()") ; allL2R(-1) ; hideL(-1=="VRLOld=0") ; hideL(-1=="0=0<->DirXRLOld=0&DirYRLOld=0") ; hideL(-1=="0=0->VXRLOld=0&VYRLOld=0") ; hideL(-3=="((XBOldPrev-XRLOld)^2+(YBOldPrev-YRLOld)^2)^0.5>THRESHOLDB()|XRLOld=XRLOldPrev&YRLOld=YRLOldPrev") ; hideL(-3=="0>=0") ; hideL(-2=="0=(VXRLOld^2+VYRLOld^2)^0.5") ; hideL(-2=="VMAXRL()>=0") ; hideL(-2=="STEPTSRL()>=stepClockTSRLOld") ; hideL(-2=="stepClockTSRLOld>=0") ; hideL(-2=="simTimeOld>=simTimeOldPrev") ; hideL(-2=="simTimeOldPrev>=0") ; hideL(-2=="stepClockTSRLOld>=simTimeOld-simTimeOldPrev") ; hideL(-2=="SMALLSTEPSIZE()=0.01") ; hideL(-2=="STEPTSRL()>=0") ; hideL(-2=="VMAXRL()>=0") ; hideL(-2=="VMAXB()>=0") ; hideL(-2=="((XB-XBOld)^2+(YB-YBOld)^2)^0.5<=VMAXB()*(simTimeOld-simTimeOldPrev)") ; hideL(-2=="DiffXB=XB-XRL") ; hideL(-2=="DiffYB=YB-YRL") ; hideL(-2=="stepClockTSRLOld>=STEPTSRL()->(VRL>=0.0&VMAXRL()>=VRL&(VRL=0.0<->DirXRL=0.0&DirYRL=0.0)&((DiffXB^2.0+DiffYB^2.0)^0.5-VRL*STEPTSRL()-VMAXB()*STEPTSRL()>THRESHOLDB()|VRL=0.0))&stepClockTSRLBef=0") ; hideL(-2=="stepClockTSRLOld < STEPTSRL()->stepClockTSRLBef=stepClockTSRLOld&VRL=0&DirXRL=DirXRLOld&DirYRL=DirYRLOld") ; hideL(-2=="(VXRL^2+VYRL^2)^0.5=VRL") ; hideL(-2=="VRL=0->VXRL=0&VYRL=0") ; hideL(-2=="VRL>=0") ; hideL(-2=="VMAXRL()>=VRL") ; hideL(-2=="stepClockTSRLBef<=STEPTSRL()") ; hideL(-2=="stepClockTSRLBef>=0") ; hideL(-2=="VRL=0<->DirXRL=0&DirYRL=0") ; hideL(-2=="((XBOld-XRL)^2+(YBOld-YRL)^2)^0.5-0*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-(stepClockTSRLOld-(simTimeOld-simTimeOldPrev)))>THRESHOLDB()->((XB-XRL)^2+(YB-YRL)^2)^0.5-0*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-stepClockTSRLOld)>THRESHOLDB()") ; hideL(-2=="stepClockTSRL>=stepClockTSRLBef") ; hideL(-2=="stepClockTSRL>=simTime-simTimeOld") ; hideL(-2=="simTime-simTimeOld>=0") ; hideL(-2=="simTime-simTimeOld=stepClockTSRL-stepClockTSRLBef") ; hideL(-2=="((XRL-X)^2+(YRL-Y)^2)^0.5=VRL*(simTime-simTimeOld)") ; hideL(-2=="true") ; hideL(-2=="stepClockTSRL<=STEPTSRL()") ; edit("((XRLOld-XRL)^2.0+(YRLOld-YRL)^2.0)^0.5=0", -1) ; master
+            ), 
+            hideL(-1=="((XBOld-XRL)^2+(YBOld-YRL)^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-(stepClockTSRLOld-(simTimeOld-simTimeOldPrev)))>THRESHOLDB()|VRLOld=0") ; hideL(-1=="VRLOld=0<->DirXRLOld=0&DirYRLOld=0") ; hideL(-1=="VRLOld=0->VXRLOld=0&VYRLOld=0") ; hideL(-1=="((XRLOld-XRL)^2.0+(YRLOld-YRL)^2.0)^0.5=VRLOld*(simTimeOld-simTimeOldPrev)") ; hideL(-1=="VRLOld=(VXRLOld^2+VYRLOld^2)^0.5") ; hideL(-1=="((XBOldPrev-XRLOld)^2+(YBOldPrev-YRLOld)^2)^0.5>THRESHOLDB()|XRLOld=XRLOldPrev&YRLOld=YRLOldPrev") ; hideL(-12=="((XB-XBOld)^2+(YB-YBOld)^2)^0.5<=VMAXB()*(simTimeOld-simTimeOldPrev)") ; hideL(-12=="DiffXB=XB-XRL") ; hideL(-12=="DiffYB=YB-YRL") ; hideL(-12=="stepClockTSRLOld>=STEPTSRL()->(VRL>=0.0&VMAXRL()>=VRL&(VRL=0.0<->DirXRL=0.0&DirYRL=0.0)&((DiffXB^2.0+DiffYB^2.0)^0.5-VRL*STEPTSRL()-VMAXB()*STEPTSRL()>THRESHOLDB()|VRL=0.0))&stepClockTSRLBef=0") ; hideL(-12=="stepClockTSRLOld < STEPTSRL()->stepClockTSRLBef=stepClockTSRLOld&VRL=VRLOld&DirXRL=DirXRLOld&DirYRL=DirYRLOld") ; hideL(-12=="(VXRL^2+VYRL^2)^0.5=VRL") ; hideL(-12=="VRL=0->VXRL=0&VYRL=0") ; hideL(-17=="((XBOld-XRL)^2+(YBOld-YRL)^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-(stepClockTSRLOld-(simTimeOld-simTimeOldPrev)))>THRESHOLDB()->((XB-XRL)^2+(YB-YRL)^2)^0.5-VRLOld*(STEPTSRL()-stepClockTSRLOld)-VMAXB()*(STEPTSRL()-stepClockTSRLOld)>THRESHOLDB()") ; hideL(-16=="VRL=0<->DirXRL=0&DirYRL=0") ; hideL(-20=="((XRL-X)^2+(YRL-Y)^2)^0.5=VRL*(simTime-simTimeOld)") ; hideL(-20=="true") ; master
+          )
+        )
+      )
+    )
+  )
+)
+)""""
+End.
+
+Tool.
+  kyxversion """"4.9.3""""
+End.

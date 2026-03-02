@@ -1,0 +1,594 @@
+/* Exported from KeYmaera X v4.9.4 */
+
+Theorem "WaterTank Final"
+
+Functions.
+  R SMALLSTEPSIZE.
+  R STEPTSRL.
+  R MaxHeight.
+End.
+
+ProgramVariables.
+  R simTime.
+  R Stop.
+  R Reward.
+  R Flow.
+  R stepClockTSRL.
+  R Height.
+  R smallStep.
+  R a.
+  R b.
+End.
+
+Problem.
+  (simTime = 0.0)
+  & (SMALLSTEPSIZE = 0.01)
+  & ((true)
+    ->
+    (true))
+  & (stepClockTSRL = 0.0)
+  & ((true)
+    ->
+    (Flow >= 0.0)
+    & (Flow > ((0.0-Height)/(STEPTSRL*b)+((a/b)*(Height^0.5))))
+    & (Flow < ((MaxHeight-Height)/(STEPTSRL*b)+((a/b)*(Height^0.5)))))
+  & (Height > 0)
+  & (Height < MaxHeight)
+  & (smallStep = 0.0)
+  & (STEPTSRL > 0.0)
+  & (MaxHeight > 0)
+  & (b > 0)
+  & (a > 0)
+  ->
+  [
+    {
+      smallStep:=0.0;
+      {      
+        Stop:= *;
+        ?((true)
+          ->
+          (true));
+      }
+      {      
+        Reward:= *;
+        ?((true)
+          ->
+          (true));
+      }
+      {
+        ?(stepClockTSRL >= STEPTSRL);
+        stepClockTSRL:=0.0;
+        
+        Flow:= *;
+        {        ?((true)
+            ->
+            (Flow >= 0.0)
+            & (Flow > ((0.0-Height)/(STEPTSRL*b)+((a/b)*(Height^0.5))))
+            & (Flow < ((MaxHeight-Height)/(STEPTSRL*b)+((a/b)*(Height^0.5)))));
+        }
+      ++
+        ?(stepClockTSRL < STEPTSRL);
+        
+      }
+      {
+        ?((true));
+        {
+          simTime' = 1.0,
+          stepClockTSRL' = 1.0,
+          Height' = ((b*Flow)-(a*(Height^0.5))),
+          smallStep' = 1.0
+        &((true))
+          & (stepClockTSRL <= STEPTSRL)
+        }
+      }
+      
+    }*
+  ] ((Height > 0.0) & (Height < MaxHeight))
+End.
+
+Tactic "WaterTank Final from tactic"
+unfold;
+trueImply('L=="true->Flow>=0.0&Flow>(0.0-Height)/(STEPTSRL()*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/(STEPTSRL()*b)+a/b*Height^0.5");
+trueImply('R=="[{smallStep:=0.0;{Stop:=*;?#(true->true)#;}{Reward:=*;?true->true;}{?stepClockTSRL>=STEPTSRL();stepClockTSRL:=0.0;Flow:=*;?true->Flow>=0.0&Flow>(0.0-Height)/(STEPTSRL()*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/(STEPTSRL()*b)+a/b*Height^0.5;++?stepClockTSRL < STEPTSRL();}?true;{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&true&stepClockTSRL<=STEPTSRL()}}*](Height>0.0&Height < MaxHeight())");
+trueImply('R=="[{smallStep:=0.0;{Stop:=*;?true;}{Reward:=*;?#(true->true)#;}{?stepClockTSRL>=STEPTSRL();stepClockTSRL:=0.0;Flow:=*;?true->Flow>=0.0&Flow>(0.0-Height)/(STEPTSRL()*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/(STEPTSRL()*b)+a/b*Height^0.5;++?stepClockTSRL < STEPTSRL();}?true;{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&true&stepClockTSRL<=STEPTSRL()}}*](Height>0.0&Height < MaxHeight())");
+trueImply('R=="[{smallStep:=0.0;{Stop:=*;?true;}{Reward:=*;?true;}{?stepClockTSRL>=STEPTSRL();stepClockTSRL:=0.0;Flow:=*;?#(true->Flow>=0.0&Flow>(0.0-Height)/(STEPTSRL()*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/(STEPTSRL()*b)+a/b*Height^0.5)#;++?stepClockTSRL < STEPTSRL();}?true;{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&true&stepClockTSRL<=STEPTSRL()}}*](Height>0.0&Height < MaxHeight())");
+trueAnd('R=="[{smallStep:=0.0;{Stop:=*;?true;}{Reward:=*;?true;}{?stepClockTSRL>=STEPTSRL();stepClockTSRL:=0.0;Flow:=*;?Flow>=0.0&Flow>(0.0-Height)/(STEPTSRL()*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/(STEPTSRL()*b)+a/b*Height^0.5;++?stepClockTSRL < STEPTSRL();}?true;{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&#true&stepClockTSRL<=STEPTSRL()#}}*](Height>0.0&Height < MaxHeight())");
+andL('L=="Flow>=0.0&Flow>(0.0-Height)/(STEPTSRL()*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/(STEPTSRL()*b)+a/b*Height^0.5");
+unfold;
+hideL('L=="true->true");
+hideL('L=="SMALLSTEPSIZE()=0.01");
+hideL('L=="simTime=0.0");
+hideL('L=="smallStep=0.0");
+loop("Height>0.0&Height < MaxHeight()&STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0.0&Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5)", 'R=="[{smallStep:=0.0;{Stop:=*;?true;}{Reward:=*;?true;}{?stepClockTSRL>=STEPTSRL();stepClockTSRL:=0.0;Flow:=*;?Flow>=0.0&Flow>(0.0-Height)/(STEPTSRL()*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/(STEPTSRL()*b)+a/b*Height^0.5;++?stepClockTSRL < STEPTSRL();}?true;{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()}}*](Height>0.0&Height < MaxHeight())"); <(
+  "Init":
+    QE,
+  "Post":
+    QE,
+  "Step":
+    unfold; <(
+      "[?stepClockTSRL>=STEPTSRL();stepClockTSRL:=0.0;Flow:=*;?Flow>=0.0&Flow>(0.0-Height)/(STEPTSRL()*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/(STEPTSRL()*b)+a/b*Height^0.5;][?true;{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()}](Height>0.0&Height < MaxHeight()&STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0.0&Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))//Use//[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()}](Height>0.0&Height < MaxHeight()&STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0.0&Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))":
+        hideL('L=="STEPTSRL()-stepClockTSRL_0=0.0|STEPTSRL()-stepClockTSRL_0>0.0&Flow_0>(0.0-Height)/((STEPTSRL()-stepClockTSRL_0)*b)+a/b*Height^0.5&Flow_0 < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL_0)*b)+a/b*Height^0.5");
+        hideL('L=="Flow_0>=0.0");
+        hideL('L=="stepClockTSRL_0>=0.0");
+        hideL('L=="stepClockTSRL_0>=STEPTSRL()");
+        hideL('L=="STEPTSRL()>=stepClockTSRL_0");
+        hideL('L=="smallStep=0.0");
+        dC("Height>0&Height < MaxHeight()", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()}](Height>0.0&Height < MaxHeight()&STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0.0&Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))"); <(
+          "Use":
+            boxAnd('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](Height>0.0&Height < MaxHeight()&STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0.0&Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))");
+            boxAnd('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]Height>0.0&#[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](Height < MaxHeight()&STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0.0&Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))#");
+            boxAnd('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]Height>0.0&[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]Height < MaxHeight()&#[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0.0&Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))#");
+            boxAnd('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]Height>0.0&[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]Height < MaxHeight()&[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]STEPTSRL()>=stepClockTSRL&#[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](stepClockTSRL>=0.0&Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))#");
+            unfold; <(
+              "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]Height>0.0":
+                auto,
+              "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]Height < MaxHeight()":
+                auto,
+              "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]STEPTSRL()>=stepClockTSRL":
+                auto,
+              "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]stepClockTSRL>=0.0":
+                auto,
+              "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))":
+                boxAnd('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))");
+                unfold;
+                dC("-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height&MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5)"); <(
+                  "Use":
+                    dW('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&(stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight())&-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height&MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height}](STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5)");
+                    unfold;
+                    andR('R=="STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5"); <(
+                      "STEPTSRL()-stepClockTSRL>0.0":
+                        auto,
+                      "Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5":
+                        andR('R=="Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5"); <(
+                          "Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5":
+                            auto,
+                          "Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5":
+                            auto
+                        )
+                    ),
+                  "Show":
+                    cut("b*Flow < a*Height^0.5|b*Flow=a*Height^0.5|b*Flow>a*Height^0.5"); <(
+                      "Use":
+                        boxAnd('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height&MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height)");
+                        andR('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height&[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height"); <(
+                          "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height":
+                            orL('L=="b*Flow < a*Height^0.5|b*Flow=a*Height^0.5|b*Flow>a*Height^0.5"); <(
+                              "b*Flow < a*Height^0.5":
+                                dC("b*Flow < a*Height^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height"); <(
+                                  "Use":
+                                    auto,
+                                  "Show":
+                                    auto
+                                ),
+                              "b*Flow=a*Height^0.5|b*Flow>a*Height^0.5":
+                                orL('L=="b*Flow=a*Height^0.5|b*Flow>a*Height^0.5"); <(
+                                  "b*Flow=a*Height^0.5":
+                                    dC("b*Flow=a*Height^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height"); <(
+                                      "Use":
+                                        auto,
+                                      "Show":
+                                        auto
+                                    ),
+                                  "b*Flow>a*Height^0.5":
+                                    dC("b*Flow>a*Height^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height"); <(
+                                      "Use":
+                                        auto,
+                                      "Show":
+                                        auto
+                                    )
+                                )
+                            ),
+                          "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height":
+                            orL('L=="b*Flow < a*Height^0.5|b*Flow=a*Height^0.5|b*Flow>a*Height^0.5"); <(
+                              "b*Flow < a*Height^0.5":
+                                dC("b*Flow < a*Height^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height"); <(
+                                  "Use":
+                                    auto,
+                                  "Show":
+                                    auto
+                                ),
+                              "b*Flow=a*Height^0.5|b*Flow>a*Height^0.5":
+                                orL('L=="b*Flow=a*Height^0.5|b*Flow>a*Height^0.5"); <(
+                                  "b*Flow=a*Height^0.5":
+                                    dC("b*Flow=a*Height^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height"); <(
+                                      "Use":
+                                        auto,
+                                      "Show":
+                                        auto
+                                    ),
+                                  "b*Flow>a*Height^0.5":
+                                    dC("b*Flow>a*Height^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height"); <(
+                                      "Use":
+                                        auto,
+                                      "Show":
+                                        auto
+                                    )
+                                )
+                            )
+                        ),
+                      "Show":
+                        hideR('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height&MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height)");
+                        QE
+                    )
+                )
+            ),
+          "Show":
+            dC("stepClockTSRL>=0", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()}](Height>0&Height < MaxHeight())"); <(
+              "Use":
+                cut("b*Flow < a*Height^0.5|b*Flow=a*Height^0.5|b*Flow>a*Height^0.5"); <(
+                  "Use":
+                    discreteGhost("Height", "preH", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0}](Height>0&Height < MaxHeight())");
+                    discreteGhost("Height", "tempH", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0}](Height>0&Height < MaxHeight())");
+                    dG("tempH'=0*tempH+b*Flow-a*preH^0.5", "Height>0.0&Height < MaxHeight()", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0}](Height>0&Height < MaxHeight())");
+                    existsR('R=="\exists tempH [{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0}](Height>0&Height < MaxHeight())");
+                    boxAnd('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0}](Height>0&Height < MaxHeight())");
+                    andR('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0}]Height>0&[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0}]Height < MaxHeight()"); <(
+                      "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0}]Height>0":
+                        orL('L=="b*Flow < a*preH^0.5|b*Flow=a*preH^0.5|b*Flow>a*preH^0.5"); <(
+                          "b*Flow < a*preH^0.5":
+                            dC("b*Flow < a*preH^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0}]Height>0"); <(
+                              "Use":
+                                dC("Height<=preH", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0)&b*Flow < a*preH^0.5}]Height>0"); <(
+                                  "Use":
+                                    dC("tempH>0", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&((stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0)&b*Flow < a*preH^0.5)&Height<=preH}]Height>0"); <(
+                                      "Use":
+                                        dC("Height>=tempH", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(((stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0)&b*Flow < a*preH^0.5)&Height<=preH)&tempH>0}]Height>0"); <(
+                                          "Use":
+                                            auto,
+                                          "Show":
+                                            auto
+                                        ),
+                                      "Show":
+                                        dC("tempH=preH+stepClockTSRL*(b*Flow-a*preH^0.5)", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&((stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0)&b*Flow < a*preH^0.5)&Height<=preH}]tempH>0"); <(
+                                          "Use":
+                                            auto,
+                                          "Show":
+                                            auto
+                                        )
+                                    ),
+                                  "Show":
+                                    auto
+                                ),
+                              "Show":
+                                auto
+                            ),
+                          "b*Flow=a*preH^0.5|b*Flow>a*preH^0.5":
+                            orL('L=="b*Flow=a*preH^0.5|b*Flow>a*preH^0.5"); <(
+                              "b*Flow=a*preH^0.5":
+                                dC("b*Flow-a*Height^0.5=0", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0}]Height>0"); <(
+                                  "Use":
+                                    auto,
+                                  "Show":
+                                    auto
+                                ),
+                              "b*Flow>a*preH^0.5":
+                                dC("b*Flow>a*preH^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0}]Height>0"); <(
+                                  "Use":
+                                    dC("Height>=preH", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0)&b*Flow>a*preH^0.5}]Height>0"); <(
+                                      "Use":
+                                        auto,
+                                      "Show":
+                                        auto
+                                    ),
+                                  "Show":
+                                    auto
+                                )
+                            )
+                        ),
+                      "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0}]Height < MaxHeight()":
+                        unfold;
+                        orL('L=="b*Flow < a*preH^0.5|b*Flow=a*preH^0.5|b*Flow>a*preH^0.5"); <(
+                          "b*Flow < a*preH^0.5":
+                            dC("b*Flow < a*preH^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0}]Height < MaxHeight()"); <(
+                              "Use":
+                                hideL('L=="Flow>(0.0-preH)/(STEPTSRL()*b)+a/b*preH^0.5");
+                                hideL('L=="Flow < (MaxHeight()-preH)/(STEPTSRL()*b)+a/b*preH^0.5");
+                                dGi('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0)&b*Flow < a*preH^0.5}]Height < MaxHeight()");
+                                dC("Height<=preH", 'R=="[{stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0)&b*Flow < a*preH^0.5}]Height < MaxHeight()"); <(
+                                  "Use":
+                                    auto,
+                                  "Show":
+                                    auto
+                                ),
+                              "Show":
+                                auto
+                            ),
+                          "b*Flow=a*preH^0.5|b*Flow>a*preH^0.5":
+                            orL('L=="b*Flow=a*preH^0.5|b*Flow>a*preH^0.5"); <(
+                              "b*Flow=a*preH^0.5":
+                                dC("b*Flow-a*Height^0.5=0", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0}]Height < MaxHeight()"); <(
+                                  "Use":
+                                    auto,
+                                  "Show":
+                                    auto
+                                ),
+                              "b*Flow>a*preH^0.5":
+                                dC("b*Flow>a*preH^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0}]Height < MaxHeight()"); <(
+                                  "Use":
+                                    dC("Height>=preH", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0)&b*Flow>a*preH^0.5}]Height < MaxHeight()"); <(
+                                      "Use":
+                                        dC("Height<=tempH", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&((stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0)&b*Flow>a*preH^0.5)&Height>=preH}]Height < MaxHeight()"); <(
+                                          "Use":
+                                            dC("tempH < MaxHeight()", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(((stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0)&b*Flow>a*preH^0.5)&Height>=preH)&Height<=tempH}]Height < MaxHeight()"); <(
+                                              "Use":
+                                                auto,
+                                              "Show":
+                                                dC("tempH=preH+stepClockTSRL*(b*Flow-a*preH^0.5)", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(((stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0)&b*Flow>a*preH^0.5)&Height>=preH)&Height<=tempH}]tempH < MaxHeight()"); <(
+                                                  "Use":
+                                                    auto,
+                                                  "Show":
+                                                    auto
+                                                )
+                                            ),
+                                          "Show":
+                                            auto
+                                        ),
+                                      "Show":
+                                        auto
+                                    ),
+                                  "Show":
+                                    auto
+                                )
+                            )
+                        )
+                    ),
+                  "Show":
+                    hideR('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&stepClockTSRL>=0}](Height>0&Height < MaxHeight())");
+                    QE
+                ),
+              "Show":
+                auto
+            )
+        ),
+      "[?stepClockTSRL < STEPTSRL();][?true;{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()}](Height>0.0&Height < MaxHeight()&STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0.0&Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))//Use//[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()}](Height>0.0&Height < MaxHeight()&STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0.0&Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))":
+        hideL('L=="smallStep=0.0");
+        dC("Height>0&Height < MaxHeight()", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()}](Height>0.0&Height < MaxHeight()&STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0.0&Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))"); <(
+          "Use":
+            boxAnd('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](Height>0.0&Height < MaxHeight()&STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0.0&Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))");
+            boxAnd('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]Height>0.0&#[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](Height < MaxHeight()&STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0.0&Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))#");
+            boxAnd('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]Height>0.0&[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]Height < MaxHeight()&#[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](STEPTSRL()>=stepClockTSRL&stepClockTSRL>=0.0&Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))#");
+            boxAnd('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]Height>0.0&[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]Height < MaxHeight()&[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]STEPTSRL()>=stepClockTSRL&#[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](stepClockTSRL>=0.0&Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))#");
+            boxAnd('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]Height>0.0&[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]Height < MaxHeight()&[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]STEPTSRL()>=stepClockTSRL&[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]stepClockTSRL>=0.0&#[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](Flow>=0.0&(STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5))#");
+            unfold; <(
+              "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]Height>0.0":
+                auto,
+              "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]Height < MaxHeight()":
+                auto,
+              "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]STEPTSRL()>=stepClockTSRL":
+                auto,
+              "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]stepClockTSRL>=0.0":
+                auto,
+              "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5)":
+                orL('L=="STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5"); <(
+                  "STEPTSRL()-stepClockTSRL=0.0":
+                    dC("STEPTSRL()-stepClockTSRL=0.0", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5)"); <(
+                      "Use":
+                        auto,
+                      "Show":
+                        auto
+                    ),
+                  "STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5":
+                    unfold;
+                    cut("b*Flow < a*Height^0.5|b*Flow=a*Height^0.5|b*Flow>a*Height^0.5"); <(
+                      "Use":
+                        discreteGhost("Height", "preH", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5)");
+                        discreteGhost("Height", "tempH", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5)");
+                        dG("tempH'=0*tempH+b*Flow-a*preH^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5)");
+                        existsR('R=="\exists tempH [{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5)");
+                        dC("-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height&MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5)"); <(
+                          "Use":
+                            dW('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight())&-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height&MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height}](STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5)");
+                            unfold;
+                            andR('R=="STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5"); <(
+                              "STEPTSRL()-stepClockTSRL>0.0":
+                                auto,
+                              "Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5":
+                                andR('R=="Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5"); <(
+                                  "Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5":
+                                    auto,
+                                  "Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5":
+                                    auto
+                                )
+                            ),
+                          "Show":
+                            boxAnd('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height&MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height)");
+                            andR('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height&[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height"); <(
+                              "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height":
+                                orL('L=="b*Flow < a*preH^0.5|b*Flow=a*preH^0.5|b*Flow>a*preH^0.5"); <(
+                                  "b*Flow < a*preH^0.5":
+                                    dC("b*Flow < a*Height^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height"); <(
+                                      "Use":
+                                        auto,
+                                      "Show":
+                                        auto
+                                    ),
+                                  "b*Flow=a*preH^0.5|b*Flow>a*preH^0.5":
+                                    orL('L=="b*Flow=a*preH^0.5|b*Flow>a*preH^0.5"); <(
+                                      "b*Flow=a*preH^0.5":
+                                        dC("b*Flow=a*Height^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height"); <(
+                                          "Use":
+                                            auto,
+                                          "Show":
+                                            auto
+                                        ),
+                                      "b*Flow>a*preH^0.5":
+                                        dC("b*Flow>a*Height^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL) < Height"); <(
+                                          "Use":
+                                            auto,
+                                          "Show":
+                                            auto
+                                        )
+                                    )
+                                ),
+                              "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height":
+                                orL('L=="b*Flow < a*preH^0.5|b*Flow=a*preH^0.5|b*Flow>a*preH^0.5"); <(
+                                  "b*Flow < a*preH^0.5":
+                                    dC("stepClockTSRL>=0", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height"); <(
+                                      "Use":
+                                        dC("b*Flow < a*Height^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight())&stepClockTSRL>=0}]MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height"); <(
+                                          "Use":
+                                            auto,
+                                          "Show":
+                                            auto
+                                        ),
+                                      "Show":
+                                        auto
+                                    ),
+                                  "b*Flow=a*preH^0.5|b*Flow>a*preH^0.5":
+                                    orL('L=="b*Flow=a*preH^0.5|b*Flow>a*preH^0.5"); <(
+                                      "b*Flow=a*preH^0.5":
+                                        dC("b*Flow-a*Height^0.5=0", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height"); <(
+                                          "Use":
+                                            auto,
+                                          "Show":
+                                            auto
+                                        ),
+                                      "b*Flow>a*preH^0.5":
+                                        dC("b*Flow>a*Height^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}]MaxHeight()-(b*Flow-a*Height^0.5)*(STEPTSRL()-stepClockTSRL)>Height"); <(
+                                          "Use":
+                                            auto,
+                                          "Show":
+                                            auto
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                      "Show":
+                        hideR('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()&Height>0&Height < MaxHeight()}](STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5)");
+                        QE
+                    )
+                )
+            ),
+          "Show":
+            orL('L=="STEPTSRL()-stepClockTSRL=0.0|STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5"); <(
+              "STEPTSRL()-stepClockTSRL=0.0":
+                auto,
+              "STEPTSRL()-stepClockTSRL>0.0&Flow>(0.0-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5&Flow < (MaxHeight()-Height)/((STEPTSRL()-stepClockTSRL)*b)+a/b*Height^0.5":
+                unfold;
+                cut("b*Flow < a*Height^0.5|b*Flow=a*Height^0.5|b*Flow>a*Height^0.5"); <(
+                  "Use":
+                    discreteGhost("Height", "preH", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()}](Height>0&Height < MaxHeight())");
+                    discreteGhost("Height", "tempH", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()}](Height>0&Height < MaxHeight())");
+                    dG("tempH'=0*tempH+b*Flow-a*preH^0.5", "Height>0.0&Height < MaxHeight()", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()}](Height>0&Height < MaxHeight())");
+                    existsR('R=="\exists tempH [{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()}](Height>0&Height < MaxHeight())");
+                    boxAnd('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()}](Height>0&Height < MaxHeight())");
+                    andR('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()}]Height>0&[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()}]Height < MaxHeight()"); <(
+                      "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()}]Height>0":
+                        orL('L=="b*Flow < a*preH^0.5|b*Flow=a*preH^0.5|b*Flow>a*preH^0.5"); <(
+                          "b*Flow < a*preH^0.5":
+                            dC("b*Flow < a*preH^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()}]Height>0"); <(
+                              "Use":
+                                dC("Height<=preH", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&b*Flow < a*preH^0.5}]Height>0"); <(
+                                  "Use":
+                                    dC("tempH>0", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(stepClockTSRL<=STEPTSRL()&b*Flow < a*preH^0.5)&Height<=preH}]Height>0"); <(
+                                      "Use":
+                                        dC("Height>=tempH", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&((stepClockTSRL<=STEPTSRL()&b*Flow < a*preH^0.5)&Height<=preH)&tempH>0}]Height>0"); <(
+                                          "Use":
+                                            auto,
+                                          "Show":
+                                            auto
+                                        ),
+                                      "Show":
+                                        discreteGhost("stepClockTSRL", "preStep", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(stepClockTSRL<=STEPTSRL()&b*Flow < a*preH^0.5)&Height<=preH}]tempH>0");
+                                        dC("tempH=preH+(stepClockTSRL-preStep)*(b*Flow-a*preH^0.5)", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(stepClockTSRL<=STEPTSRL()&b*Flow < a*preH^0.5)&Height<=preH}]tempH>0"); <(
+                                          "Use":
+                                            auto,
+                                          "Show":
+                                            auto
+                                        )
+                                    ),
+                                  "Show":
+                                    auto
+                                ),
+                              "Show":
+                                auto
+                            ),
+                          "b*Flow=a*preH^0.5|b*Flow>a*preH^0.5":
+                            orL('L=="b*Flow=a*preH^0.5|b*Flow>a*preH^0.5"); <(
+                              "b*Flow=a*preH^0.5":
+                                dC("b*Flow=a*preH^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()}]Height>0"); <(
+                                  "Use":
+                                    auto,
+                                  "Show":
+                                    auto
+                                ),
+                              "b*Flow>a*preH^0.5":
+                                dC("b*Flow>a*preH^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()}]Height>0"); <(
+                                  "Use":
+                                    auto,
+                                  "Show":
+                                    auto
+                                )
+                            )
+                        ),
+                      "[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()}]Height < MaxHeight()":
+                        orL('L=="b*Flow < a*preH^0.5|b*Flow=a*preH^0.5|b*Flow>a*preH^0.5"); <(
+                          "b*Flow < a*preH^0.5":
+                            dC("b*Flow < a*preH^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()}]Height < MaxHeight()"); <(
+                              "Use":
+                                dC("Height<=preH", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&b*Flow < a*preH^0.5}]Height < MaxHeight()"); <(
+                                  "Use":
+                                    auto,
+                                  "Show":
+                                    auto
+                                ),
+                              "Show":
+                                auto
+                            ),
+                          "b*Flow=a*preH^0.5|b*Flow>a*preH^0.5":
+                            orL('L=="b*Flow=a*preH^0.5|b*Flow>a*preH^0.5"); <(
+                              "b*Flow=a*preH^0.5":
+                                dC("b*Flow-a*Height^0.5=0", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()}]Height < MaxHeight()"); <(
+                                  "Use":
+                                    auto,
+                                  "Show":
+                                    auto
+                                ),
+                              "b*Flow>a*preH^0.5":
+                                dC("b*Flow>a*preH^0.5", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()}]Height < MaxHeight()"); <(
+                                  "Use":
+                                    dC("Height>=preH", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&stepClockTSRL<=STEPTSRL()&b*Flow>a*preH^0.5}]Height < MaxHeight()"); <(
+                                      "Use":
+                                        dC("tempH < MaxHeight()", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(stepClockTSRL<=STEPTSRL()&b*Flow>a*preH^0.5)&Height>=preH}]Height < MaxHeight()"); <(
+                                          "Use":
+                                            dC("Height<=tempH", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&((stepClockTSRL<=STEPTSRL()&b*Flow>a*preH^0.5)&Height>=preH)&tempH < MaxHeight()}]Height < MaxHeight()"); <(
+                                              "Use":
+                                                auto,
+                                              "Show":
+                                                auto
+                                            ),
+                                          "Show":
+                                            discreteGhost("stepClockTSRL", "preStep", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(stepClockTSRL<=STEPTSRL()&b*Flow>a*preH^0.5)&Height>=preH}]tempH < MaxHeight()");
+                                            dC("tempH=preH+(stepClockTSRL-preStep)*(b*Flow-a*preH^0.5)", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(stepClockTSRL<=STEPTSRL()&b*Flow>a*preH^0.5)&Height>=preH}]tempH < MaxHeight()"); <(
+                                              "Use":
+                                                auto,
+                                              "Show":
+                                                dC("stepClockTSRL-preStep<=STEPTSRL()-preStep", 'R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0,tempH'=b*Flow+(-1)*a*preH^(1/2)&(stepClockTSRL<=STEPTSRL()&b*Flow>a*preH^0.5)&Height>=preH}]tempH=preH+(stepClockTSRL-preStep)*(b*Flow-a*preH^0.5)"); <(
+                                                  "Use":
+                                                    auto,
+                                                  "Show":
+                                                    auto
+                                                )
+                                            )
+                                        ),
+                                      "Show":
+                                        auto
+                                    ),
+                                  "Show":
+                                    auto
+                                )
+                            )
+                        )
+                    ),
+                  "Show":
+                    hideR('R=="[{simTime'=1.0,stepClockTSRL'=1.0,Height'=b*Flow-a*Height^0.5,smallStep'=1.0&stepClockTSRL<=STEPTSRL()}](Height>0&Height < MaxHeight())");
+                    auto
+                )
+            )
+        )
+    )
+)
+End.
+
+End.

@@ -1,0 +1,2 @@
+Model Without h greater 0 in Evolution contains a version of the water-tank model with a threshold contract that does not assume the simplification 
+h greater 0 in the evolution domain. The model is not fully polished, but it demonstrates that a proof is possible without this assumption.

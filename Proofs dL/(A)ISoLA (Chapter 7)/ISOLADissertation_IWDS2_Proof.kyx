@@ -1,0 +1,148 @@
+﻿/* Exported from KeYmaera X v5.0 */
+
+Theorem "ISOLADissertation/IWDS2"
+
+Definitions
+  Real EPSSIZE;
+  Real hB;
+  Real TS;
+  Real FP;
+  Real hMIN;
+  Real hDEG;
+  Real supDEG;
+  Real supFULL;
+  Real hFULL;
+End.
+
+ProgramVariables
+  Real t;
+  Real p1;
+  Real p2;
+  Real p3;
+  Real pb;
+  Real a1;
+  Real a2;
+  Real a3;
+  Real asup;
+  Real crl;
+  Real i;
+  Real d;
+  Real h; /* h = water level l*/
+  Real eps;
+End.
+
+Problem
+  (t = 0.0)
+  /* assumptions on constants */  
+  & EPSSIZE>0
+  & supFULL=2*FP 
+  & supDEG=1*FP 
+  & FP >=0
+  & hMIN >=0 
+  & TS>=0
+  /* water levels */
+  & hFULL>=supFULL*TS+hMIN
+  & hDEG>=supDEG*TS+hMIN
+  & hB>hMIN+supFULL*EPSSIZE
+  & h>hMIN
+  & eps = 0.0
+  /* RL Contract */
+  & crl >=0 
+  & crl<=TS
+  /* full service */
+  & (h>hFULL->asup=supFULL)
+  /* above reserve */
+  & (h>hDEG & h<=hFULL)->asup>supDEG & asup<supFULL & h-asup*TS>hMIN /* add as many service levels as you want */
+  /* in reserve */
+  & (h<=hDEG->asup=supDEG) &
+  (a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0)
+  ->
+  [
+    {
+        eps:=0.0;
+        /* Pump Failure and Repairs */
+        p1:= *;
+        ?((p1 = 1.0)
+        | (p1 = 0.0));
+        p2:= *;
+        ?((p2 = 1.0)
+        | (p2 = 0.0));
+        p3:= *;
+        ?((p3 = 1.0) | (p3 = 0.0));
+        pb := *;
+        ?((pb = 1.0) | (pb = 0.0));
+        /* Backup Pump */
+        ?(h <= hB -> pb = 1.0);
+        {
+        ?(crl >= TS); /* RL Contracts */
+            a1:= *;
+            a2:= *;
+            a3:= *;
+            asup:= *;
+            ?(h>hFULL->asup=supFULL);
+            ?(h>hDEG & h<=hFULL)->asup>supDEG & asup<supFULL & h-asup*TS>hMIN; /* add as many service levels as you want */
+            ?(h<=hDEG->asup=supDEG);
+            ?((a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0));
+            crl:=0.0;
+        ++
+        ?(crl < TS);
+        }
+        i:= *; /* inflow */
+        ?(i = (min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP);
+        d:= *; /* demand */
+        ?((d >= 0) & (d <= asup));
+        {
+        {?(!(h <= hB));
+            {t' = 1.0, crl' = 1.0, h' = (i-d), eps' = 1.0 & (!(h <= hB) | eps <= EPSSIZE) & crl <= TS}}
+        ++
+        {?(h <= hB);
+            {t' = 1.0, crl' = 1.0, h' = (i-d), eps' = 1.0 & (h <= hB | eps <= EPSSIZE) & crl <= TS}}
+            
+        }
+    }*
+  ] (asup>=supDEG)
+End.
+
+Tactic "FinalWaterDistributionDegradedService: Proof"
+unfold;
+loop("asup>=supDEG()", 'R=="[{eps:=0.0;p1:=*;?p1=1.0|p1=0.0;p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}}*]asup>=supDEG()"); <(
+  "Init":
+    auto,
+  "Post":
+    auto,
+  "Step":
+    unfold; <(
+      "[?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;][i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}]asup>=supDEG()//[?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]asup>=supDEG()":
+        auto,
+      "[?crl < TS();][i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}]asup>=supDEG()//[?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]asup>=supDEG()":
+        auto,
+      "[?crl < TS();][i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}]asup>=supDEG()//[?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]asup>=supDEG()":
+        auto,
+      "[?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;][i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}]asup>=supDEG()//[?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]asup>=supDEG()":
+        auto
+    )
+)
+End.
+
+Tactic "ISOLADissertation/IWDS2 from tactic"
+unfold;
+loop("asup>=supDEG()", 'R=="[{eps:=0.0;p1:=*;?p1=1.0|p1=0.0;p2:=*;?p2=1.0|p2=0.0;p3:=*;?p3=1.0|p3=0.0;pb:=*;?pb=1.0|pb=0.0;?h<=hB()->pb=1.0;{?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;++?crl < TS();}i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}}*]asup>=supDEG()"); <(
+  "Init":
+    auto,
+  "Post":
+    auto,
+  "Step":
+    unfold; <(
+      "[?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;][i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}]asup>=supDEG()//[?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]asup>=supDEG()":
+        auto,
+      "[?crl < TS();][i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}]asup>=supDEG()//[?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}]asup>=supDEG()":
+        auto,
+      "[?crl < TS();][i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}]asup>=supDEG()//[?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]asup>=supDEG()":
+        auto,
+      "[?crl>=TS();a1:=*;a2:=*;a3:=*;asup:=*;?h>hFULL()->asup=supFULL();?h>hDEG()&h<=hFULL()->asup>supDEG()&asup < supFULL()&h-asup*TS()>hMIN();?h<=hDEG()->asup=supDEG();?(a1=1|a1=0)&(a2=1|a2=0)&(a3=1|a3=0);crl:=0.0;][i:=*;?i=(min(p1,a1)+min(p2,a2)+min(p3,a3)+pb)*FP();d:=*;?d>=0&d<=asup;{?!h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(!h<=hB()|eps<=EPSSIZE())&crl<=TS()}++?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}}]asup>=supDEG()//[?h<=hB();{t'=1.0,crl'=1.0,h'=i-d,eps'=1.0&(h<=hB()|eps<=EPSSIZE())&crl<=TS()}]asup>=supDEG()":
+        auto
+    )
+)
+End.
+
+End.

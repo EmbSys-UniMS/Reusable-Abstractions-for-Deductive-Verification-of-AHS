@@ -1,0 +1,80 @@
+﻿Lemma "ATVA/TemperatureControlRange: Proof".
+"  ==>  (((crl) = ((0.0)))&(((TS()) > ((0)))&(((TMAX()) >= (T))&(((T) >= (TMIN()))&(((HMAX()) >= (h))&(((h) >= (HMIN()))&(((cool) >= ((0)))&((((T)+(((HMIN())-(cool))*(TS()))) >= (TMIN()))&(((T)+(((HMAX())-(cool))*(TS()))) <= (TMAX()))))))))))->([{{{h:=*;};{?(((HMAX()) >= (h))&((h) >= (HMIN())));}};{{{{?((crl) >= (TS()));};{{crl:=(0.0);};{{cool:=*;};{?(((cool) >= ((0)))&((((T)+(((HMIN())-(cool))*(TS()))) >= (TMIN()))&(((T)+(((HMAX())-(cool))*(TS()))) <= (TMAX()))));}}}}++{?((crl) < (TS()));}};{{crl'=(1.0),T'=(h)-(cool)&(crl) <= (TS())}}}}*](((TMAX()) >= (T))&((T) >= (TMIN()))))
+\qed::229f65ab8b365acd6ee28293bc6185b2"
+End.
+Tool.
+  tool """" KeYmaera X """"
+  model """" Theorem "ATVA/TemperatureControlRange"
+
+Definitions
+  Real SMALLTSSIZE;
+  Real TS;
+  Real CMAX;
+  Real CMIN;
+  Real TMIN;
+  Real TMAX;
+  Real HMAX;
+  Real HMIN;
+End.
+
+ProgramVariables
+  Real crl;
+  Real T;
+  Real h;
+  Real cool;
+End.
+
+Problem
+  /*Clocks Init Values + Evolutions*/
+    (crl  = 0.0)
+  & (TS > 0)
+  /*Threshold pre conditions*/
+  & (TMAX >= T)
+  & (T >= TMIN)
+  & (HMAX >= h)
+  & (h >= HMIN)
+   /*Contract conditions*/
+  & cool >= 0
+  & ((T + ((HMIN - cool) *  TS) >= TMIN) & (T + ((HMAX - cool) *  TS) <= TMAX))
+  ->
+  [
+    {
+      {
+        /*Opp chooses Action*/  
+        h:= *;
+        ?(HMAX >= h) & (h >= HMIN);
+      }
+ 
+        
+      {
+        /*Every TS the Agent chooses an Action that is valid under the Hybrid Contract*/  
+        ?(crl  >= TS);
+            crl :=0.0;
+            cool:= *;
+            ?(cool >= 0 & (T + ((HMIN - cool) *  TS) >= TMIN) & (T + ((HMAX - cool) *  TS) <= TMAX));
+        ++
+        /*Do Nothing - Between Time TSs*/
+        ?(crl < TS);
+        
+      }
+      {
+        
+        {
+          /*Evolutions*/        
+          crl ' = 1.0,
+          T' = (h - cool)
+          & (crl <= TS)
+        }
+      }
+      
+    }*@invariant(cool >= 0 & (TMAX()>=T&T>=TMIN())&T+(HMIN()-cool)*(TS()-crl)>=TMIN()&T+(HMAX()-cool)*(TS()-crl)<=TMAX()&TS()>=crl&crl>=0)
+  ] (TMAX >= T & T >= TMIN)
+End.
+
+End. """"
+  tactic """" auto """"
+End.
+
+Tool.
+  kyxversion """" 5.1.2 """"
+End.

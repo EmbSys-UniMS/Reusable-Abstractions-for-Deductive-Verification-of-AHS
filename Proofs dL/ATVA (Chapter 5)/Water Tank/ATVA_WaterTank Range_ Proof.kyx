@@ -1,0 +1,363 @@
+﻿/* Exported from KeYmaera X v5.1.2 */
+
+Theorem "ATVA/WaterTank Range"
+
+Definitions
+  Real epsSIZE;
+  Real TS;
+  Real wlMAX;
+  Real wlMIN;
+End.
+
+ProgramVariables
+  Real t;
+  Real u;
+  Real crl;
+  Real wl;
+  Real eps;
+  Real a;
+  Real b;
+End.
+
+Problem
+  (t = 0.0)
+  & (crl = 0.0)
+  & ((u >= 0.0)
+  & (u > ((wlMIN-wl)/(TS()*b)+((a/b)*(wl^0.5))))
+  & (u < ((wlMAX-wl)/(TS()*b)+((a/b)*(wl^0.5)))))
+  & (wl > wlMIN)
+  & (wl < wlMAX)
+  & (TS() > 0.0)
+  & (wlMAX > 0)
+  & (wlMIN > 0)
+  & (wlMAX > wlMIN)
+  & (b > 0) /* D in thesis*/
+  & (a > 0) /* A in thesis*/
+  ->
+  [
+    {
+      {
+        ?(crl >= TS);
+        crl:=0.0;
+        
+        u:= *;
+        {        
+            ? (u >= 0.0)
+            & (wl+(u*b-a*wl^0.5)*TS > wlMIN)
+            & (wl+(u*b-a*wl^0.5)*TS < wlMAX);
+        }
+      ++
+        ?(crl < TS);
+        
+      }
+      {
+        {
+          t' = 1.0,
+          crl' = 1.0,
+          wl' = (u*b)-(a*(wl^0.5))
+          & wl>0 & crl <= TS /* We assume wl > 0 to simplify the proof. This is without loss of generality, since we show wl > wlMIN > 0. */
+        }
+      }
+      
+    }*@invariant((TS-crl>=0&crl>=0.0&u>=0.0) & ((wl+(u*b-a*wl^0.5)*(TS-crl) > wlMIN&wl>wlMIN)) & (wl+(u*b-a*wl^0.5)*(TS-crl)<wlMAX&wl < wlMAX))
+  ] ((wl > wlMIN) & (wl < wlMAX))
+End.
+
+Tactic "ATVA/WaterTank Range: Proof"
+unfold;
+loop("wl>wlMIN()&wl < wlMAX()&TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()", 'R=="[{eps:=0.0;{?crl>=TS();crl:=0.0;u:=*;?u>=0.0&wl+(u*b-a*wl^0.5)*TS()>wlMIN()&wl+(u*b-a*wl^0.5)*TS() < wlMAX();++?crl < TS();}{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&wl>0&crl<=TS()}}*](wl>wlMIN()&wl < wlMAX())"); <(
+  "Init":
+    auto,
+  "Post":
+    auto,
+  "Step":
+    composeb('R=="[eps:=0.0;{?crl>=TS();crl:=0.0;u:=*;?u>=0.0&wl+(u*b-a*wl^0.5)*TS()>wlMIN()&wl+(u*b-a*wl^0.5)*TS() < wlMAX();++?crl < TS();}{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&wl>0&crl<=TS()}](wl>wlMIN()&wl < wlMAX()&TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())");
+    assignb('R=="[eps:=0.0;][{?crl>=TS();crl:=0.0;u:=*;?u>=0.0&wl+(u*b-a*wl^0.5)*TS()>wlMIN()&wl+(u*b-a*wl^0.5)*TS() < wlMAX();++?crl < TS();}{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&wl>0&crl<=TS()}](wl>wlMIN()&wl < wlMAX()&TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())");
+    composeb('R=="[{?crl>=TS();crl:=0.0;u:=*;?u>=0.0&wl+(u*b-a*wl^0.5)*TS()>wlMIN()&wl+(u*b-a*wl^0.5)*TS() < wlMAX();++?crl < TS();}{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&wl>0&crl<=TS()}](wl>wlMIN()&wl < wlMAX()&TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())");
+    MR("wl>wlMIN()&wl < wlMAX()&TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()", 'R=="[?crl>=TS();crl:=0.0;u:=*;?u>=0.0&wl+(u*b-a*wl^0.5)*TS()>wlMIN()&wl+(u*b-a*wl^0.5)*TS() < wlMAX();++?crl < TS();][{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&wl>0&crl<=TS()}](wl>wlMIN()&wl < wlMAX()&TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())"); <(
+      "Use Q->P":
+        auto,
+      "Show [a]Q":
+        cut("u*b-a*wl^0.5<=0|u*b-a*wl^0.5>=0"); <(
+          "Use":
+            discreteGhost("u*b-a*wl^0.5", "change", 'L=="u*b-a*wl^0.5<=0|u*b-a*wl^0.5>=0");
+            orL('L=="change<=0|change>=0"); <(
+              "change<=0":
+                dC("u*b-a*wl^0.5<=0&u*b-a*wl^0.5>=change", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&wl>0&crl<=TS()}](wl>wlMIN()&wl < wlMAX()&TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())"); <(
+                  "Use":
+                    discreteGhost("wl", "ho", 'L=="wl>wlMIN()&wl < wlMAX()&TS()>=crl&crl>=0.0&u>=0.0&wl+change*(TS()-crl)>wlMIN()&wl+change*(TS()-crl) < wlMAX()");
+                    dC("wl<=ho", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5<=0&u*b-a*wl^0.5>=change}](wl>wlMIN()&wl < wlMAX()&TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())"); <(
+                      "Use":
+                        unfold;
+                        dC("wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&((wl>0&crl<=TS())&u*b-a*wl^0.5<=0&u*b-a*wl^0.5>=change)&wl<=ho}](wl>wlMIN()&wl < wlMAX()&TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())"); <(
+                          "Use":
+                            auto,
+                          "Show":
+                            auto
+                        ),
+                      "Show":
+                        auto
+                    ),
+                  "Show":
+                    auto
+                ),
+              "change>=0":
+                dC("u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&wl>0&crl<=TS()}](wl>wlMIN()&wl < wlMAX()&TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())"); <(
+                  "Use":
+                    boxAnd('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}](wl>wlMIN()&wl < wlMAX()&TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())");
+                    andR('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}]wl>wlMIN()&[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}](wl < wlMAX()&TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())"); <(
+                      "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}]wl>wlMIN()":
+                        auto,
+                      "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}](wl < wlMAX()&TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())":
+                        boxAnd('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}](wl < wlMAX()&TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())");
+                        andR('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}]wl < wlMAX()&[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}](TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())"); <(
+                          "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}]wl < wlMAX()":
+                            unfold;
+                            dC("wl+change*(TS()-crl) < wlMAX()", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}]wl < wlMAX()"); <(
+                              "Use":
+                                auto,
+                              "Show":
+                                auto
+                            ),
+                          "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}](TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())":
+                            boxAnd('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}](TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())");
+                            andR('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}]TS()>=crl&[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}](crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())"); <(
+                              "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}]TS()>=crl":
+                                auto,
+                              "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}](crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())":
+                                boxAnd('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}](crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())");
+                                andR('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}]crl>=0.0&[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}](u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())"); <(
+                                  "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}]crl>=0.0":
+                                    auto,
+                                  "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}](u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())":
+                                    boxAnd('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}](u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())");
+                                    andR('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}]u>=0.0&[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}](wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())"); <(
+                                      "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}]u>=0.0":
+                                        auto,
+                                      "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}](wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())":
+                                        boxAnd('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}](wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())");
+                                        andR('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}]wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}]wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()"); <(
+                                          "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}]wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()":
+                                            auto;
+                                            discreteGhost("wl", "ho", 'L=="wl+change*(TS()-crl)>wlMIN()");
+                                            dC("wl>=ho", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}]wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()"); <(
+                                              "Use":
+                                                auto,
+                                              "Show":
+                                                auto
+                                            ),
+                                          "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&(wl>0&crl<=TS())&u*b-a*wl^0.5>=0&u*b-a*wl^0.5<=change}]wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()":
+                                            auto
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                  "Show":
+                    auto
+                )
+            ),
+          "Show":
+            hideR('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5,eps'=1.0&wl>0&crl<=TS()}](wl>wlMIN()&wl < wlMAX()&TS()>=crl&crl>=0.0&u>=0.0&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX())");
+            auto
+        )
+    )
+)
+End.
+
+Tactic "ATVA/WaterTank Range: Proof"
+unfold;
+loop("(TS()-crl>=0&crl>=0.0&u>=0.0)&(wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX()", 'R=="[{{?crl>=TS();crl:=0.0;u:=*;?u>=0.0&wl+(u*b-a*wl^0.5)*TS()>wlMIN()&wl+(u*b-a*wl^0.5)*TS() < wlMAX();++?crl < TS();}{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&wl>0&crl<=TS()}}*](wl>wlMIN()&wl < wlMAX())"); <(
+  "Init":
+    auto,
+  "Post":
+    auto,
+  "Step":
+    composeb('R=="[{?crl>=TS();crl:=0.0;u:=*;?u>=0.0&wl+(u*b-a*wl^0.5)*TS()>wlMIN()&wl+(u*b-a*wl^0.5)*TS() < wlMAX();++?crl < TS();}{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&wl>0&crl<=TS()}]((TS()-crl>=0&crl>=0.0&u>=0.0)&(wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())");
+    MR("(TS()-crl>=0&crl>=0.0&u>=0.0)&(wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX()", 'R=="[?crl>=TS();crl:=0.0;u:=*;?u>=0.0&wl+(u*b-a*wl^0.5)*TS()>wlMIN()&wl+(u*b-a*wl^0.5)*TS() < wlMAX();++?crl < TS();][{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&wl>0&crl<=TS()}]((TS()-crl>=0&crl>=0.0&u>=0.0)&(wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())"); <(
+      "Use Q->P":
+        auto,
+      "Show [a]Q":
+        dC("TS()>=0&TS()-crl>=0", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&wl>0&crl<=TS()}]((TS()-crl>=0&crl>=0.0&u>=0.0)&(wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())"); <(
+          "Use":
+            boxAnd('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(wl>0&crl<=TS())&TS()>=0&TS()-crl>=0}]((TS()-crl>=0&crl>=0.0&u>=0.0)&(wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())");
+            andR('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(wl>0&crl<=TS())&TS()>=0&TS()-crl>=0}](TS()-crl>=0&crl>=0.0&u>=0.0)&[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(wl>0&crl<=TS())&TS()>=0&TS()-crl>=0}]((wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())"); <(
+              "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(wl>0&crl<=TS())&TS()>=0&TS()-crl>=0}](TS()-crl>=0&crl>=0.0&u>=0.0)":
+                auto,
+              "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(wl>0&crl<=TS())&TS()>=0&TS()-crl>=0}]((wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())":
+                cut("u*b-a*wl^0.5>0|u*b-a*wl^0.5<=0"); <(
+                  "Use":
+                    orL('L=="u*b-a*wl^0.5>0|u*b-a*wl^0.5<=0"); <(
+                      "u*b-a*wl^0.5>0":
+                        dC("u*b-a*wl^0.5>=0", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(wl>0&crl<=TS())&TS()>=0&TS()-crl>=0}]((wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())"); <(
+                          "Use":
+                            discreteGhost("u*b-a*wl^0.5", "flowStart", 'L=="(TS()-crl>=0&crl>=0.0&u>=0.0)&(wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX()");
+                            dC("u*b-a*wl^0.5<=flowStart", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&u*b-a*wl^0.5>=0}]((wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())"); <(
+                              "Use":
+                                unfold;
+                                fullSimplify;
+                                boxAnd('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&u*b-a*wl^0.5>=0)&u*b-a*wl^0.5<=flowStart}]((wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())");
+                                andR('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&u*b-a*wl^0.5>=0)&u*b-a*wl^0.5<=flowStart}](wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&u*b-a*wl^0.5>=0)&u*b-a*wl^0.5<=flowStart}](wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())"); <(
+                                  "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&u*b-a*wl^0.5>=0)&u*b-a*wl^0.5<=flowStart}](wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())":
+                                    auto,
+                                  "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&u*b-a*wl^0.5>=0)&u*b-a*wl^0.5<=flowStart}](wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())":
+                                    dC("wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&u*b-a*wl^0.5>=0)&u*b-a*wl^0.5<=flowStart}](wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())"); <(
+                                      "Use":
+                                        auto,
+                                      "Show":
+                                        discreteGhost("wl", "wlstart", 'L=="wl+flowStart*(TS()-crl)>wlMIN()");
+                                        discreteGhost("crl", "crlstart", 'L=="wlstart=wl");
+                                        dC("wl<=wlstart+flowStart*(crl-crlstart)", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&u*b-a*wl^0.5>=0)&u*b-a*wl^0.5<=flowStart}]wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()"); <(
+                                          "Use":
+                                            dC("wlstart+flowStart*(crl-crlstart)+flowStart*(TS()-crl) < wlMAX()", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&u*b-a*wl^0.5>=0)&u*b-a*wl^0.5<=flowStart)&wl<=wlstart+flowStart*(crl-crlstart)}]wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()"); <(
+                                              "Use":
+                                                dW('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&u*b-a*wl^0.5>=0)&u*b-a*wl^0.5<=flowStart)&wl<=wlstart+flowStart*(crl-crlstart))&wlstart+flowStart*(crl-crlstart)+flowStart*(TS()-crl) < wlMAX()}]wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()");
+                                                unfold;
+                                                fullSimplify;
+                                                hideL('L=="flowStart=u*b-a*wlstart^0.5");
+                                                hideL('L=="wlstart+flowStart*(TS()-crlstart)>wlMIN()");
+                                                discreteGhost("wl^0.5", "x", 'L=="flowStart>0");
+                                                cut("x>0"); <(
+                                                  "Use":
+                                                    hideL('L=="x=wl^0.5");
+                                                    QE,
+                                                  "Show":
+                                                    hideR('R=="wl+(u*b-a*x)*(TS()-crl) < wlMAX()");
+                                                    auto
+                                                ),
+                                              "Show":
+                                                hideL('L=="wlstart+flowStart*(TS()-crlstart)>wlMIN()");
+                                                hideL('L=="flowStart=u*b-a*wlstart^0.5");
+                                                auto
+                                            ),
+                                          "Show":
+                                            hideL('L=="wlstart+flowStart*(TS()-crlstart) < wlMAX()");
+                                            hideL('L=="wlstart+flowStart*(TS()-crlstart)>wlMIN()");
+                                            hideL('L=="flowStart=u*b-a*wlstart^0.5");
+                                            auto
+                                        )
+                                    )
+                                ),
+                              "Show":
+                                auto
+                            ),
+                          "Show":
+                            auto
+                        ),
+                      "u*b-a*wl^0.5<=0":
+                        unfold;
+                        discreteGhost("u*b-a*wl^0.5", "flowStart", 'L=="wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()");
+                        dC("wl^0.5>0&u*b-a*wl^0.5<=0", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(wl>0&crl<=TS())&TS()>=0&TS()-crl>=0}]((wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())"); <(
+                          "Use":
+                            dC("u*b-a*wl^0.5>=flowStart", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0}]((wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())"); <(
+                              "Use":
+                                discreteGhost("wl", "wlStart", 'L=="wlMAX()>wlMIN()");
+                                discreteGhost("crl", "crlStart", 'L=="flowStart=u*b-a*wlStart^0.5");
+                                dC("wl>=wlStart+flowStart*(crl-crlStart)", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0)&u*b-a*wl^0.5>=flowStart}]((wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())"); <(
+                                  "Use":
+                                    dC("wlStart+flowStart*(crl-crlStart)+flowStart*(TS()-crl)>wlMIN()", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0)&u*b-a*wl^0.5>=flowStart)&wl>=wlStart+flowStart*(crl-crlStart)}]((wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())"); <(
+                                      "Use":
+                                        boxAnd('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0)&u*b-a*wl^0.5>=flowStart)&wl>=wlStart+flowStart*(crl-crlStart))&wlStart+flowStart*(crl-crlStart)+flowStart*(TS()-crl)>wlMIN()}]((wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())");
+                                        andR('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0)&u*b-a*wl^0.5>=flowStart)&wl>=wlStart+flowStart*(crl-crlStart))&wlStart+flowStart*(crl-crlStart)+flowStart*(TS()-crl)>wlMIN()}](wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0)&u*b-a*wl^0.5>=flowStart)&wl>=wlStart+flowStart*(crl-crlStart))&wlStart+flowStart*(crl-crlStart)+flowStart*(TS()-crl)>wlMIN()}](wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())"); <(
+                                          "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0)&u*b-a*wl^0.5>=flowStart)&wl>=wlStart+flowStart*(crl-crlStart))&wlStart+flowStart*(crl-crlStart)+flowStart*(TS()-crl)>wlMIN()}](wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())":
+                                            dC("wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0)&u*b-a*wl^0.5>=flowStart)&wl>=wlStart+flowStart*(crl-crlStart))&wlStart+flowStart*(crl-crlStart)+flowStart*(TS()-crl)>wlMIN()}](wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())"); <(
+                                              "Use":
+                                                hideL('L=="flowStart=u*b-a*wlStart^0.5");
+                                                dW('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&((((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0)&u*b-a*wl^0.5>=flowStart)&wl>=wlStart+flowStart*(crl-crlStart))&wlStart+flowStart*(crl-crlStart)+flowStart*(TS()-crl)>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()}](wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())");
+                                                discreteGhost("wl^0.5", "x", 'L=="(((((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0)&u*b-a*wl^0.5>=flowStart)&wl>=wlStart+flowStart*(crl-crlStart))&wlStart+flowStart*(crl-crlStart)+flowStart*(TS()-crl)>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN())&flowStart<=0&wlStart>wlMIN()&wlStart < wlMAX()&TS()-crlStart>=0&TS()>0.0&crlStart>=0.0&u>=0.0&wlStart+flowStart*(TS()-crlStart)>wlMIN()&wlStart>wlMIN()&wlStart < wlMAX()&wlMAX()>0&wlMIN()>0&b>0&a>0&wlStart+flowStart*(TS()-crlStart) < wlMAX()&wlMAX()>wlMIN()");
+                                                cut("x>0"); <(
+                                                  "Use":
+                                                    unfold;
+                                                    hideL('L=="x=wl^0.5");
+                                                    fullSimplify;
+                                                    QE,
+                                                  "Show":
+                                                    hideR('R=="wl+(u*b-a*x)*(TS()-crl)>wlMIN()&wl>wlMIN()");
+                                                    unfold
+                                                ),
+                                              "Show":
+                                                dC("crl-crlStart+(TS()-crl)=TS()-crlStart", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0)&u*b-a*wl^0.5>=flowStart)&wl>=wlStart+flowStart*(crl-crlStart))&wlStart+flowStart*(crl-crlStart)+flowStart*(TS()-crl)>wlMIN()}]wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()"); <(
+                                                  "Use":
+                                                    dW('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&((((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0)&u*b-a*wl^0.5>=flowStart)&wl>=wlStart+flowStart*(crl-crlStart))&wlStart+flowStart*(crl-crlStart)+flowStart*(TS()-crl)>wlMIN())&crl-crlStart+(TS()-crl)=TS()-crlStart}]wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()");
+                                                    unfold;
+                                                    fullSimplify;
+                                                    discreteGhost("wl^0.5", "x", 'L=="wlStart+flowStart*(crl-crlStart)+flowStart*(TS()-crl)>wlMIN()");
+                                                    cut("x>0"); <(
+                                                      "Use":
+                                                        hideL('L=="x=wl^0.5");
+                                                        hideL('L=="flowStart=u*b-a*wlStart^0.5");
+                                                        QE,
+                                                      "Show":
+                                                        hideR('R=="wl+(u*b-a*x)*(TS()-crl)>wlMIN()");
+                                                        QE
+                                                    ),
+                                                  "Show":
+                                                    hideL('L=="flowStart=u*b-a*wlStart^0.5");
+                                                    auto
+                                                )
+                                            ),
+                                          "[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0)&u*b-a*wl^0.5>=flowStart)&wl>=wlStart+flowStart*(crl-crlStart))&wlStart+flowStart*(crl-crlStart)+flowStart*(TS()-crl)>wlMIN()}](wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())":
+                                            dC("wl<=wlStart", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0)&u*b-a*wl^0.5>=flowStart)&wl>=wlStart+flowStart*(crl-crlStart))&wlStart+flowStart*(crl-crlStart)+flowStart*(TS()-crl)>wlMIN()}](wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())"); <(
+                                              "Use":
+                                                hideL('L=="flowStart=u*b-a*wlStart^0.5");
+                                                hideL('L=="wlStart+flowStart*(TS()-crlStart)>wlMIN()");
+                                                dC("TS()-crl<=TS()-crlStart", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&((((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0)&u*b-a*wl^0.5>=flowStart)&wl>=wlStart+flowStart*(crl-crlStart))&wlStart+flowStart*(crl-crlStart)+flowStart*(TS()-crl)>wlMIN())&wl<=wlStart}](wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())"); <(
+                                                  "Use":
+                                                    dW('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0)&u*b-a*wl^0.5>=flowStart)&wl>=wlStart+flowStart*(crl-crlStart))&wlStart+flowStart*(crl-crlStart)+flowStart*(TS()-crl)>wlMIN())&wl<=wlStart)&TS()-crl<=TS()-crlStart}](wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())");
+                                                    unfold;
+                                                    fullSimplify;
+                                                    discreteGhost("wl^0.5", "x", 'L=="u*b-a*wl^0.5>=flowStart");
+                                                    cut("x>0"); <(
+                                                      "Use":
+                                                        hideL('L=="x=wl^0.5");
+                                                        QE,
+                                                      "Show":
+                                                        hideR('R=="wl+(u*b-a*x)*(TS()-crl) < wlMAX()&wl < wlMAX()");
+                                                        QE
+                                                    ),
+                                                  "Show":
+                                                    auto
+                                                ),
+                                              "Show":
+                                                dC("crl-crlStart>=0", 'R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(((((wl>0&crl<=TS())&TS()>=0&TS()-crl>=0)&wl^0.5>0&u*b-a*wl^0.5<=0)&u*b-a*wl^0.5>=flowStart)&wl>=wlStart+flowStart*(crl-crlStart))&wlStart+flowStart*(crl-crlStart)+flowStart*(TS()-crl)>wlMIN()}]wl<=wlStart"); <(
+                                                  "Use":
+                                                    hideL('L=="flowStart=u*b-a*wlStart^0.5");
+                                                    auto,
+                                                  "Show":
+                                                    hideL('L=="flowStart=u*b-a*wlStart^0.5");
+                                                    auto
+                                                )
+                                            )
+                                        ),
+                                      "Show":
+                                        hideL('L=="flowStart=u*b-a*wlStart^0.5");
+                                        hideL('L=="wlStart+flowStart*(TS()-crlStart) < wlMAX()");
+                                        auto
+                                    ),
+                                  "Show":
+                                    hideL('L=="flowStart=u*b-a*wlStart^0.5");
+                                    hideL('L=="wlStart+flowStart*(TS()-crlStart) < wlMAX()");
+                                    hideL('L=="wlStart+flowStart*(TS()-crlStart)>wlMIN()");
+                                    auto
+                                ),
+                              "Show":
+                                auto
+                            ),
+                          "Show":
+                            auto
+                        )
+                    ),
+                  "Show":
+                    hideR('R=="[{t'=1.0,crl'=1.0,wl'=u*b-a*wl^0.5&(wl>0&crl<=TS())&TS()>=0&TS()-crl>=0}]((wl+(u*b-a*wl^0.5)*(TS()-crl)>wlMIN()&wl>wlMIN())&wl+(u*b-a*wl^0.5)*(TS()-crl) < wlMAX()&wl < wlMAX())");
+                    QE
+                )
+            ),
+          "Show":
+            auto
+        )
+    )
+)
+End.
+
+End.

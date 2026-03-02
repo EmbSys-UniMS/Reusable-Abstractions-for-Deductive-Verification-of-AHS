@@ -1,0 +1,377 @@
+﻿Lemma "FM/Robj from tactic".
+"  ==>  (((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((xr)-(xa)))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((yr)-(ya)))) > (TEVD()))&(((VMAXa()) >= ((0)))&(((VMINr()) >= ((0)))&(((VMAXr()) >= (VMINr()))&(((cr) = ((0)))&(((TS()) >= (cr))&(((t) = ((0)))&(((drftHIGH()) >= (drftLOW()))&(((drftLOW()) >= ((1)))&((TEVD()) >= (TSTP())))))))))))&(((dS) = ((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((xr)-(xa)))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((yr)-(ya)))))&(((\exists vxr (\exists vyr (((VMINr()) <= ((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))))&((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))) <= (VMAXr()))&((((dS)+(-(((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr)))*(drftLOW()))+(VMAXa()))*(TS())))) > (TEVD()))&(((dS)+(-(((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr)))*(drftHIGH()))+(VMAXa()))*(TS())))) > (TSTP())))))))->(((VMINr()) <= ((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))))&((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))) <= (VMAXr()))&((((dS)+(-(((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr)))*(drftLOW()))+(VMAXa()))*(TS())))) > (TEVD()))&(((dS)+(-(((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr)))*(drftHIGH()))+(VMAXa()))*(TS())))) > (TSTP()))))))&(((!(\exists vxr (\exists vyr (((VMINr()) <= ((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))))&((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))) <= (VMAXr()))&((((dS)+(-(((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr)))*(drftLOW()))+(VMAXa()))*(TS())))) > (TEVD()))&(((dS)+(-(((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr)))*(drftHIGH()))+(VMAXa()))*(TS())))) > (TSTP()))))))))->(((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))) = ((0))))&(((ths) = (-((1))))&((drft) = ((0))))))))->([{{dS:=(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((xr)-(xa)))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((yr)-(ya)));};{{{{?((cr) >= (TS()));};{{cr:=(0);};{{vxr:=*;};{{vyr:=*;};{{{?(\exists vxr (\exists vyr (((VMINr()) <= ((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))))&((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))) <= (VMAXr()))&((((dS)+(-(((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr)))*(drftLOW()))+(VMAXa()))*(TS())))) > (TEVD()))&(((dS)+(-(((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr)))*(drftHIGH()))+(VMAXa()))*(TS())))) > (TSTP())))))));};{?(((VMINr()) <= ((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))))&((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))) <= (VMAXr()))&((((dS)+(-(((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr)))*(drftLOW()))+(VMAXa()))*(TS())))) > (TEVD()))&(((dS)+(-(((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr)))*(drftHIGH()))+(VMAXa()))*(TS())))) > (TSTP())))));}}++{{?(!(\exists vxr (\exists vyr (((VMINr()) <= ((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))))&((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))) <= (VMAXr()))&((((dS)+(-(((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr)))*(drftLOW()))+(VMAXa()))*(TS())))) > (TEVD()))&(((dS)+(-(((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr)))*(drftHIGH()))+(VMAXa()))*(TS())))) > (TSTP()))))))));};{?(((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))) = ((0)));}}}}}}}++{?(!((cr) >= (TS())));}};{{{vxa:=*;};{{vya:=*;};{?(((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxa))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vya))) <= (VMAXa()));}}};{{drft:=*;};{{?(((-(drftHIGH())) <= (drft))&((drft) <= (drftHIGH())));};{{{{?(((drft) > (drftLOW()))&((drftOld) <= (drftLOW())));};{{ths:=t;};{{dhs:=(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((xr)-(xa)))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((yr)-(ya)));};{vhs:=(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr));}}}}++{?(!(((drft) > (drftLOW()))&((drftOld) <= (drftLOW()))));}};{{t'=(1.0),cr'=(1.0),xr'=(vxr)*(drft),yr'=(vyr)*(drft),xa'=vxa,ya'=vya&(cr) <= (TS())}}}}}}}}*](((((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((xr)-(xa)))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>((yr)-(ya)))) > (TSTP()))&(((VMINr()) <= ((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))))&(((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))) <= (VMAXr()))))|(((abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vxr))+(abs<< ._1 < 0&._0=-._1|._1>=0&._0=._1 >>(vyr))) = ((0)))))
+\qed::e86abf5977d4b8d5cbdc3c157901e525"
+End.
+Tool.
+  tool """" KeYmaera X """"
+  model """" Theorem "FM/Robj"
+
+ProgramVariables
+  Real t;
+  Real cr;          /* clock of rob */
+
+  Real vxr;         /* velocity of rob */
+  Real vyr;
+  Real xr;          /* pos of rob */
+  Real yr;
+  
+  Real vxa;         /* velocity of opponent */
+  Real vya;
+  Real xa;          /* Pos of opponent (a) */
+  Real ya;
+
+  Real dS;          /* Sensor Variable */
+  
+  Real drft;
+  Real drftOld;
+  Real ths;
+  Real dhs;
+  Real vhs;
+End.
+
+
+Definitions
+  Real TS;          /* Sampling-Time r-contract */
+  Real VMAXa;       /* Max. velocity of opponent */
+  Real VMAXr;       /* Max. velocity of rob */
+  Real VMINr;       /* Min. velocity of rob in RobEVD */
+  Real TEVD;        /* Evasion Threshold */
+  Real TSTP;        /* Stop Threshold */
+  
+  Real drftHIGH;        /* Maximum possible drift */
+  Real drftLOW;         /* Maximum low drift */
+  
+  
+  Real n(Real x, Real y) = abs(x)+abs(y); /* L1 Norm */        
+  Real d(Real x1, Real y1, Real x2, Real y2) = n(x1-x2, y1-y2); /* L1 Distance */
+  
+  Bool HCFull(Real dS, Real vxr, Real vyr) <-> VMINr <= n(vxr,vyr) & n(vxr,vyr) <= VMAXr & dS+WCRLS(vxr,vyr) > TEVD & dS+WCRHS(vxr,vyr) > TSTP;
+  
+  Real WCRLS(Real vxr, Real vyr) = -(n(vxr,vyr)*drftLOW+VMAXa)*(TS);  /* worst case reaction low stress */
+  Real WCRHS(Real vxr, Real vyr) = -(n(vxr,vyr)*drftHIGH+VMAXa)*(TS); /* worst case reaction low stress */
+  Bool HCFB(Real dS, Real vxr, Real vyr) <-> n(vxr,vyr)=0; 
+End.
+
+Problem
+(d(xr, yr, xa, ya) > TEVD & VMAXa >=0 & 
+VMINr >= 0 & VMAXr >= VMINr & 
+cr=0 & TS>=cr & t=0 &
+drftHIGH >= drftLOW & drftLOW>=1 & TEVD>=TSTP) & 
+/* RL contract holds in initial time step */
+dS = d(xr, yr, xa, ya) &
+((\exists vxr \exists vyr HCFull(dS, vxr, vyr)) -> HCFull(dS, vxr, vyr)) & 
+(!((\exists vxr \exists vyr HCFull(dS, vxr, vyr))) -> HCFB(dS, vxr, vyr)) &
+(ths=-1 & drft=0) /* no drift initially */
+->
+[ 
+    {
+        {
+        /* Sensor contract*/
+            dS:=d(xr, yr, xa, ya);
+        }
+        /* Controller contract */
+        if(cr >= TS) {
+            cr:=0;
+            vxr:= *; vyr:= *;
+            if(\exists vxr \exists vyr HCFull(dS, vxr, vyr)){?HCFull(dS, vxr, vyr);}
+            else{?HCFB(dS, vxr, vyr);}; /* Since HCFB does not maintain any thresholds and merely sets velocity to zero, we have omitted \exists vxr \exists vyr for simplicity. */
+        }
+        /* Opp Ctr */
+        {
+            vxa:= *; vya:= *;
+            ?n(vxa, vya)<=VMAXa;
+        }
+        /* Continuous evolution */
+        drft:=*; ? -drftHIGH<=drft & drft<=drftHIGH;
+        if(drft>drftLOW&drftOld<=drftLOW) {ths:=t;dhs:=d(xr, yr, xa, ya);vhs:=n(vxr,vyr);}; /* observer for high drift disruption */
+        {
+            t' = 1.0,
+            cr' = 1.0,
+            xr' = vxr*drft, yr' = vyr*drft,
+            xa'  = vxa,  ya'  = vya &
+            (cr <= TS)
+        }
+    }*@invariant(t>=0 & 0<=cr & cr <= TS & 
+    (((d(xr, yr, xa, ya)-(n(vxr,vyr)*drftHIGH+VMAXa)*(TS-cr) > TSTP & VMINr<=n(vxr,vyr) & n(vxr,vyr) <= VMAXr |  n(vxr,vyr)=0))) 
+    )
+] 
+(
+    (((d(xr, yr, xa, ya) > TSTP & VMINr<=n(vxr,vyr) & n(vxr,vyr) <= VMAXr |  n(vxr,vyr)=0)))
+)/* full service or stop */
+End.
+
+Tactic "FM/RobCond/HighDrift: Proof"
+unfold;
+loop("t>=0&0<=cr&cr<=TS()&(d(xr,yr,xa,ya)-(n(vxr,vyr)*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=n(vxr,vyr)&n(vxr,vyr)<=VMAXr()|n(vxr,vyr)=0)", 'R=="[{dS:=d(xr,yr,xa,ya);{?cr>=TS();cr:=0;vxr:=*;vyr:=*;{?\exists vxr \exists vyr HCFull(dS,vxr,vyr);?HCFull(dS,vxr,vyr);++?!\exists vxr \exists vyr HCFull(dS,vxr,vyr);?HCFB(dS,vxr,vyr);}++?!cr>=TS();}{vxa:=*;vya:=*;?n(vxa,vya)<=VMAXa();}drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=d(xr,yr,xa,ya);vhs:=n(vxr,vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}}*](d(xr,yr,xa,ya)>TSTP()&VMINr()<=n(vxr,vyr)&n(vxr,vyr)<=VMAXr()|n(vxr,vyr)=0)"); <(
+  "Init":
+    cut("\exists vxr \exists vyr HCFull(dS,vxr,vyr)|!\exists vxr \exists vyr HCFull(dS,vxr,vyr)"); <(
+      "Use":
+        orL('L=="\exists vxr \exists vyr HCFull(dS,vxr,vyr)|!\exists vxr \exists vyr HCFull(dS,vxr,vyr)"); <(
+          "\exists vxr \exists vyr HCFull(dS,vxr,vyr)":
+            implyL('L=="\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP())->VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP()"); <(
+              "\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP())":
+                hideR('R=="t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0)");
+                expandAllDefs();
+                QE,
+              "VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP()":
+                QE
+            ),
+          "!\exists vxr \exists vyr HCFull(dS,vxr,vyr)":
+            implyL('L=="!\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP())->abs(vxr)+abs(vyr)=0"); <(
+              "!\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP())":
+                hideR('R=="t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0)");
+                expandAllDefs();
+                QE,
+              "abs(vxr)+abs(vyr)=0":
+                QE
+            )
+        ),
+      "Show":
+        hideR('R=="t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0)");
+        auto
+    ),
+  "Post":
+    QE,
+  "Step":
+    composeb('R=="[dS:=abs(xr-xa)+abs(yr-ya);{?cr>=TS();cr:=0;vxr:=*;vyr:=*;{?\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP());?VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP();++?!\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP());?abs(vxr)+abs(vyr)=0;}++?!cr>=TS();}{vxa:=*;vya:=*;?abs(vxa)+abs(vya)<=VMAXa();}drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+    assignb('R=="[dS:=abs(xr-xa)+abs(yr-ya);][{?cr>=TS();cr:=0;vxr:=*;vyr:=*;{?\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP());?VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP();++?!\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP());?abs(vxr)+abs(vyr)=0;}++?!cr>=TS();}{vxa:=*;vya:=*;?abs(vxa)+abs(vya)<=VMAXa();}drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+    composeb('R=="[{?cr>=TS();cr:=0;vxr:=*;vyr:=*;{?\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP());?VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP();++?!\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP());?abs(vxr)+abs(vyr)=0;}++?!cr>=TS();}{vxa:=*;vya:=*;?abs(vxa)+abs(vya)<=VMAXa();}drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+    MR("t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0)", 'R=="[?cr>=TS();cr:=0;vxr:=*;vyr:=*;{?\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP());?VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP();++?!\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP());?abs(vxr)+abs(vyr)=0;}++?!cr>=TS();][{vxa:=*;vya:=*;?abs(vxa)+abs(vya)<=VMAXa();}drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))"); <(
+      "Use Q->P":
+        auto,
+      "Show [a]Q":
+        composeb('R=="[{vxa:=*;vya:=*;?abs(vxa)+abs(vya)<=VMAXa();}drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        composeb('R=="[vxa:=*;vya:=*;?abs(vxa)+abs(vya)<=VMAXa();][drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        randomb('R=="[vxa:=*;][vya:=*;?abs(vxa)+abs(vya)<=VMAXa();][drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        allR('R=="\forall vxa [vya:=*;?abs(vxa)+abs(vya)<=VMAXa();][drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        composeb('R=="[vya:=*;?abs(vxa)+abs(vya)<=VMAXa();][drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        randomb('R=="[vya:=*;][?abs(vxa)+abs(vya)<=VMAXa();][drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        allR('R=="\forall vya [?abs(vxa)+abs(vya)<=VMAXa();][drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        testb('R=="[?abs(vxa)+abs(vya)<=VMAXa();][drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        implyR('R=="abs(vxa)+abs(vya)<=VMAXa()->[drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        composeb('R=="[drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        randomb('R=="[drft:=*;][?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        allR('R=="\forall drft [?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        composeb('R=="[?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        testb('R=="[?-drftHIGH()<=drft&drft<=drftHIGH();][{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        implyR('R=="-drftHIGH()<=drft&drft<=drftHIGH()->[{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        composeb('R=="[{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        MR("-drftHIGH()<=drft&drft<=drftHIGH()", 'R=="[?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());][{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))"); <(
+          "Use Q->P":
+            auto,
+          "Show [a]Q":
+            unfold;
+            orL('L=="abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0"); <(
+              "abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()":
+                andL('L=="abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()");
+                dC("abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()", 'R=="[{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))"); <(
+                  "Use":
+                    auto,
+                  "Show":
+                    andL('L=="VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()");
+                    unfold;
+                    dC("abs(xr-xa)+abs(yr-ya)-(abs(vxr*drftHIGH())+abs(vyr*drftHIGH())+VMAXa())*(TS()-cr)>TSTP()", 'R=="[{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()"); <(
+                      "Use":
+                        auto,
+                      "Show":
+                        discreteGhost("vxr*drft", "vxrCur", 'R=="[{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-(abs(vxr*drftHIGH())+abs(vyr*drftHIGH())+VMAXa())*(TS()-cr)>TSTP()");
+                        discreteGhost("vyr*drft", "vyrCur", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-(abs(vxr*drftHIGH())+abs(vyr*drftHIGH())+VMAXa())*(TS()-cr)>TSTP()");
+                        discreteGhost("vxr*drftHIGH()", "vxrMax", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-(abs(vxr*drftHIGH())+abs(vyr*drftHIGH())+VMAXa())*(TS()-cr)>TSTP()");
+                        discreteGhost("vyr*drftHIGH()", "vyrMax", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-(abs(vxrMax)+abs(vyr*drftHIGH())+VMAXa())*(TS()-cr)>TSTP()");
+                        cut("abs(vxrCur)<=abs(vxrMax)&abs(vyrCur)<=abs(vyrMax)"); <(
+                          "Use":
+                            andL('L=="abs(vxrCur)<=abs(vxrMax)&abs(vyrCur)<=abs(vyrMax)");
+                            edit("abs(xr-xa)+abs(yr-ya)-(abs(vxrMax)+abs(vyrMax)+VMAXa())*(TS()-cr)>TSTP()", 'L=="abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()");
+                            hideL('L=="vxrCur=vxr*drft");
+                            hideL('L=="vyrCur=vyr*drft");
+                            hideL('L=="vxrMax=vxr*drftHIGH()");
+                            hideL('L=="vyrMax=vyr*drftHIGH()");
+                            hideL('L=="abs(vxr)+abs(vyr)<=VMAXr()");
+                            discreteGhost("abs(vxrMax)+abs(vyrMax)", "vmaxr", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-(abs(vxrMax)+abs(vyrMax)+VMAXa())*(TS()-cr)>TSTP()");
+                            cut("abs(vxrCur)+abs(vyrCur)<=vmaxr"); <(
+                              "Use":
+                                hideL('L=="vmaxr=abs(vxrMax)+abs(vyrMax)");
+                                hideL('L=="VMINr()<=abs(vxr)+abs(vyr)");
+                                hideL('L=="-drftHIGH()<=drft");
+                                hideL('L=="drft<=drftHIGH()");
+                                hideL('L=="drftHIGH()>=drftLOW()");
+                                hideL('L=="drftLOW()>=1");
+                                hideL('L=="-drftHIGH()<=drft");
+                                hideL('L=="drft<=drftHIGH()");
+                                hideL('L=="TEVD()>=TSTP()");
+                                dC("0<=cr", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-(vmaxr+VMAXa())*(TS()-cr)>TSTP()"); <(
+                                  "Use":
+                                    hideL('L=="abs(vxrCur)<=abs(vxrMax)");
+                                    hideL('L=="abs(vyrCur)<=abs(vyrMax)");
+                                    todo,
+                                  "Show":
+                                    auto
+                                ),
+                              "Show":
+                                hideR('R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-(vmaxr+VMAXa())*(TS()-cr)>TSTP()");
+                                auto
+                            ),
+                          "Show":
+                            hideR('R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-(abs(vxrMax)+abs(vyrMax)+VMAXa())*(TS()-cr)>TSTP()");
+                            hideL('L=="abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()");
+                            auto
+                        )
+                    )
+                ),
+              "abs(vxr)+abs(vyr)=0":
+                auto
+            )
+        )
+    )
+)
+End.
+
+End. """"
+  tactic """" unfold;
+loop("t>=0&0<=cr&cr<=TS()&(d(xr,yr,xa,ya)-(n(vxr,vyr)*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=n(vxr,vyr)&n(vxr,vyr)<=VMAXr()|n(vxr,vyr)=0)", 'R=="[{dS:=d(xr,yr,xa,ya);{?cr>=TS();cr:=0;vxr:=*;vyr:=*;{?\exists vxr \exists vyr HCFull(dS,vxr,vyr);?HCFull(dS,vxr,vyr);++?!\exists vxr \exists vyr HCFull(dS,vxr,vyr);?HCFB(dS,vxr,vyr);}++?!cr>=TS();}{vxa:=*;vya:=*;?n(vxa,vya)<=VMAXa();}drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=d(xr,yr,xa,ya);vhs:=n(vxr,vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}}*](d(xr,yr,xa,ya)>TSTP()&VMINr()<=n(vxr,vyr)&n(vxr,vyr)<=VMAXr()|n(vxr,vyr)=0)"); <(
+  "Init":
+    cut("\exists vxr \exists vyr HCFull(dS,vxr,vyr)|!\exists vxr \exists vyr HCFull(dS,vxr,vyr)"); <(
+      "Use":
+        orL('L=="\exists vxr \exists vyr HCFull(dS,vxr,vyr)|!\exists vxr \exists vyr HCFull(dS,vxr,vyr)"); <(
+          "\exists vxr \exists vyr HCFull(dS,vxr,vyr)":
+            implyL('L=="\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP())->VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP()"); <(
+              "\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP())":
+                hideR('R=="t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0)");
+                expandAllDefs();
+                QE,
+              "VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP()":
+                QE
+            ),
+          "!\exists vxr \exists vyr HCFull(dS,vxr,vyr)":
+            implyL('L=="!\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP())->abs(vxr)+abs(vyr)=0"); <(
+              "!\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP())":
+                hideR('R=="t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0)");
+                expandAllDefs();
+                QE,
+              "abs(vxr)+abs(vyr)=0":
+                QE
+            )
+        ),
+      "Show":
+        hideR('R=="t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0)");
+        auto
+    ),
+  "Post":
+    QE,
+  "Step":
+    composeb('R=="[dS:=abs(xr-xa)+abs(yr-ya);{?cr>=TS();cr:=0;vxr:=*;vyr:=*;{?\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP());?VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP();++?!\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP());?abs(vxr)+abs(vyr)=0;}++?!cr>=TS();}{vxa:=*;vya:=*;?abs(vxa)+abs(vya)<=VMAXa();}drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+    assignb('R=="[dS:=abs(xr-xa)+abs(yr-ya);][{?cr>=TS();cr:=0;vxr:=*;vyr:=*;{?\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP());?VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP();++?!\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&dS+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&dS+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP());?abs(vxr)+abs(vyr)=0;}++?!cr>=TS();}{vxa:=*;vya:=*;?abs(vxa)+abs(vya)<=VMAXa();}drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+    composeb('R=="[{?cr>=TS();cr:=0;vxr:=*;vyr:=*;{?\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP());?VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP();++?!\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP());?abs(vxr)+abs(vyr)=0;}++?!cr>=TS();}{vxa:=*;vya:=*;?abs(vxa)+abs(vya)<=VMAXa();}drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+    MR("t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0)", 'R=="[?cr>=TS();cr:=0;vxr:=*;vyr:=*;{?\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP());?VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP();++?!\exists vxr \exists vyr (VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftLOW()+VMAXa())*TS()>TEVD()&abs(xr-xa)+abs(yr-ya)+-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*TS()>TSTP());?abs(vxr)+abs(vyr)=0;}++?!cr>=TS();][{vxa:=*;vya:=*;?abs(vxa)+abs(vya)<=VMAXa();}drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))"); <(
+      "Use Q->P":
+        auto,
+      "Show [a]Q":
+        composeb('R=="[{vxa:=*;vya:=*;?abs(vxa)+abs(vya)<=VMAXa();}drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        composeb('R=="[vxa:=*;vya:=*;?abs(vxa)+abs(vya)<=VMAXa();][drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        randomb('R=="[vxa:=*;][vya:=*;?abs(vxa)+abs(vya)<=VMAXa();][drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        allR('R=="\forall vxa [vya:=*;?abs(vxa)+abs(vya)<=VMAXa();][drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        composeb('R=="[vya:=*;?abs(vxa)+abs(vya)<=VMAXa();][drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        randomb('R=="[vya:=*;][?abs(vxa)+abs(vya)<=VMAXa();][drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        allR('R=="\forall vya [?abs(vxa)+abs(vya)<=VMAXa();][drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        testb('R=="[?abs(vxa)+abs(vya)<=VMAXa();][drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        implyR('R=="abs(vxa)+abs(vya)<=VMAXa()->[drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        composeb('R=="[drft:=*;?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        randomb('R=="[drft:=*;][?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        allR('R=="\forall drft [?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        composeb('R=="[?-drftHIGH()<=drft&drft<=drftHIGH();{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        testb('R=="[?-drftHIGH()<=drft&drft<=drftHIGH();][{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        implyR('R=="-drftHIGH()<=drft&drft<=drftHIGH()->[{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        composeb('R=="[{?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());}{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))");
+        MR("-drftHIGH()<=drft&drft<=drftHIGH()", 'R=="[?drft>drftLOW()&drftOld<=drftLOW();ths:=t;dhs:=abs(xr-xa)+abs(yr-ya);vhs:=abs(vxr)+abs(vyr);++?!(drft>drftLOW()&drftOld<=drftLOW());][{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))"); <(
+          "Use Q->P":
+            auto,
+          "Show [a]Q":
+            unfold;
+            orL('L=="abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0"); <(
+              "abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()":
+                andL('L=="abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()");
+                dC("abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()", 'R=="[{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}](t>=0&0<=cr&cr<=TS()&(abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()&VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()|abs(vxr)+abs(vyr)=0))"); <(
+                  "Use":
+                    auto,
+                  "Show":
+                    andL('L=="VMINr()<=abs(vxr)+abs(vyr)&abs(vxr)+abs(vyr)<=VMAXr()");
+                    unfold;
+                    dC("abs(xr-xa)+abs(yr-ya)-(abs(vxr*drftHIGH())+abs(vyr*drftHIGH())+VMAXa())*(TS()-cr)>TSTP()", 'R=="[{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()"); <(
+                      "Use":
+                        auto,
+                      "Show":
+                        discreteGhost("vxr*drft", "vxrCur", 'R=="[{t'=1.0,cr'=1.0,xr'=vxr*drft,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-(abs(vxr*drftHIGH())+abs(vyr*drftHIGH())+VMAXa())*(TS()-cr)>TSTP()");
+                        discreteGhost("vyr*drft", "vyrCur", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyr*drft,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-(abs(vxr*drftHIGH())+abs(vyr*drftHIGH())+VMAXa())*(TS()-cr)>TSTP()");
+                        discreteGhost("vxr*drftHIGH()", "vxrMax", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-(abs(vxr*drftHIGH())+abs(vyr*drftHIGH())+VMAXa())*(TS()-cr)>TSTP()");
+                        discreteGhost("vyr*drftHIGH()", "vyrMax", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-(abs(vxrMax)+abs(vyr*drftHIGH())+VMAXa())*(TS()-cr)>TSTP()");
+                        cut("abs(vxrCur)<=abs(vxrMax)&abs(vyrCur)<=abs(vyrMax)"); <(
+                          "Use":
+                            andL('L=="abs(vxrCur)<=abs(vxrMax)&abs(vyrCur)<=abs(vyrMax)");
+                            edit("abs(xr-xa)+abs(yr-ya)-(abs(vxrMax)+abs(vyrMax)+VMAXa())*(TS()-cr)>TSTP()", 'L=="abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()");
+                            hideL('L=="vxrCur=vxr*drft");
+                            hideL('L=="vyrCur=vyr*drft");
+                            hideL('L=="vxrMax=vxr*drftHIGH()");
+                            hideL('L=="vyrMax=vyr*drftHIGH()");
+                            hideL('L=="abs(vxr)+abs(vyr)<=VMAXr()");
+                            discreteGhost("abs(vxrMax)+abs(vyrMax)", "vmaxr", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-(abs(vxrMax)+abs(vyrMax)+VMAXa())*(TS()-cr)>TSTP()");
+                            cut("abs(vxrCur)+abs(vyrCur)<=vmaxr"); <(
+                              "Use":
+                                hideL('L=="vmaxr=abs(vxrMax)+abs(vyrMax)");
+                                hideL('L=="VMINr()<=abs(vxr)+abs(vyr)");
+                                hideL('L=="-drftHIGH()<=drft");
+                                hideL('L=="drft<=drftHIGH()");
+                                hideL('L=="drftHIGH()>=drftLOW()");
+                                hideL('L=="drftLOW()>=1");
+                                hideL('L=="-drftHIGH()<=drft");
+                                hideL('L=="drft<=drftHIGH()");
+                                hideL('L=="TEVD()>=TSTP()");
+                                dC("0<=cr", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-(vmaxr+VMAXa())*(TS()-cr)>TSTP()"); <(
+                                  "Use":
+                                    hideL('L=="abs(vxrCur)<=abs(vxrMax)");
+                                    hideL('L=="abs(vyrCur)<=abs(vyrMax)");
+                                    discreteGhost("xa", "xao", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()&0<=cr}]abs(xr-xa)+abs(yr-ya)-(vmaxr+VMAXa())*(TS()-cr)>TSTP()");
+                                    discreteGhost("ya", "yao", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()&0<=cr}]abs(xr-xa)+abs(yr-ya)-(vmaxr+VMAXa())*(TS()-cr)>TSTP()");
+                                    discreteGhost("xr", "xro", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()&0<=cr}]abs(xr-xa)+abs(yr-ya)-(vmaxr+VMAXa())*(TS()-cr)>TSTP()");
+                                    discreteGhost("yr", "yro", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()&0<=cr}]abs(xr-xa)+abs(yr-ya)-(vmaxr+VMAXa())*(TS()-cr)>TSTP()");
+                                    discreteGhost("cr", "cro", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()&0<=cr}]abs(xr-xa)+abs(yr-ya)-(vmaxr+VMAXa())*(TS()-cr)>TSTP()");
+                                    dC("xa=xao+vxa*(cr-cro)&ya=yao+vya*(cr-cro)&xr=xro+vxrCur*(cr-cro)&yr=yro+vyrCur*(cr-cro)&cr-cro>=0", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()&0<=cr}]abs(xr-xa)+abs(yr-ya)-(vmaxr+VMAXa())*(TS()-cr)>TSTP()"); <(
+                                      "Use":
+                                        dC("abs(xro+vxrCur*(cr-cro)-(xao+vxa*(cr-cro)))>=abs(xro-xao)-(abs(vxrCur)+abs(vxa))*(cr-cro)&abs(yro+vyrCur*(cr-cro)-(yao+vya*(cr-cro)))>=abs(yro-yao)-(abs(vyrCur)+abs(vya))*(cr-cro)", 'R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&(cr<=TS()&0<=cr)&xa=xao+vxa*(cr-cro)&ya=yao+vya*(cr-cro)&xr=xro+vxrCur*(cr-cro)&yr=yro+vyrCur*(cr-cro)&cr-cro>=0}]abs(xr-xa)+abs(yr-ya)-(vmaxr+VMAXa())*(TS()-cr)>TSTP()"); <(
+                                          "Use":
+                                            auto,
+                                          "Show":
+                                            dW('R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&(cr<=TS()&0<=cr)&xa=xao+vxa*(cr-cro)&ya=yao+vya*(cr-cro)&xr=xro+vxrCur*(cr-cro)&yr=yro+vyrCur*(cr-cro)&cr-cro>=0}](abs(xro+vxrCur*(cr-cro)-(xao+vxa*(cr-cro)))>=abs(xro-xao)-(abs(vxrCur)+abs(vxa))*(cr-cro)&abs(yro+vyrCur*(cr-cro)-(yao+vya*(cr-cro)))>=abs(yro-yao)-(abs(vyrCur)+abs(vya))*(cr-cro))");
+                                            discreteGhost("cr-cro", "p", 'R=="abs(xro+vxrCur*(cr-cro)-(xao+vxa*(cr-cro)))>=abs(xro-xao)-(abs(vxrCur)+abs(vxa))*(cr-cro)&abs(yro+vyrCur*(cr-cro)-(yao+vya*(cr-cro)))>=abs(yro-yao)-(abs(vyrCur)+abs(vya))*(cr-cro)");
+                                            hideL('L=="p=cr-cro");
+                                            unfold;
+                                            fullSimplify;
+                                            QE
+                                        ),
+                                      "Show":
+                                        auto
+                                    ),
+                                  "Show":
+                                    auto
+                                ),
+                              "Show":
+                                hideR('R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-(vmaxr+VMAXa())*(TS()-cr)>TSTP()");
+                                auto
+                            ),
+                          "Show":
+                            hideR('R=="[{t'=1.0,cr'=1.0,xr'=vxrCur,yr'=vyrCur,xa'=vxa,ya'=vya&cr<=TS()}]abs(xr-xa)+abs(yr-ya)-(abs(vxrMax)+abs(vyrMax)+VMAXa())*(TS()-cr)>TSTP()");
+                            hideL('L=="abs(xr-xa)+abs(yr-ya)-((abs(vxr)+abs(vyr))*drftHIGH()+VMAXa())*(TS()-cr)>TSTP()");
+                            auto
+                        )
+                    )
+                ),
+              "abs(vxr)+abs(vyr)=0":
+                auto
+            )
+        )
+    )
+) """"
+End.
+
+Tool.
+  kyxversion """" 5.0 """"
+End.

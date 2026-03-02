@@ -1,0 +1,635 @@
+﻿Lemma "FM/IWDSc from tactic".
+"  ==>  (((((hMAX())+((((0))-(sMAX()))*(TS()))) >= (hDEG()))&((((hDEG())+((((0))-(sDEG()))*(TS()))) >= (hMIN()))&(((hMIN()) > ((0)))&(((h) >= (hMAX()))&(((RR()) > ((0)))&(((iMAX()) > ((0)))&(((((iMAX())-(sDEG()))*(TS())) >= ((RR())*(TS())))&((sDEG()) >= (RR())))))))))&((((c) = ((0)))&(((TS()) > ((0)))&(((t) = ((0)))&((tr) = (t)))))&((((sMAX()) >= (sDEG()))&(((sDEG()) > ((0)))&((iMAX()) >= (sMAX()))))&((((\exists ai (\exists as ((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = (sMAX()))&((((h)+(((ai)-(as))*(TS()))) >= (hMAX()))&(((h)+((((0))-(as))*(TS()))) >= (hDEG()))))))))->((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = (sMAX()))&((((h)+(((ai)-(as))*(TS()))) >= (hMAX()))&(((h)+((((0))-(as))*(TS()))) >= (hDEG())))))))&((((!(\exists ai (\exists as ((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = (sMAX()))&((((h)+(((ai)-(as))*(TS()))) >= (hMAX()))&(((h)+((((0))-(as))*(TS()))) >= (hDEG())))))))))&(\exists ai (\exists as ((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = (sDEG()))&((((h)+(((ai)-(as))*(TS()))) >= (hDEG()))&((((h)+((((0))-(as))*(TS()))) >= (hMIN()))&((((ai)-(as))*(TS())) >= ((RR())*(TS())))))))))))->((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = (sDEG()))&((((h)+(((ai)-(as))*(TS()))) >= (hDEG()))&((((h)+((((0))-(as))*(TS()))) >= (hMIN()))&((((ai)-(as))*(TS())) >= ((RR())*(TS())))))))))&(((!(\exists ai (\exists as ((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = (sMAX()))&((((h)+(((ai)-(as))*(TS()))) >= (hMAX()))&(((h)+((((0))-(as))*(TS()))) >= (hDEG())))))))))&((!(\exists ai (\exists as ((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = (sDEG()))&((((h)+(((ai)-(as))*(TS()))) >= (hDEG()))&((((h)+((((0))-(as))*(TS()))) >= (hMIN()))&((((ai)-(as))*(TS())) >= ((RR())*(TS())))))))))))&(\exists ai (\exists as ((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = ((0)))&((((h)+(((ai)-(as))*(TS()))) >= (hMIN()))&((((h)+((((0))-(as))*(TS()))) >= (hMIN()))&((((ai)-(as))*(TS())) >= ((RR())*(TS()))))))))))))->((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = ((0)))&((((h)+(((ai)-(as))*(TS()))) >= (hMIN()))&((((h)+((((0))-(as))*(TS()))) >= (hMIN()))&((((ai)-(as))*(TS())) >= ((RR())*(TS())))))))))))&(((failOld) = (fail))&((fail) = ((0))))))))->([{{{{?((c) >= (TS()));};{{c:=(0);};{{as:=*;};{{ai:=*;};{{{?(\exists ai (\exists as ((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = (sMAX()))&((((h)+(((ai)-(as))*(TS()))) >= (hMAX()))&(((h)+((((0))-(as))*(TS()))) >= (hDEG()))))))));};{?((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = (sMAX()))&((((h)+(((ai)-(as))*(TS()))) >= (hMAX()))&(((h)+((((0))-(as))*(TS()))) >= (hDEG()))))));}}++{{?(!(\exists ai (\exists as ((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = (sMAX()))&((((h)+(((ai)-(as))*(TS()))) >= (hMAX()))&(((h)+((((0))-(as))*(TS()))) >= (hDEG())))))))));};{{{?(\exists ai (\exists as ((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = (sDEG()))&((((h)+(((ai)-(as))*(TS()))) >= (hDEG()))&((((h)+((((0))-(as))*(TS()))) >= (hMIN()))&((((ai)-(as))*(TS())) >= ((RR())*(TS()))))))))));};{?((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = (sDEG()))&((((h)+(((ai)-(as))*(TS()))) >= (hDEG()))&((((h)+((((0))-(as))*(TS()))) >= (hMIN()))&((((ai)-(as))*(TS())) >= ((RR())*(TS()))))))));}}++{{?(!(\exists ai (\exists as ((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = (sDEG()))&((((h)+(((ai)-(as))*(TS()))) >= (hDEG()))&((((h)+((((0))-(as))*(TS()))) >= (hMIN()))&((((ai)-(as))*(TS())) >= ((RR())*(TS())))))))))));};{{{?(\exists ai (\exists as ((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = ((0)))&((((h)+(((ai)-(as))*(TS()))) >= (hMIN()))&((((h)+((((0))-(as))*(TS()))) >= (hMIN()))&((((ai)-(as))*(TS())) >= ((RR())*(TS()))))))))));};{?((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = ((0)))&((((h)+(((ai)-(as))*(TS()))) >= (hMIN()))&((((h)+((((0))-(as))*(TS()))) >= (hMIN()))&((((ai)-(as))*(TS())) >= ((RR())*(TS()))))))));}}++{?(!(\exists ai (\exists as ((((0)) <= (ai))&(((ai) <= (iMAX()))&(((as) = ((0)))&((((h)+(((ai)-(as))*(TS()))) >= (hMIN()))&((((h)+((((0))-(as))*(TS()))) >= (hMIN()))&((((ai)-(as))*(TS())) >= ((RR())*(TS())))))))))));}}}}}}}}}}++{?(!((c) >= (TS())));}};{{{failOld:=fail;};{{{{fail:=(0);};{i:=min<< ._1 < ._2&._0=._1|._1>=._2&._0=._2 >>((iMAX(),ai));}}++{{fail:=(1);};{i:=(0);}}};{{d:=*;};{{?(((0)) <= (d));};{{?((d) <= (as));};{{{{?((fail) > (failOld));};{{tfail:=t;};{{hfail:=h;};{sfail:=as;}}}}++{?(!((fail) > (failOld)));}};{{{?((fail) < (failOld));};{tr:=t;}}++{?(!((fail) < (failOld)));}}}}}}}};{{t'=(1),c'=(1),h'=(i)-(d)&(c) <= (TS())}}}}*]((((fail) = ((0)))&(((t)-(tr)) > ((((hMAX())-(hMIN()))/(RR()))+(TS()))))->(((as) = (sMAX()))|((h) >= (hMAX())))))
+\qed::913332090516c304cee03187ab3a92ea"
+End.
+Tool.
+  tool """" KeYmaera X """"
+  model """" Theorem "FM/IWDSc"
+
+ProgramVariables
+    Real c;
+    Real t;
+    
+    Real h; /* water level */
+    Real d; /* demand */
+    Real i; /* inflow */
+    
+    Real as; /* supply action */
+    Real ai; /* inflow action */
+    
+    /* fail observers */
+    Real hfail;
+    Real tfail;
+    Real sfail;
+    Real failOld;
+    Real fail;
+    /* repair observers */
+    Real tr;
+End.
+
+Definitions
+    Real TS;
+    Real iMAX;
+    Real hMAX;
+    Real hDEG;
+    Real hMIN;
+    /* Supply */
+    Real sMAX; 
+    Real sDEG;
+    Real sMIN;
+    /* Recovery Rate */
+    Real RR;   
+    
+    /* Contracts */
+    Real WCRREPAIR(Real ai, Real as, Real time)   =  (ai-as)*(time);  
+    Real WCRFAIL(Real as, Real time)               =  (0-as)*(time); 
+    Bool RECOVER(Real ai, Real as)        <-> WCRREPAIR(ai, as, TS)>=RR*TS;
+    Bool HCFULL(Real h, Real ai, Real as) <-> 0<=ai & ai <= iMAX & as=sMAX & h+WCRREPAIR(ai, as, TS) >= hMAX & h+WCRFAIL(as, TS) >= hDEG;
+    Bool HCDEG(Real h, Real ai, Real as)  <-> 0<=ai & ai <= iMAX & as=sDEG & h+WCRREPAIR(ai, as, TS) >= hDEG & h+WCRFAIL(as, TS) >= hMIN & RECOVER(ai,as);
+    Bool HCMIN(Real h, Real ai, Real as)  <-> 0<=ai & ai <= iMAX & as=0    & h+WCRREPAIR(ai, as, TS) >= hMIN & h+WCRFAIL(as, TS) >= hMIN & RECOVER(ai,as);
+    
+    /*max time for recovering from hMIN to hMAX*/
+    Real trMAXBack = (hMAX-hMIN)/RR; /*max recovery time for h+WCRREPAIR(ai, as,TS-c)>=hMAX*/
+    Real trMAX = trMAXBack+TS;          /*max recovery time for h>=hMAX&as=sMAX*/
+    
+    HP RL ::= 
+    { 
+        if(c>=TS){c:=0;as:=*;ai:=*; /* Resilience Contracts */
+            if(\exists ai \exists as HCFULL(h, ai, as)){?HCFULL(h, ai, as);}
+            else 
+            {
+                if(\exists ai \exists as HCDEG(h, ai, as)) {?HCDEG(h, ai, as);}
+                else 
+                {
+                    if(\exists ai \exists as HCMIN(h, ai, as)) {?HCMIN(h, ai, as);}
+                }
+            }
+        };
+    }; 
+            
+    HP Flow ::= 
+    {
+        failOld:=fail;
+        {fail:=0; i:=min(iMAX,ai); ++ fail:=1; i:=0;}; /*pump system can fail*/
+        d:=*;?0<=d;?d<=as; /* demand */
+        if(fail>failOld) /* store upon failure */
+        {
+            tfail:=t; hfail:=h; sfail:=as;
+        };
+        if(fail<failOld) /* store upon repair */
+        {
+            tr:=t;
+        };
+    };
+End.
+
+
+Problem
+/* sDEG>=RR ensures that h>=hMIN+RR*(t-tr) in the invariant remains fulfilled when fail=0 in the (t-tr)<=c) & h+WCRFAIL( as,TS-c)>=hDEG case. Proof could likely also be done with a more relaxed condition on RR*/
+(hMAX+WCRFAIL(sMAX,TS) >= hDEG & hDEG+WCRFAIL(sDEG,TS) >= hMIN & hMIN > 0 & h >= hMAX & RR>0 &iMAX>0 & WCRREPAIR(iMAX, sDEG, TS)>=RR*TS & sDEG>=RR)&
+(c=0 & TS>0 & t=0 & tr = t) &
+(sMAX>=sDEG & sDEG>0 & iMAX>=sMAX) &
+/* contract hold initially */
+(((\exists ai \exists as HCFULL(h, ai, as)) ->  HCFULL(h, ai, as)) &
+( ( !(\exists ai \exists as HCFULL(h, ai, as)) & (\exists ai \exists as HCDEG(h, ai, as)) ) -> HCDEG(h, ai, as)) &
+((!(\exists ai \exists as HCFULL(h, ai, as)) & !(\exists ai \exists as HCDEG(h, ai, as)) & (\exists ai \exists as HCMIN(h, ai, as))) -> HCMIN(h, ai, as))) & 
+/* initially no fail */
+(failOld = fail & fail= 0)
+->
+[
+    {   
+        RL;
+        Flow;
+        {t'=1, c'=1, h'=i-d & c<= TS}
+    }*@invariant((0<=ai & ai<=iMAX & as>=0 & as<=sMAX & TS>=c & c>=0 & 
+                 (fail =0 | fail =1)) & 
+                 h-as*(TS-c)>=hMIN &
+                 ((((h+WCRREPAIR(ai, as,TS-c)>=hMAX)|(fail=0->(t-tr)<=c))&h+WCRFAIL( as,TS-c)>=hDEG|WCRREPAIR(ai, as, TS)>=RR*TS&(fail=0->h>=hMIN+RR*(t-tr)))) & 
+                 (fail=0 & (t-tr)>trMAXBack->h+WCRREPAIR(ai, as,TS-c)>=hMAX) &
+                 (fail=0 & (t-tr)>trMAXBack & (as<sMAX | h<hMAX) -> (t-tr)+(TS-c)<=trMAX))
+] (fail=0 & (t-tr)>trMAX -> (as=sMAX | h>=hMAX))
+End.
+
+End. """"
+  tactic """" implyR('R=="(hMAX()+WCRFAIL(sMAX(),TS())>=hDEG()&hDEG()+WCRFAIL(sDEG(),TS())>=hMIN()&hMIN()>0&h>=hMAX()&RR()>0&iMAX()>0&WCRREPAIR(iMAX(),sDEG(),TS())>=RR()*TS()&sDEG()>=RR())&(c=0&TS()>0&t=0&tr=t)&(sMAX()>=sDEG()&sDEG()>0&iMAX()>=sMAX())&((\exists ai \exists as HCFULL(h,ai,as)->HCFULL(h,ai,as))&(!\exists ai \exists as HCFULL(h,ai,as)&\exists ai \exists as HCDEG(h,ai,as)->HCDEG(h,ai,as))&(!\exists ai \exists as HCFULL(h,ai,as)&!\exists ai \exists as HCDEG(h,ai,as)&\exists ai \exists as HCMIN(h,ai,as)->HCMIN(h,ai,as)))&failOld=fail&fail=0->[{RL{|^@|};Flow{|^@|};{t'=1,c'=1,h'=i-d&c<=TS()}}*](fail=0&t-tr>trMAX()->as=sMAX()|h>=hMAX())");
+loop("(0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+WCRREPAIR(ai,as,TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+WCRFAIL(as,TS()-c)>=hDEG()|WCRREPAIR(ai,as,TS())>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>trMAXBack()->h+WCRREPAIR(ai,as,TS()-c)>=hMAX())&(fail=0&t-tr>trMAXBack()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=trMAX())", 'R=="[{RL{|^@|};Flow{|^@|};{t'=1,c'=1,h'=i-d&c<=TS()}}*](fail=0&t-tr>trMAX()->as=sMAX()|h>=hMAX())"); <(
+  "Init":
+    implyL('L=="\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG())->0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG()"); <(
+      "\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG())":
+        hideL('L=="!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG())&\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())->0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS()");
+        hideL('L=="!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG())&!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())&\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())->0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS()");
+        hideR('R=="(0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>trMAXBack()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>trMAXBack()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=trMAX())");
+        QE,
+      "0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG()":
+        hideL('L=="!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG())&\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())->0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS()");
+        hideL('L=="!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG())&!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())&\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())->0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS()");
+        QE
+    ),
+  "Post":
+    implyR('R=="fail=0&t-tr>trMAX()->as=sMAX()|h>=hMAX()");
+    unfold;
+    fullSimplify;
+    QE,
+  "Step":
+    expandAllDefs();
+    composeb('R=="[{?c>=TS();c:=0;as:=*;ai:=*;{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}}++?!c>=TS();}{failOld:=fail;{fail:=0;i:=min(iMAX(),ai);++fail:=1;i:=0;}d:=*;?0<=d;?d<=as;{?fail>failOld;tfail:=t;hfail:=h;sfail:=as;++?!fail>failOld;}{?fail < failOld;tr:=t;++?!fail < failOld;}}{t'=1,c'=1,h'=i-d&c<=TS()}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))");
+    MR("(0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())", 'R=="[?c>=TS();c:=0;as:=*;ai:=*;{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}}++?!c>=TS();][{failOld:=fail;{fail:=0;i:=min(iMAX(),ai);++fail:=1;i:=0;}d:=*;?0<=d;?d<=as;{?fail>failOld;tfail:=t;hfail:=h;sfail:=as;++?!fail>failOld;}{?fail < failOld;tr:=t;++?!fail < failOld;}}{t'=1,c'=1,h'=i-d&c<=TS()}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))"); <(
+      "Use Q->P":
+        choiceb('R=="[?c>=TS();c:=0;as:=*;ai:=*;{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}}++?!c>=TS();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))");
+        andR('R=="[?c>=TS();c:=0;as:=*;ai:=*;{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))&[?!c>=TS();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))"); <(
+          "[?c>=TS();c:=0;as:=*;ai:=*;{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))":
+            composeb('R=="[?c>=TS();c:=0;as:=*;ai:=*;{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))");
+            testb('R=="[?c>=TS();][c:=0;as:=*;ai:=*;{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))");
+            implyR('R=="c>=TS()->[c:=0;as:=*;ai:=*;{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))");
+            composeb('R=="[c:=0;as:=*;ai:=*;{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))");
+            assignb('R=="[c:=0;][as:=*;ai:=*;{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))");
+            composeb('R=="[as:=*;ai:=*;{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&0>=0&(fail=0|fail=1))&h-as*(TS()-0)>=hMIN()&((h+(ai-as)*(TS()-0)>=hMAX()|(fail=0->t-tr<=0))&h+(0-as)*(TS()-0)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-0)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-0)<=(hMAX()-hMIN())/RR()+TS()))");
+            randomb('R=="[as:=*;][ai:=*;{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&0>=0&(fail=0|fail=1))&h-as*(TS()-0)>=hMIN()&((h+(ai-as)*(TS()-0)>=hMAX()|(fail=0->t-tr<=0))&h+(0-as)*(TS()-0)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-0)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-0)<=(hMAX()-hMIN())/RR()+TS()))");
+            composeb('R=="\forall as #[ai:=*;{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&0>=0&(fail=0|fail=1))&h-as*(TS()-0)>=hMIN()&((h+(ai-as)*(TS()-0)>=hMAX()|(fail=0->t-tr<=0))&h+(0-as)*(TS()-0)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-0)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-0)<=(hMAX()-hMIN())/RR()+TS()))#");
+            allR('R=="\forall as [ai:=*;][?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&0>=0&(fail=0|fail=1))&h-as*(TS()-0)>=hMIN()&((h+(ai-as)*(TS()-0)>=hMAX()|(fail=0->t-tr<=0))&h+(0-as)*(TS()-0)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-0)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-0)<=(hMAX()-hMIN())/RR()+TS()))");
+            randomb('R=="[ai:=*;][?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&0>=0&(fail=0|fail=1))&h-as*(TS()-0)>=hMIN()&((h+(ai-as)*(TS()-0)>=hMAX()|(fail=0->t-tr<=0))&h+(0-as)*(TS()-0)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-0)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-0)<=(hMAX()-hMIN())/RR()+TS()))");
+            allR('R=="\forall ai [?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&0>=0&(fail=0|fail=1))&h-as*(TS()-0)>=hMIN()&((h+(ai-as)*(TS()-0)>=hMAX()|(fail=0->t-tr<=0))&h+(0-as)*(TS()-0)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-0)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-0)<=(hMAX()-hMIN())/RR()+TS()))");
+            choiceb('R=="[?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&0>=0&(fail=0|fail=1))&h-as*(TS()-0)>=hMIN()&((h+(ai-as)*(TS()-0)>=hMAX()|(fail=0->t-tr<=0))&h+(0-as)*(TS()-0)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-0)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-0)<=(hMAX()-hMIN())/RR()+TS()))");
+            composeb('R=="#[?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&0>=0&(fail=0|fail=1))&h-as*(TS()-0)>=hMIN()&((h+(ai-as)*(TS()-0)>=hMAX()|(fail=0->t-tr<=0))&h+(0-as)*(TS()-0)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-0)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-0)<=(hMAX()-hMIN())/RR()+TS()))#&[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&0>=0&(fail=0|fail=1))&h-as*(TS()-0)>=hMIN()&((h+(ai-as)*(TS()-0)>=hMAX()|(fail=0->t-tr<=0))&h+(0-as)*(TS()-0)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-0)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-0)<=(hMAX()-hMIN())/RR()+TS()))");
+            testb('R=="#[?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());][?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&0>=0&(fail=0|fail=1))&h-as*(TS()-0)>=hMIN()&((h+(ai-as)*(TS()-0)>=hMAX()|(fail=0->t-tr<=0))&h+(0-as)*(TS()-0)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-0)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-0)<=(hMAX()-hMIN())/RR()+TS()))#&[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&0>=0&(fail=0|fail=1))&h-as*(TS()-0)>=hMIN()&((h+(ai-as)*(TS()-0)>=hMAX()|(fail=0->t-tr<=0))&h+(0-as)*(TS()-0)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-0)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-0)<=(hMAX()-hMIN())/RR()+TS()))");
+            cut("TS()-c=0"); <(
+              "Use":
+                allL2R('L=="TS()-c=0");
+                fullSimplify;
+                andR('R=="(\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(-as)*TS()>=hDEG())->[?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS())))&[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))"); <(
+                  "\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(-as)*TS()>=hDEG())->[?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))":
+                    implyR('R=="\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(-as)*TS()>=hDEG())->[?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))");
+                    hideL('L=="\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(-as)*TS()>=hDEG())");
+                    unfold;
+                    fullSimplify;
+                    orL('L=="fail=0|fail=1"); <(
+                      "fail=0":
+                        allL2R('L=="fail=0");
+                        unfold;
+                        fullSimplify;
+                        andR('R=="as>=0&h-as*TS()>=hMIN()&(t-tr>(hMAX()-hMIN())/RR()&h < hMAX()->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS())"); <(
+                          "as>=0":
+                            QE,
+                          "h-as*TS()>=hMIN()&(t-tr>(hMAX()-hMIN())/RR()&h < hMAX()->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS())":
+                            andR('R=="h-as*TS()>=hMIN()&(t-tr>(hMAX()-hMIN())/RR()&h < hMAX()->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS())"); <(
+                              "h-as*TS()>=hMIN()":
+                                fullSimplify;
+                                hideL('L=="t-tr>(hMAX()-hMIN())/RR()&(as_0 < sMAX()|h < hMAX())->t-tr<=(hMAX()-hMIN())/RR()+TS()");
+                                hideL('L=="t-tr>(hMAX()-hMIN())/RR()->h>=hMAX()");
+                                hideL('L=="(h>=hMAX()|t-tr<=c)&h>=hDEG()|(ai_0-as_0)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr)");
+                                QE,
+                              "t-tr>(hMAX()-hMIN())/RR()&h < hMAX()->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()":
+                                implyR('R=="t-tr>(hMAX()-hMIN())/RR()&h < hMAX()->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()");
+                                unfold;
+                                fullSimplify;
+                                QE
+                            )
+                        ),
+                      "fail=1":
+                        andR('R=="as>=0&h-as*TS()>=hMIN()&(fail=0&t-tr>(hMAX()-hMIN())/RR()&h < hMAX()->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS())"); <(
+                          "as>=0":
+                            unfold;
+                            fullSimplify;
+                            QE,
+                          "h-as*TS()>=hMIN()&(fail=0&t-tr>(hMAX()-hMIN())/RR()&h < hMAX()->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS())":
+                            andR('R=="h-as*TS()>=hMIN()&(fail=0&t-tr>(hMAX()-hMIN())/RR()&h < hMAX()->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS())"); <(
+                              "h-as*TS()>=hMIN()":
+                                unfold;
+                                fullSimplify;
+                                QE,
+                              "fail=0&t-tr>(hMAX()-hMIN())/RR()&h < hMAX()->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()":
+                                unfold;
+                                fullSimplify;
+                                QE
+                            )
+                        )
+                    ),
+                  "[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))":
+                    composeb('R=="[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))");
+                    testb('R=="[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());][?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))");
+                    implyR('R=="!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG())->[?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))");
+                    cut("h < hMAX()"); <(
+                      "Use":
+                        choiceb('R=="[?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))");
+                        composeb('R=="#[?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))#&[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))");
+                        testb('R=="#[?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());][?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))#&[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))");
+                        andR('R=="(\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())->[?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS())))&[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))"); <(
+                          "\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())->[?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))":
+                            hideL('L=="!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG())");
+                            implyR('R=="\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())->[?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))");
+                            hideL('L=="\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())");
+                            unfold;
+                            fullSimplify;
+                            orL('L=="fail=0|fail=1"); <(
+                              "fail=0":
+                                allL2R('L=="fail=0");
+                                unfold;
+                                fullSimplify;
+                                andR('R=="(as>=0&as<=sMAX())&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|t-tr<=0)&h+(-as)*TS()>=hDEG()|h>=hMIN()+RR()*(t-tr))"); <(
+                                  "as>=0&as<=sMAX()":
+                                    QE,
+                                  "h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|t-tr<=0)&h+(-as)*TS()>=hDEG()|h>=hMIN()+RR()*(t-tr))":
+                                    andR('R=="h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|t-tr<=0)&h+(-as)*TS()>=hDEG()|h>=hMIN()+RR()*(t-tr))"); <(
+                                      "h-as*TS()>=hMIN()":
+                                        QE,
+                                      "(h+(ai-as)*TS()>=hMAX()|t-tr<=0)&h+(-as)*TS()>=hDEG()|h>=hMIN()+RR()*(t-tr)":
+                                        orR('R=="(h+(ai-as)*TS()>=hMAX()|t-tr<=0)&h+(-as)*TS()>=hDEG()|h>=hMIN()+RR()*(t-tr)");
+                                        hideR('R=="(h+(ai-as)*TS()>=hMAX()|t-tr<=0)&h+(-as)*TS()>=hDEG()");
+                                        QE
+                                    )
+                                ),
+                              "fail=1":
+                                andR('R=="(as>=0&as<=sMAX())&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(fail=0->h>=hMIN()+RR()*(t-tr)))"); <(
+                                  "as>=0&as<=sMAX()":
+                                    QE,
+                                  "h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(fail=0->h>=hMIN()+RR()*(t-tr)))":
+                                    andR('R=="h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(fail=0->h>=hMIN()+RR()*(t-tr)))"); <(
+                                      "h-as*TS()>=hMIN()":
+                                        QE,
+                                      "(h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(fail=0->h>=hMIN()+RR()*(t-tr))":
+                                        orR('R=="(h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(fail=0->h>=hMIN()+RR()*(t-tr))");
+                                        hideR('R=="(h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()");
+                                        unfold;
+                                        fullSimplify;
+                                        QE
+                                    )
+                                )
+                            ),
+                          "[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))":
+                            composeb('R=="[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))");
+                            choiceb('R=="[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());]#[?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))#");
+                            testb('R=="[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());]([?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))&[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS())))");
+                            implyR('R=="!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())->[?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))&[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))");
+                            andR('R=="[?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))&[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))"); <(
+                              "[?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))":
+                                cut("h < hDEG()"); <(
+                                  "Use":
+                                    hideL('L=="!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG())");
+                                    hideL('L=="!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())");
+                                    composeb('R=="[?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))");
+                                    testb('R=="[?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());][?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))");
+                                    implyR('R=="\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())->[?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))");
+                                    hideL('L=="\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())");
+                                    unfold;
+                                    fullSimplify;
+                                    andR('R=="as<=sMAX()&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(fail=0->h>=hMIN()+RR()*(t-tr)))"); <(
+                                      "as<=sMAX()":
+                                        QE,
+                                      "h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(fail=0->h>=hMIN()+RR()*(t-tr)))":
+                                        andR('R=="h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(fail=0->h>=hMIN()+RR()*(t-tr)))"); <(
+                                          "h-as*TS()>=hMIN()":
+                                            unfold;
+                                            fullSimplify;
+                                            QE,
+                                          "(h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(fail=0->h>=hMIN()+RR()*(t-tr))":
+                                            orR('R=="(h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(fail=0->h>=hMIN()+RR()*(t-tr))");
+                                            hideR('R=="(h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()");
+                                            unfold;
+                                            fullSimplify;
+                                            QE
+                                        )
+                                    ),
+                                  "Show":
+                                    hideR('R=="[?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))");
+                                    hideL('L=="!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG())");
+                                    hideL('L=="(0<=ai_0&ai_0<=iMAX()&as_0>=0&as_0<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h>=hMIN()&((h>=hMAX()|(fail=0->t-tr<=c))&h>=hDEG()|(ai_0-as_0)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as_0 < sMAX()|h < hMAX())->t-tr<=(hMAX()-hMIN())/RR()+TS())");
+                                    QE
+                                ),
+                              "[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))":
+                                testb('R=="[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))");
+                                implyR('R=="!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())->(0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS())");
+                                hideL('L=="!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG())");
+                                hideL('L=="!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())");
+                                notExists('L=="!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())");
+                                notExists('L=="\forall ai #!\exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS())#");
+                                allL("iMAX()", 'L=="\forall ai \forall as (!(0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS()))");
+                                allL("0", 'L=="\forall as (!(0<=iMAX()&iMAX()<=iMAX()&as=0&h+(iMAX()-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(iMAX()-as)*TS()>=RR()*TS()))");
+                                unfold;
+                                fullSimplify;
+                                hideR('R=="(0<=ai&ai<=iMAX()&as>=0&as<=sMAX())&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))");
+                                QE
+                            )
+                        ),
+                      "Show":
+                        hideR('R=="[?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&(fail=0|fail=1))&h-as*TS()>=hMIN()&((h+(ai-as)*TS()>=hMAX()|(fail=0->t-tr<=0))&h+(-as)*TS()>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*TS()>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+TS()<=(hMAX()-hMIN())/RR()+TS()))");
+                        QE
+                    )
+                ),
+              "Show":
+                hideR('R=="(\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG())->[?0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&0>=0&(fail=0|fail=1))&h-as*(TS()-0)>=hMIN()&((h+(ai-as)*(TS()-0)>=hMAX()|(fail=0->t-tr<=0))&h+(0-as)*(TS()-0)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-0)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-0)<=(hMAX()-hMIN())/RR()+TS())))&[?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sMAX()&h+(ai-as)*TS()>=hMAX()&h+(0-as)*TS()>=hDEG());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=sDEG()&h+(ai-as)*TS()>=hDEG()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());{?\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());?0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS();++?!\exists ai \exists as (0<=ai&ai<=iMAX()&as=0&h+(ai-as)*TS()>=hMIN()&h+(0-as)*TS()>=hMIN()&(ai-as)*TS()>=RR()*TS());}}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=0&0>=0&(fail=0|fail=1))&h-as*(TS()-0)>=hMIN()&((h+(ai-as)*(TS()-0)>=hMAX()|(fail=0->t-tr<=0))&h+(0-as)*(TS()-0)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-0)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-0)<=(hMAX()-hMIN())/RR()+TS()))");
+                QE
+            ),
+          "[?!c>=TS();]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))":
+            unfold;
+            fullSimplify;
+            QE
+        ),
+      "Show [a]Q":
+        composeb('R=="[{failOld:=fail;{fail:=0;i:=min(iMAX(),ai);++fail:=1;i:=0;}d:=*;?0<=d;?d<=as;{?fail>failOld;tfail:=t;hfail:=h;sfail:=as;++?!fail>failOld;}{?fail < failOld;tr:=t;++?!fail < failOld;}}{t'=1,c'=1,h'=i-d&c<=TS()}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))");
+        MR("(0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(fail=1->i=0)&i>=0&(fail=0->i=ai)&d>=0&d<=as", 'R=="[failOld:=fail;{fail:=0;i:=min(iMAX(),ai);++fail:=1;i:=0;}d:=*;?0<=d;?d<=as;{?fail>failOld;tfail:=t;hfail:=h;sfail:=as;++?!fail>failOld;}{?fail < failOld;tr:=t;++?!fail < failOld;}][{t'=1,c'=1,h'=i-d&c<=TS()}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))"); <(
+          "Use Q->P":
+            unfold; <(
+              "[?0>failOld;tfail:=t;hfail:=h;sfail:=as;][?0 < failOld;tr:=t;++?!0 < failOld;]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(0=0|0=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(0=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(0=0->h>=hMIN()+RR()*(t-tr)))&(0=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(0=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&(0=0->min(iMAX(),ai)=ai)&d>=0&d<=as)//[?0 < failOld;tr:=t;]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(0=0|0=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(0=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(0=0->h>=hMIN()+RR()*(t-tr)))&(0=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(0=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&(0=0->min(iMAX(),ai)=ai)&d>=0&d<=as)":
+                fullSimplify;
+                QE,
+              "[?1>failOld;tfail:=t;hfail:=h;sfail:=as;][?1 < failOld;tr:=t;++?!1 < failOld;]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(1=0|1=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-tr)))&(1=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(1=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(1=1->0=0)&0>=0&(1=0->0=ai)&d>=0&d<=as)//[?1 < failOld;tr:=t;]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(1=0|1=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-tr)))&(1=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(1=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(1=1->0=0)&0>=0&(1=0->0=ai)&d>=0&d<=as)":
+                unfold;
+                fullSimplify;
+                QE,
+              "[?!1>failOld;][?1 < failOld;tr:=t;++?!1 < failOld;]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(1=0|1=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-tr)))&(1=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(1=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(1=1->0=0)&0>=0&(1=0->0=ai)&d>=0&d<=as)//[?1 < failOld;tr:=t;]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(1=0|1=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-tr)))&(1=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(1=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(1=1->0=0)&0>=0&(1=0->0=ai)&d>=0&d<=as)":
+                andR('R=="(0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(1=0|1=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-t<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-t)))&(1=0&t-t>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(1=0&t-t>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-t+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(1=1->0=0)&0>=0&(1=0->0=ai)&d>=0&d<=as"); <(
+                  "0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(1=0|1=1)":
+                    unfold;
+                    fullSimplify;
+                    QE,
+                  "h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-t<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-t)))&(1=0&t-t>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(1=0&t-t>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-t+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(1=1->0=0)&0>=0&(1=0->0=ai)&d>=0&d<=as":
+                    unfold;
+                    fullSimplify;
+                    QE
+                ),
+              "[?!0>failOld;][?0 < failOld;tr:=t;++?!0 < failOld;]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(0=0|0=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(0=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(0=0->h>=hMIN()+RR()*(t-tr)))&(0=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(0=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&(0=0->min(iMAX(),ai)=ai)&d>=0&d<=as)//[?0 < failOld;tr:=t;]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(0=0|0=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(0=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(0=0->h>=hMIN()+RR()*(t-tr)))&(0=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(0=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&(0=0->min(iMAX(),ai)=ai)&d>=0&d<=as)":
+                andR('R=="(0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(0=0|0=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(0=0->t-t<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(0=0->h>=hMIN()+RR()*(t-t)))&(0=0&t-t>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(0=0&t-t>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-t+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&(0=0->min(iMAX(),ai)=ai)&d>=0&d<=as"); <(
+                  "0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(0=0|0=1)":
+                    unfold;
+                    fullSimplify;
+                    QE,
+                  "h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(0=0->t-t<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(0=0->h>=hMIN()+RR()*(t-t)))&(0=0&t-t>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(0=0&t-t>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-t+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&(0=0->min(iMAX(),ai)=ai)&d>=0&d<=as":
+                    unfold;
+                    fullSimplify;
+                    andR('R=="((h+(ai-as)*(TS()-c)>=hMAX()|t-t<=c)&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-t))&(t-t>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(t-t>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-t+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&min(iMAX(),ai)=ai"); <(
+                      "(h+(ai-as)*(TS()-c)>=hMAX()|t-t<=c)&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-t)":
+                        unfold;
+                        fullSimplify;
+                        QE,
+                      "(t-t>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(t-t>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-t+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&min(iMAX(),ai)=ai":
+                        andR('R=="(t-t>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(t-t>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-t+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&min(iMAX(),ai)=ai"); <(
+                          "t-t>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX()":
+                            unfold;
+                            fullSimplify;
+                            QE,
+                          "(t-t>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-t+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&min(iMAX(),ai)=ai":
+                            andR('R=="(t-t>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-t+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&min(iMAX(),ai)=ai"); <(
+                              "t-t>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-t+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()":
+                                cut("t-t=0"); <(
+                                  "Use":
+                                    allL2R('L=="t-t=0");
+                                    implyR('R=="0>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->0+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()");
+                                    unfold;
+                                    fullSimplify;
+                                    orL('L=="(h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr))"); <(
+                                      "(h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()":
+                                        unfold;
+                                        fullSimplify;
+                                        QE,
+                                      "(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr))":
+                                        unfold;
+                                        fullSimplify;
+                                        QE
+                                    ),
+                                  "Show":
+                                    hideR('R=="t-t>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-t+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()");
+                                    QE
+                                ),
+                              "(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&min(iMAX(),ai)=ai":
+                                QE
+                            )
+                        )
+                    )
+                ),
+              "[?!0>failOld;][?0 < failOld;tr:=t;++?!0 < failOld;]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(0=0|0=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(0=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(0=0->h>=hMIN()+RR()*(t-tr)))&(0=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(0=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&(0=0->min(iMAX(),ai)=ai)&d>=0&d<=as)//[?!0 < failOld;]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(0=0|0=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(0=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(0=0->h>=hMIN()+RR()*(t-tr)))&(0=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(0=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&(0=0->min(iMAX(),ai)=ai)&d>=0&d<=as)":
+                unfold;
+                fullSimplify;
+                andR('R=="((h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c)&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr))&(t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&min(iMAX(),ai)=ai"); <(
+                  "(h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c)&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr)":
+                    unfold;
+                    fullSimplify;
+                    QE,
+                  "(t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&min(iMAX(),ai)=ai":
+                    andR('R=="(t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&min(iMAX(),ai)=ai"); <(
+                      "t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX()":
+                        unfold;
+                        fullSimplify;
+                        QE,
+                      "(t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&min(iMAX(),ai)=ai":
+                        andR('R=="(t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&min(iMAX(),ai)=ai"); <(
+                          "t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()":
+                            unfold;
+                            fullSimplify;
+                            QE,
+                          "(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&min(iMAX(),ai)=ai":
+                            andR('R=="(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&min(iMAX(),ai)=ai"); <(
+                              "0=1->min(iMAX(),ai)=0":
+                                unfold;
+                                fullSimplify;
+                                QE,
+                              "min(iMAX(),ai)>=0&min(iMAX(),ai)=ai":
+                                QE
+                            )
+                        )
+                    )
+                ),
+              "[?!1>failOld;][?1 < failOld;tr:=t;++?!1 < failOld;]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(1=0|1=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-tr)))&(1=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(1=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(1=1->0=0)&0>=0&(1=0->0=ai)&d>=0&d<=as)//[?!1 < failOld;]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(1=0|1=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-tr)))&(1=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(1=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(1=1->0=0)&0>=0&(1=0->0=ai)&d>=0&d<=as)":
+                unfold;
+                fullSimplify;
+                QE,
+              "[?1>failOld;tfail:=t;hfail:=h;sfail:=as;][?1 < failOld;tr:=t;++?!1 < failOld;]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(1=0|1=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-tr)))&(1=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(1=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(1=1->0=0)&0>=0&(1=0->0=ai)&d>=0&d<=as)//[?!1 < failOld;]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(1=0|1=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-tr)))&(1=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(1=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(1=1->0=0)&0>=0&(1=0->0=ai)&d>=0&d<=as)":
+                unfold;
+                fullSimplify;
+                QE,
+              "[?0>failOld;tfail:=t;hfail:=h;sfail:=as;][?0 < failOld;tr:=t;++?!0 < failOld;]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(0=0|0=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(0=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(0=0->h>=hMIN()+RR()*(t-tr)))&(0=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(0=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&(0=0->min(iMAX(),ai)=ai)&d>=0&d<=as)//[?!0 < failOld;]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(0=0|0=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(0=0->t-tr<=c))&h+(0-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(0=0->h>=hMIN()+RR()*(t-tr)))&(0=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(0=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())&(0=1->min(iMAX(),ai)=0)&min(iMAX(),ai)>=0&(0=0->min(iMAX(),ai)=ai)&d>=0&d<=as)":
+                unfold;
+                fullSimplify;
+                QE
+            ),
+          "Show [a]Q":
+            unfold;
+            fullSimplify;
+            boxAnd('R=="[{t'=1,c'=1,h'=i-d&c<=TS()}]((0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))");
+            andR('R=="[{t'=1,c'=1,h'=i-d&c<=TS()}](0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))&[{t'=1,c'=1,h'=i-d&c<=TS()}](h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))"); <(
+              "[{t'=1,c'=1,h'=i-d&c<=TS()}](0<=ai&ai<=iMAX()&as>=0&as<=sMAX()&TS()>=c&c>=0&(fail=0|fail=1))":
+                auto,
+              "[{t'=1,c'=1,h'=i-d&c<=TS()}](h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))":
+                boxAnd('R=="[{t'=1,c'=1,h'=i-d&c<=TS()}](h-as*(TS()-c)>=hMIN()&((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))");
+                andR('R=="[{t'=1,c'=1,h'=i-d&c<=TS()}]h-as*(TS()-c)>=hMIN()&[{t'=1,c'=1,h'=i-d&c<=TS()}](((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))"); <(
+                  "[{t'=1,c'=1,h'=i-d&c<=TS()}]h-as*(TS()-c)>=hMIN()":
+                    hideL('L=="(h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr))");
+                    hideL('L=="fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX()");
+                    hideL('L=="fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()");
+                    auto,
+                  "[{t'=1,c'=1,h'=i-d&c<=TS()}](((h+(ai-as)*(TS()-c)>=hMAX()|(fail=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(fail=0->h>=hMIN()+RR()*(t-tr)))&(fail=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(fail=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))":
+                    orL('L=="fail=0|fail=1"); <(
+                      "fail=0":
+                        allL2R('L=="fail=0");
+                        unfold;
+                        fullSimplify;
+                        hideL('L=="0=1->i=0");
+                        boxAnd('R=="[{t'=1,c'=1,h'=i-d&c<=TS()}](((h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c)&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr))&(t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))");
+                        andR('R=="[{t'=1,c'=1,h'=i-d&c<=TS()}]((h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c)&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr))&[{t'=1,c'=1,h'=i-d&c<=TS()}]((t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))"); <(
+                          "[{t'=1,c'=1,h'=i-d&c<=TS()}]((h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c)&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr))":
+                            hideL('L=="t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX()");
+                            hideL('L=="t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()");
+                            unfold;
+                            fullSimplify;
+                            orL('L=="(h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c)&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr)"); <(
+                              "(h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c)&h+(-as)*(TS()-c)>=hDEG()":
+                                unfold;
+                                fullSimplify;
+                                dC("h+(-as)*(TS()-c)>=hDEG()", 'R=="[{t'=1,c'=1,h'=i-d&c<=TS()}]((h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c)&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr))"); <(
+                                  "Use":
+                                    auto,
+                                  "Show":
+                                    hideL('L=="h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c");
+                                    auto
+                                ),
+                              "(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr)":
+                                andL('L=="(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr)");
+                                dC("h>=hMIN()+RR()*(t-tr)", 'R=="[{t'=1,c'=1,h'=i-d&c<=TS()}]((h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c)&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr))"); <(
+                                  "Use":
+                                    auto,
+                                  "Show":
+                                    auto
+                                )
+                            ),
+                          "[{t'=1,c'=1,h'=i-d&c<=TS()}]((t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))":
+                            boxAnd('R=="[{t'=1,c'=1,h'=i-d&c<=TS()}]((t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))");
+                            andR('R=="[{t'=1,c'=1,h'=i-d&c<=TS()}](t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&[{t'=1,c'=1,h'=i-d&c<=TS()}](t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())"); <(
+                              "[{t'=1,c'=1,h'=i-d&c<=TS()}](t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())":
+                                orL('L=="(h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c)&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr)"); <(
+                                  "(h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c)&h+(-as)*(TS()-c)>=hDEG()":
+                                    andL('L=="(h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c)&h+(-as)*(TS()-c)>=hDEG()");
+                                    orL('L=="h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c"); <(
+                                      "h+(ai-as)*(TS()-c)>=hMAX()":
+                                        dC("h+(ai-as)*(TS()-c)>=hMAX()", 'R=="[{t'=1,c'=1,h'=i-d&c<=TS()}](t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())"); <(
+                                          "Use":
+                                            auto,
+                                          "Show":
+                                            auto
+                                        ),
+                                      "t-tr<=c":
+                                        dC("t-tr<=c", 'R=="[{t'=1,c'=1,h'=i-d&c<=TS()}](t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())"); <(
+                                          "Use":
+                                            auto,
+                                          "Show":
+                                            auto
+                                        )
+                                    ),
+                                  "(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr)":
+                                    andL('L=="(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr)");
+                                    dC("h>=hMIN()+RR()*(t-tr)", 'R=="[{t'=1,c'=1,h'=i-d&c<=TS()}](t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())"); <(
+                                      "Use":
+                                        hideL('L=="t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX()");
+                                        hideL('L=="t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()");
+                                        auto,
+                                      "Show":
+                                        hideL('L=="t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()");
+                                        hideL('L=="t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX()");
+                                        auto
+                                    )
+                                ),
+                              "[{t'=1,c'=1,h'=i-d&c<=TS()}](t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())":
+                                cut("(as < sMAX()|h < hMAX())|!(as < sMAX()|h < hMAX())"); <(
+                                  "Use":
+                                    orL('L=="(as < sMAX()|h < hMAX())|!(as < sMAX()|h < hMAX())"); <(
+                                      "as < sMAX()|h < hMAX()":
+                                        unfold;
+                                        fullSimplify;
+                                        dC("t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()", 'R=="[{t'=1,c'=1,h'=i-d&c<=TS()}](t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())"); <(
+                                          "Use":
+                                            auto,
+                                          "Show":
+                                            auto
+                                        ),
+                                      "!(as < sMAX()|h < hMAX())":
+                                        notOr('L=="!(as < sMAX()|h < hMAX())");
+                                        unfold;
+                                        fullSimplify;
+                                        dC("as>=sMAX()", 'R=="[{t'=1,c'=1,h'=i-d&c<=TS()}](t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())"); <(
+                                          "Use":
+                                            orL('L=="(h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c)&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr)"); <(
+                                              "(h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c)&h+(-as)*(TS()-c)>=hDEG()":
+                                                andL('L=="(h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c)&h+(-as)*(TS()-c)>=hDEG()");
+                                                orL('L=="h+(ai-as)*(TS()-c)>=hMAX()|t-tr<=c"); <(
+                                                  "h+(ai-as)*(TS()-c)>=hMAX()":
+                                                    dC("h>=hMAX()", 'R=="[{t'=1,c'=1,h'=i-d&c<=TS()&as>=sMAX()}](t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())"); <(
+                                                      "Use":
+                                                        auto,
+                                                      "Show":
+                                                        auto
+                                                    ),
+                                                  "t-tr<=c":
+                                                    dC("t-tr<=c", 'R=="[{t'=1,c'=1,h'=i-d&c<=TS()&as>=sMAX()}](t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())"); <(
+                                                      "Use":
+                                                        auto,
+                                                      "Show":
+                                                        auto
+                                                    )
+                                                ),
+                                              "(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr)":
+                                                andL('L=="(ai-as)*TS()>=RR()*TS()&h>=hMIN()+RR()*(t-tr)");
+                                                dC("h>=hMAX()", 'R=="[{t'=1,c'=1,h'=i-d&c<=TS()&as>=sMAX()}](t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())"); <(
+                                                  "Use":
+                                                    hideL('L=="h>=hMIN()+RR()*(t-tr)");
+                                                    hideL('L=="t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX()");
+                                                    auto,
+                                                  "Show":
+                                                    hideL('L=="h>=hMIN()+RR()*(t-tr)");
+                                                    hideL('L=="t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX()");
+                                                    auto
+                                                )
+                                            ),
+                                          "Show":
+                                            auto
+                                        )
+                                    ),
+                                  "Show":
+                                    hideR('R=="[{t'=1,c'=1,h'=i-d&c<=TS()}](t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS())");
+                                    QE
+                                )
+                            )
+                        ),
+                      "fail=1":
+                        allL2R('L=="fail=1");
+                        unfold;
+                        fullSimplify;
+                        boxAnd('R=="[{t'=1,c'=1,h'=i-d&c<=TS()}](((h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-tr)))&(1=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(1=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))");
+                        andR('R=="[{t'=1,c'=1,h'=i-d&c<=TS()}]((h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-tr)))&[{t'=1,c'=1,h'=i-d&c<=TS()}]((1=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(1=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))"); <(
+                          "[{t'=1,c'=1,h'=i-d&c<=TS()}]((h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-tr)))":
+                            hideL('L=="1=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX()");
+                            hideL('L=="1=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()");
+                            orL('L=="(h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-tr))"); <(
+                              "(h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()":
+                                fullSimplify;
+                                andL('L=="(h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()");
+                                hideL('L=="h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c)");
+                                dC("h+(-as)*(TS()-c)>=hDEG()", 'R=="[{t'=1,c'=1,h'=i-d&c<=TS()}]((h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-tr)))"); <(
+                                  "Use":
+                                    auto,
+                                  "Show":
+                                    hideL('L=="1=0->i=ai");
+                                    auto
+                                ),
+                              "(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-tr))":
+                                andL('L=="(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-tr))");
+                                fullSimplify;
+                                dC("(ai-as)*TS()>=RR()*TS()", 'R=="[{t'=1,c'=1,h'=i-d&c<=TS()}]((h+(ai-as)*(TS()-c)>=hMAX()|(1=0->t-tr<=c))&h+(-as)*(TS()-c)>=hDEG()|(ai-as)*TS()>=RR()*TS()&(1=0->h>=hMIN()+RR()*(t-tr)))"); <(
+                                  "Use":
+                                    auto,
+                                  "Show":
+                                    auto
+                                )
+                            ),
+                          "[{t'=1,c'=1,h'=i-d&c<=TS()}]((1=0&t-tr>(hMAX()-hMIN())/RR()->h+(ai-as)*(TS()-c)>=hMAX())&(1=0&t-tr>(hMAX()-hMIN())/RR()&(as < sMAX()|h < hMAX())->t-tr+(TS()-c)<=(hMAX()-hMIN())/RR()+TS()))":
+                            allL2R('L=="fail=1");
+                            auto
+                        )
+                    )
+                )
+            )
+        )
+    )
+) """"
+End.
+
+Tool.
+  kyxversion """" 5.0 """"
+End.
