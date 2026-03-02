@@ -2,7 +2,9 @@
 
 This repository contains the models and proofs accompanying the thesis.
 
-## Proofs (dL)
+---
+
+## Proofs dL
 
 Contains all differential dynamic logic (dL) proofs discussed in the thesis.
 
@@ -63,9 +65,8 @@ Simulink models for the IWDS case study using the resilience patterns introduced
 3. Run: `Simulink/ResiliencePatternsSimulation/runExp`
 
 ---
-## Simulink/FM21/
 
-Link to Simulink2dL
+## Link to Simulink2dL
 https://github.com/EmbSys-WWU/Simulink2dL
 
 ---
